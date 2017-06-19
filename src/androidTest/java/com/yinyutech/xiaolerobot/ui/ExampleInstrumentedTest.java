@@ -1,4 +1,4 @@
-package com.example.yinyu_tj.yinyuapplication;
+package com.yinyutech.xiaolerobot.ui;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

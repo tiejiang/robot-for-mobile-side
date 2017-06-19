@@ -1,9 +1,11 @@
-package com.example.yinyu_tj.yinyuapplication;
+package com.yinyutech.xiaolerobot.ui;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+import com.yinyutech.xiaolerobot.R;
+
+public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
