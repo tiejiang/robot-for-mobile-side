@@ -15,6 +15,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.TTSOfflineActivity"
+        android:screenOrientation="portrait"
+        android:theme="@style/titleBar" />
+        <activity android:name=".ui.ASROnlineActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/titleBar"/>
     </application>
 
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
