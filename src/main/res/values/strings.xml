@@ -4,7 +4,7 @@
     <string name="start_tts">开始合成</string>
     <string name="lable_status">识别状态:</string>
     <string name="tts_offline_function">本地合成</string>
-    <string name="test_tts_source"> 北京云知声信息技术有限公司，是专注于语音识别及语言处理技术的移动互联网公司</string>
+    <string name="test_tts_source"> 深圳市，垠宇科技有限公司</string>
     <string name="asr_offline_function">本地识别</string>
     <string name="asr_online_function">在线识别</string>
     <string name="function_select">功能选择</string>

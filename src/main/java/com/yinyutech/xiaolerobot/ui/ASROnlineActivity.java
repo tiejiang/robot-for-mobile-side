@@ -28,9 +28,9 @@ import org.json.JSONObject;
 
 /**
  * 云知声识别实例程序
- * 
+ *
  * @author
- * 
+ *
  */
 
 public class ASROnlineActivity extends Activity implements OnClickListener {
@@ -166,7 +166,7 @@ public class ASROnlineActivity extends Activity implements OnClickListener {
 			public void onError(int type, String errorMSG) {
 				// 语音合成错误回调
 				hitErrorMsg(errorMSG);
-				
+
 			}
 		});
 		mTTSPlayer.init("");
@@ -184,19 +184,30 @@ public class ASROnlineActivity extends Activity implements OnClickListener {
 							&& jsonResult.contains("net_nlu")) {
 						try {
 							mNluResultText.setText(jsonResult);
+							Log.d("TIEJIANG", "jsonResult= " + jsonResult);
 							JSONObject json = new JSONObject(jsonResult);
 							JSONArray jsonArray = json.getJSONArray("net_asr");
 							JSONObject jsonObject = jsonArray.getJSONObject(0);
 							String status = jsonObject.getString("result_type");
 //							log_v("jsonObject = " + jsonObject.toString());
-							Log.d("TIEJIANG", jsonObject.toString());
+
+							//
+							JSONObject mTTSJson = new JSONObject(jsonResult);
+							JSONArray mTTSJsonArray = mTTSJson.getJSONArray("net_nlu");
+							JSONObject mJsonObject = mTTSJsonArray.getJSONObject(0).getJSONObject("general");
+							String jsonStr = mJsonObject.getString("text");
+//							jsonStr = mJsonObject.getString("text");
+							Log.d("TIEJIANG", "jsonStr= " + jsonStr);
+
 
 							if (status.equals("full")) {
 								log_v("full");
 								String result = (String) jsonObject
 										.get("recognition_result");
+								Log.d("TIEJIANG", "result= " + result);
 								if (jsonResult != null) {
-									mTTSPlayer.playText(result.trim());
+//									mTTSPlayer.playText(result.trim());
+									mTTSPlayer.playText(jsonStr.trim());
 								}
 							}
 						} catch (Exception e) {
@@ -205,13 +216,14 @@ public class ASROnlineActivity extends Activity implements OnClickListener {
 					} else {
 						//取出语音识别结果
 						asrResultOperate(jsonResult);
+						Log.d("TIEJIANG", "jsonResult-temp= " + jsonResult.toString());
 					}
 					break;
 			default:
 					break;
 				}
 			}
-			
+
 			@Override
 			public void onEvent(int type, int timeMs) {
 				switch (type) {
@@ -261,7 +273,7 @@ public class ASROnlineActivity extends Activity implements OnClickListener {
 					break;
 				}
 			}
-			
+
 			@Override
 			public void onError(int type, String errorMSG) {
 				if (errorMSG != null) {
@@ -342,7 +354,7 @@ public class ASROnlineActivity extends Activity implements OnClickListener {
 
 	/**
 	 * 打印日志信息
-	 * 
+	 *
 	 * @param msg
 	 */
 	private void log_v(String msg) {
@@ -430,7 +442,6 @@ public class ASROnlineActivity extends Activity implements OnClickListener {
 		mDomainDialog.dismiss();
 	}
 
-
 	@Override
 	protected void onStop() {
 		super.onStop();
@@ -458,6 +469,7 @@ public class ASROnlineActivity extends Activity implements OnClickListener {
 				mAsrResultBuffer.append(asrJsonObject.getString("recognition_result"));
 				mRecognizerResultText.append(mAsrResultBuffer.toString());
 			}
+//			Log.d("TIEJIANG", "mRecognizerResultText " + mAsrResultBuffer.toString());
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
