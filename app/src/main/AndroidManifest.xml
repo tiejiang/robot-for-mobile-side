@@ -31,6 +31,12 @@
             android:name=".ui.YunZhiShengActivity"
             android:screenOrientation="portrait"
             android:theme="@style/titleBar"/>
+
+        <activity
+            android:name="com.mob.tools.MobUIShell"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
     </application>
 
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
@@ -45,5 +51,8 @@
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
 
 </manifest>
