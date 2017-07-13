@@ -29,8 +29,4 @@ android:orientation="vertical">
             android:layout_weight="0" />
     </com.yinyutech.xiaolerobot.ui.widget.FragmentTabHost>
 
-
-
-
-
 </LinearLayout>

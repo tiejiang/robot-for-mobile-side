@@ -2,6 +2,7 @@ package com.yinyutech.xiaolerobot.ui.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,8 +24,8 @@ public class MainActivity extends BaseActivity {
 
     private LayoutInflater mInflater;
     private FragmentTabHost mTabhost;
-    private DeviceControlFragment cartFragment;
-    private List<Tab> mTabs = new ArrayList<>(5);
+    private DeviceControlFragment deviceControlFragment;
+    private List<Tab> mTabs = new ArrayList<>(3);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,14 +46,13 @@ public class MainActivity extends BaseActivity {
 
     private void initTab() {
 
-
         Tab tab_home = new Tab(HomeFragment.class,R.string.xiaole,R.drawable.btn);
-        Tab tab_category = new Tab(OptionFragment.class,R.string.device_control,R.drawable.btn);
-        Tab tab_cart = new Tab(DeviceControlFragment.class,R.string.option,R.drawable.btn);
+        Tab tab_deviceControl = new Tab(DeviceControlFragment.class,R.string.device_control,R.drawable.btn);
+        Tab tab_option = new Tab(OptionFragment.class,R.string.option,R.drawable.btn);
 
         mTabs.add(tab_home);
-        mTabs.add(tab_category);
-        mTabs.add(tab_cart);
+        mTabs.add(tab_deviceControl);
+        mTabs.add(tab_option);
 
         mInflater = LayoutInflater.from(this);
         mTabhost = (FragmentTabHost) this.findViewById(android.R.id.tabhost);
@@ -68,11 +68,10 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onTabChanged(String tabId) {
 
-                if(tabId==getString(R.string.option)){
-
+                if(tabId==getString(R.string.device_control)){
+                    Log.d("TIEJIANG", "fragment change---device_control");
                     refData();
                 }
-
             }
         });
 
@@ -80,26 +79,21 @@ public class MainActivity extends BaseActivity {
         mTabhost.setCurrentTab(0);
     }
 
-
     private void refData(){
 
-        if(cartFragment == null){
-
-            Fragment fragment =  getSupportFragmentManager().findFragmentByTag(getString(R.string.option));
+        if(deviceControlFragment == null){
+            Fragment fragment =  getSupportFragmentManager().findFragmentByTag(getString(R.string.device_control));
             if(fragment !=null){
-                cartFragment= (DeviceControlFragment) fragment;
-//                cartFragment.refData();
+                deviceControlFragment= (DeviceControlFragment) fragment;
+                deviceControlFragment.refData();
             }
         }
         else{
-//            cartFragment.refData();
-
+            deviceControlFragment.refData();
         }
     }
 
-
     private View buildIndicator(Tab tab){
-
 
         View view =mInflater.inflate(R.layout.tab_indicator,null);
         ImageView img = (ImageView) view.findViewById(R.id.icon_tab);

@@ -25,6 +25,15 @@ public class DeviceControlFragment extends BaseFragment {
     public void init() {
 
     }
+    public void refData(){
 
+//        mAdapter.clear();
+//        List<ShoppingCart> carts = cartProvider.getAll();
+//        mAdapter.addData(carts);
+//        mAdapter.showTotalPrice();
+
+
+
+    }
 
 }
