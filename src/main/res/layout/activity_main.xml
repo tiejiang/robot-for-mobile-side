@@ -1,25 +1,36 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.yinyutech.xiaolerobot.ui.MainActivity">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+tools:context="com.yinyutech.xiaolerobot.ui.activity.MainActivity"
+android:orientation="vertical">
 
-    <Button
-        android:id="@+id/begin_tts"
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:id="@+id/realtabcontent"
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:background="@color/bg_color"
+        />
+
+
+    <com.yinyutech.xiaolerobot.ui.widget.FragmentTabHost
+        android:id="@android:id/tabhost"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="TTS"
-        tools:layout_editor_absoluteX="148dp"
-        tools:layout_editor_absoluteY="328dp" />
-    <Button
-        android:id="@+id/voice_input"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="voice input"
-        tools:layout_editor_absoluteX="148dp"
-        tools:layout_editor_absoluteY="328dp" />
+        android:background="@color/white"
+        >
+
+        <FrameLayout
+            android:id="@android:id/tabcontent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="0" />
+    </com.yinyutech.xiaolerobot.ui.widget.FragmentTabHost>
+
+
+
+
 
 </LinearLayout>

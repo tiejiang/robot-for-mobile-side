@@ -5,6 +5,8 @@
     <color name="colorAccent">#FF4081</color>
     <color name="blue">#67B2D5</color>
     <color name="black">#282828</color>
+    <color name="white">#ffffff</color> <!-- 白色 -->
+    <color name="bg_color">#f1f1f1</color>
 
     <drawable name="transparent_background">#909090</drawable>
 </resources>
