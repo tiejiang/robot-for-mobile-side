@@ -37,4 +37,13 @@
         <item name="android:backgroundDimAmount">0.6</item>
     </style>
 
+    <!--preference 背景色字体色等配置 暂未使用  -->
+    <style name="option_check_preference">
+        <item name="android:windowBackground">@drawable/fragment_bg</item>  <!-- 窗口背景 -->
+        <item name="android:focusable">false</item>
+        <item name="android:textColor">#ff000000</item> <!-- 字体颜色 -->
+        <item name="android:colorBackgroundCacheHint">#00000000</item> <!-- 背景缓存色透明，避免拖动全黑 -->
+        <item name="android:windowNoTitle">false</item> <!-- 是否有标题 -->
+    </style>
+
 </resources>

@@ -19,14 +19,15 @@ android:orientation="vertical">
         android:id="@android:id/tabhost"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/black"
         >
 
         <FrameLayout
             android:id="@android:id/tabcontent"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_weight="0" />
+            android:layout_weight="0"
+            android:background="@drawable/fragment_bg"/>
     </com.yinyutech.xiaolerobot.ui.widget.FragmentTabHost>
 
 </LinearLayout>
