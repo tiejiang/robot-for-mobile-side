@@ -3,6 +3,7 @@ package com.yinyutech.xiaolerobot.ui.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -73,10 +74,13 @@ public class LoginActivity extends Activity {
                     Log.d("TIEJIANG", "COUNTRY+PHONE= " + country + "====" + phone);
 
                     if (phone.equals(number)) {
-                        runOnUiThread(new Runnable() {//更改ui的操作要放在主线程，实际可以发送hander
+                        runOnUiThread(new Runnable() {//更改ui的操作要放在主线程，实际可以发送handler
                             @Override
                             public void run() {
                                 showDailog("恭喜你！通过验证");
+                                //注册成功，进入到主界面
+                                Intent mIntent = new Intent(LoginActivity.this, MainActivity.class);
+                                startActivity(mIntent);
                                 dialog.dismiss();
                                 //    Toast.makeText(MainActivity.this, "通过验证", Toast.LENGTH_SHORT).show();
                             }
@@ -99,11 +103,15 @@ public class LoginActivity extends Activity {
                 }
             } else {
                 ((Throwable) data).printStackTrace();
+//                if (result == SMSSDK.RESULT_ERROR){
+//
+//                }
             }
         }
     };
     //验证结果弹窗
     private void showDailog(String text) {
+
         new AlertDialog.Builder(LoginActivity.this)
                 .setTitle(text)
                 .setPositiveButton("确定", null)
@@ -124,6 +132,7 @@ public class LoginActivity extends Activity {
         }
     }
     /**
+     * function :注册
      * 向服务器提交验证码，在监听回调中判断是否通过验证
      * @param v
      */
@@ -139,3 +148,4 @@ public class LoginActivity extends Activity {
         }
     }
 }
+
