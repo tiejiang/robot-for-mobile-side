@@ -3,6 +3,7 @@ package com.yinyutech.xiaolerobot;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.mob.MobSDK;
 import com.yinyutech.xiaolerobot.bean.User;
@@ -28,6 +29,7 @@ public class XiaoLeApplication extends Application {
 //        Fresco.initialize(this);  //facebook
         //sharedSDK 初始化信息
         MobSDK.init(getInstance(), "1f39c57121ae6", "62f9a52a61b3eaf0ab04d48189913694");
+        Log.d("TIEJIANG", "XIAOLEAPPLICATION INIT");
     }
 
     private void initUser(){

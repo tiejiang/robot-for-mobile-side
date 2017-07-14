@@ -1,9 +1,9 @@
 package com.yinyutech.xiaolerobot.ui.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -29,7 +29,7 @@ public class LoginActivity extends Activity {
     private ProgressDialog dialog;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -61,15 +61,16 @@ public class LoginActivity extends Activity {
     private EventHandler ev = new EventHandler() {
         @Override
         public void afterEvent(int event, int result, Object data) {
+            Log.d("TIEJIANG", "GO INTO EVENTHANDLER " + "result= " + result + " data= " + data.toString());
             if (result == SMSSDK.RESULT_COMPLETE) { //回调完成
                 //提交验证码成功,如果验证成功会在data里返回数据。data数据类型为HashMap<number,code>
                 if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
-                    Log.e("TAG", "提交验证码成功" + data.toString());
+                    Log.d("TIEJIANG", "提交验证码成功" + data.toString());
                     HashMap<String, Object> mData = (HashMap<String, Object>) data;
                     String country = (String) mData.get("country");//返回的国家编号
                     String phone = (String) mData.get("phone");//返回用户注册的手机号
 
-                    Log.e("TAG", country + "====" + phone);
+                    Log.d("TIEJIANG", "COUNTRY+PHONE= " + country + "====" + phone);
 
                     if (phone.equals(number)) {
                         runOnUiThread(new Runnable() {//更改ui的操作要放在主线程，实际可以发送hander
@@ -92,7 +93,7 @@ public class LoginActivity extends Activity {
                     }
 
                 } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {//获取验证码成功
-                    Log.e("TAG", "获取验证码成功");
+                    Log.d("TIEJIANG", "获取验证码成功");
                 } else if (event == SMSSDK.EVENT_GET_SUPPORTED_COUNTRIES) {//返回支持发送验证码的国家列表
 
                 }
@@ -103,7 +104,7 @@ public class LoginActivity extends Activity {
     };
     //验证结果弹窗
     private void showDailog(String text) {
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(LoginActivity.this)
                 .setTitle(text)
                 .setPositiveButton("确定", null)
                 .show();
