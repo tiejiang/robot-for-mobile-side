@@ -3,9 +3,11 @@ package com.yinyutech.xiaolerobot;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.mob.MobSDK;
 import com.yinyutech.xiaolerobot.bean.User;
+import com.yinyutech.xiaolerobot.common.CCPAppManager;
 import com.yinyutech.xiaolerobot.utils.UserLocalData;
 
 
@@ -13,9 +15,15 @@ public class XiaoLeApplication extends Application {
 
     private User user;
     private static XiaoLeApplication mInstance;
-
+    /**
+     * 单例，返回一个实例
+     * @return
+     */
     public static XiaoLeApplication getInstance(){
-
+        if (mInstance == null) {
+            Log.d("TIEJIANG", "[Application] instance is null.");
+        }
+        Log.d("TIEJIANG", "[ECApplication] return instance succeed.");
         return  mInstance;
     }
 
@@ -24,6 +32,7 @@ public class XiaoLeApplication extends Application {
         super.onCreate();
 
         mInstance = this;
+        CCPAppManager.setContext(mInstance);
         initUser();
 //        Fresco.initialize(this);  //facebook
         //sharedSDK 初始化
@@ -73,5 +82,6 @@ public class XiaoLeApplication extends Application {
         context.startActivity(intent);
         this.intent =null;
     }
+
 
 }

@@ -7,6 +7,8 @@
     <color name="black">#282828</color>
     <color name="white">#ffffff</color> <!-- 白色 -->
     <color name="bg_color">#f1f1f1</color>
+    <color name="voip_interface_text_color">#bababa</color>
+    <color name="transparent">#00000000</color>
 
     <drawable name="transparent_background">#909090</drawable>
 </resources>

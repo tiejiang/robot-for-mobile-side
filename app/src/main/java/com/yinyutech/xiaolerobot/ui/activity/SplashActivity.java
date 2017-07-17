@@ -2,6 +2,7 @@ package com.yinyutech.xiaolerobot.ui.activity;
 
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.Menu;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
@@ -69,12 +70,9 @@ public class SplashActivity extends BaseActivity {
 			public void onAnimationEnd(Animation animation) {
 				// TODO Auto-generated method stub
 				//启动homeactivty，相当于Intent
-				openActivity(MainActivity.class);
-//				Intent mIntent = new Intent(this, MainActivity.class);
-//				startActivity(mIntent);
-
-				overridePendingTransition(R.anim.push_left_in,
-						R.anim.push_left_out);
+//				openActivity(MainActivity.class);
+				openActivity(MenuActivity.class);
+				overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 				SplashActivity.this.finish();
 			}
 		});
