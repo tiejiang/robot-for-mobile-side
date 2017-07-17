@@ -42,7 +42,7 @@
     <string name="str_video_bottom_time" formatted="false">与%1$s视频通话中\t</string>
     <string name="ec_voip_calling_finish">通话结束</string>
     <string name="ec_voip_call_connect">正在呼叫对方，请稍后&#8230;</string>
-    <string name="str_tips_wait_invited">正在等待对方接受邀请&#8230;</string>
+    <string name="str_tips_wait_invited">正在和小乐连接&#8230;</string>
     <string name="ec_voip_unknown_user">未知联系人</string>
     <string name="vedio_switch">音视频切换</string>
     <string name="str_call_status" formatted="false">延迟时间%d（毫秒）丢包率:%d</string>

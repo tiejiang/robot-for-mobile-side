@@ -8,13 +8,22 @@ import android.util.Log;
 import com.mob.MobSDK;
 import com.yinyutech.xiaolerobot.bean.User;
 import com.yinyutech.xiaolerobot.common.CCPAppManager;
+import com.yinyutech.xiaolerobot.core.ClientUser;
+import com.yinyutech.xiaolerobot.helper.SDKCoreHelper;
 import com.yinyutech.xiaolerobot.utils.UserLocalData;
+import com.yuntongxun.ecsdk.ECInitParams;
 
 
 public class XiaoLeApplication extends Application {
 
     private User user;
+    String appKey = "8aaf070858cd982e0158e21ff0000cee";
+    String token = "ca8bdec6e6ed3cc369b8122a1c19306d";
+    String mobile = "71707102";
+    String pass = "";
+    ECInitParams.LoginAuthType mLoginAuthType = ECInitParams.LoginAuthType.NORMAL_AUTH;
     private static XiaoLeApplication mInstance;
+
     /**
      * 单例，返回一个实例
      * @return
@@ -33,6 +42,15 @@ public class XiaoLeApplication extends Application {
 
         mInstance = this;
         CCPAppManager.setContext(mInstance);
+        //save app key/ID and contact number etc. and init rong-lian-yun SDK
+        ClientUser clientUser = new ClientUser(mobile);
+        clientUser.setAppKey(appKey);
+        clientUser.setAppToken(token);
+        clientUser.setLoginAuthType(mLoginAuthType);
+        clientUser.setPassword(pass);
+        CCPAppManager.setClientUser(clientUser);
+        SDKCoreHelper.init(this, ECInitParams.LoginMode.FORCE_LOGIN);
+
         initUser();
 //        Fresco.initialize(this);  //facebook
         //sharedSDK 初始化

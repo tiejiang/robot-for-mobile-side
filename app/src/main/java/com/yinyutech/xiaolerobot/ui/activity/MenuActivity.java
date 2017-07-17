@@ -11,9 +11,7 @@ import android.widget.Toast;
 
 import com.yinyutech.xiaolerobot.R;
 import com.yinyutech.xiaolerobot.common.CCPAppManager;
-import com.yinyutech.xiaolerobot.core.ClientUser;
 import com.yinyutech.xiaolerobot.helper.IMChattingHelper;
-import com.yinyutech.xiaolerobot.helper.SDKCoreHelper;
 import com.yuntongxun.ecsdk.ECError;
 import com.yuntongxun.ecsdk.ECInitParams;
 import com.yuntongxun.ecsdk.ECMessage;
@@ -38,10 +36,10 @@ public class MenuActivity extends Activity implements IMChattingHelper.OnMessage
     private String nickName = "20170717";
     private String contactID = "20170717";
 
-    String mobile = "71707102";
-    String pass = "";
-    String appKey = "8aaf070858cd982e0158e21ff0000cee";
-    String token = "ca8bdec6e6ed3cc369b8122a1c19306d";
+//    String mobile = "71707102";
+//    String pass = "";
+//    String appKey = "8aaf070858cd982e0158e21ff0000cee";
+//    String token = "ca8bdec6e6ed3cc369b8122a1c19306d";
     ECInitParams.LoginAuthType mLoginAuthType = ECInitParams.LoginAuthType.NORMAL_AUTH;
 
     @Override
@@ -52,13 +50,13 @@ public class MenuActivity extends Activity implements IMChattingHelper.OnMessage
         setContentView(R.layout.activity_menu);
 
         //save app key/ID and contact number etc. and init rong-lian-yun SDK
-        ClientUser clientUser = new ClientUser(mobile);
-        clientUser.setAppKey(appKey);
-        clientUser.setAppToken(token);
-        clientUser.setLoginAuthType(mLoginAuthType);
-        clientUser.setPassword(pass);
-        CCPAppManager.setClientUser(clientUser);
-        SDKCoreHelper.init(MenuActivity.this, ECInitParams.LoginMode.FORCE_LOGIN);
+//        ClientUser clientUser = new ClientUser(mobile);
+//        clientUser.setAppKey(appKey);
+//        clientUser.setAppToken(token);
+//        clientUser.setLoginAuthType(mLoginAuthType);
+//        clientUser.setPassword(pass);
+//        CCPAppManager.setClientUser(clientUser);
+//        SDKCoreHelper.init(MenuActivity.this, ECInitParams.LoginMode.FORCE_LOGIN);
         IMChattingHelper.setOnMessageReportCallback(MenuActivity.this);
 
         mButtonMonitor = (Button)findViewById(R.id.btn_monitor);

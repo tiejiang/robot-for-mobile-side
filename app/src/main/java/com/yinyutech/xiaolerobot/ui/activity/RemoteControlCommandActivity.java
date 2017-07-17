@@ -92,7 +92,7 @@ public class RemoteControlCommandActivity extends Activity implements IMChatting
         ECMessage msg = ECMessage.createECMessage(ECMessage.Type.TXT);
         // 设置消息接收者
 //        msg.setTo(mRecipients);
-        msg.setTo("18665889098"); // attenion  this number is not the login number! / modified by tiejiang
+        msg.setTo("20170717"); // attenion  this number is not the login number! / modified by tiejiang
         ECTextMessageBody msgBody=null;
         Boolean isBQMMMessage=false;
         String emojiNames = null;

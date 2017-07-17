@@ -2,7 +2,6 @@ package com.yinyutech.xiaolerobot.ui.activity;
 
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.Menu;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;

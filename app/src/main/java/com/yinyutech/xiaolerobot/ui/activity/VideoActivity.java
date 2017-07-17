@@ -37,6 +37,7 @@ import com.yuntongxun.ecsdk.voip.video.OnCameraInitListener;
 /**
  * com.yuntongxun.ecdemo.ui.voip in ECDemo_Android
  * Created by Jorstin on 2015/7/8.
+ * modified by zhao on 20170714
  */
 public class VideoActivity extends ECVoIPBaseActivity
 //        extends ECVoIPBaseActivity
