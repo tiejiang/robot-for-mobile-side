@@ -21,7 +21,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.text.TextUtils;
 
-import com.yinyutech.xiaolerobot.core.ClientUser;
+import com.yinyutech.xiaolerobot.bean.ClientUser;
 import com.yinyutech.xiaolerobot.helper.VoIPCallHelper;
 import com.yinyutech.xiaolerobot.ui.activity.VideoActivity;
 import com.yinyutech.xiaolerobot.ui.activity.VoIPCallActivity;

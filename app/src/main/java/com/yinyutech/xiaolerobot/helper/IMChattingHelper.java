@@ -16,7 +16,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.yinyutech.xiaolerobot.common.CCPAppManager;
-import com.yinyutech.xiaolerobot.core.ClientUser;
+import com.yinyutech.xiaolerobot.bean.ClientUser;
 import com.yinyutech.xiaolerobot.utils.DateUtil;
 import com.yinyutech.xiaolerobot.utils.ECPreferenceSettings;
 import com.yinyutech.xiaolerobot.utils.ECPreferences;

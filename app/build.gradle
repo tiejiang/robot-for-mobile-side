@@ -26,11 +26,10 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:23.4.0'
-//    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile files('libs/usc.jar')
     compile files('libs/MobCommons-2017.0607.1736.jar')
     compile files('libs/MobTools-2017.0607.1736.jar')
     compile files('libs/SMSSDK-3.0.0.jar')
-//    compile files('Yuntx_FullLib_v5.3.0r.jar')
+//    compile files('libs/Yuntx_FullLib_v5.3.0r.jar')
     testCompile 'junit:junit:4.12'
 }

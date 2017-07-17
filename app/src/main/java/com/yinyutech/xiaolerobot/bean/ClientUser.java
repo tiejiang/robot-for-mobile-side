@@ -1,4 +1,4 @@
-package com.yinyutech.xiaolerobot.core;
+package com.yinyutech.xiaolerobot.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;

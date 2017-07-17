@@ -3,7 +3,7 @@ package com.yinyutech.xiaolerobot.helper;
 import android.util.Log;
 
 import com.yinyutech.xiaolerobot.common.CCPAppManager;
-import com.yinyutech.xiaolerobot.core.ClientUser;
+import com.yinyutech.xiaolerobot.bean.ClientUser;
 import com.yinyutech.xiaolerobot.utils.ECNotificationManager;
 import com.yuntongxun.ecsdk.ECError;
 import com.yuntongxun.ecsdk.ECVoIPCallManager;

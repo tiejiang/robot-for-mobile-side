@@ -8,7 +8,7 @@ import android.util.Log;
 import com.mob.MobSDK;
 import com.yinyutech.xiaolerobot.bean.User;
 import com.yinyutech.xiaolerobot.common.CCPAppManager;
-import com.yinyutech.xiaolerobot.core.ClientUser;
+import com.yinyutech.xiaolerobot.bean.ClientUser;
 import com.yinyutech.xiaolerobot.helper.SDKCoreHelper;
 import com.yinyutech.xiaolerobot.utils.UserLocalData;
 import com.yuntongxun.ecsdk.ECInitParams;

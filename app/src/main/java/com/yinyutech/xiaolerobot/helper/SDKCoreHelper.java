@@ -10,7 +10,7 @@ import android.util.Log;
 
 import com.yinyutech.xiaolerobot.XiaoLeApplication;
 import com.yinyutech.xiaolerobot.common.CCPAppManager;
-import com.yinyutech.xiaolerobot.core.ClientUser;
+import com.yinyutech.xiaolerobot.bean.ClientUser;
 import com.yinyutech.xiaolerobot.ui.activity.VoIPCallActivity;
 import com.yinyutech.xiaolerobot.utils.ECPreferenceSettings;
 import com.yinyutech.xiaolerobot.utils.ECPreferences;
