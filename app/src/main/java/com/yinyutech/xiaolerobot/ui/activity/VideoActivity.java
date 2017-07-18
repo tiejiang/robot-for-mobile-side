@@ -364,7 +364,7 @@ public class VideoActivity extends ECVoIPBaseActivity
     }
 
     @Override
-    public void onCallAnswered(String callId) {
+    public void onCallAnswered(String callId) {  //答应通话，通话完全建立
         if (callId != null && callId.equals(mCallId) && !isConnect) {
             initResVideoSuccess();
             if (ECDevice.getECVoIPSetupManager() != null) {
@@ -377,7 +377,6 @@ public class VideoActivity extends ECVoIPBaseActivity
     public void onMakeCallFailed(String callId, int reason) {
         if (callId != null && callId.equals(mCallId)) {
             finishCalling(reason);
-
         }
     }
 

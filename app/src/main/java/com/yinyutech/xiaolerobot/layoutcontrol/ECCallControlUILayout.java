@@ -184,9 +184,6 @@ public class ECCallControlUILayout extends LinearLayout
                 break;
         }
     }
-    
-    
-   
 
     /**
      * 通话界面显示类型
