@@ -39,7 +39,10 @@
     <string name="ec_voip_calling_accepting">正在接听...</string>
     <string name="ec_voip_call_connecting_server">正在连接服务器&#8230;</string>
     <string name="ec_voip_invited_video_tip">邀请你进行视频聊天&#8230;</string>
+    <string name="str_video_bottom_time">与小乐视频通话中\t</string>
+    <!--
     <string name="str_video_bottom_time" formatted="false">与%1$s视频通话中\t</string>
+    -->
     <string name="ec_voip_calling_finish">通话结束</string>
     <string name="ec_voip_call_connect">正在呼叫对方，请稍后&#8230;</string>
     <string name="str_tips_wait_invited">正在和小乐连接&#8230;</string>

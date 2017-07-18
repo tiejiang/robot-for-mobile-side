@@ -6,11 +6,9 @@ import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -40,7 +38,6 @@ import com.yuntongxun.ecsdk.voip.video.OnCameraInitListener;
  * modified by zhao on 20170714
  */
 public class VideoActivity extends ECVoIPBaseActivity
-//        extends ECVoIPBaseActivity
         implements View.OnClickListener {
 
     private static final String TAG = "VideoActivity";
@@ -88,7 +85,6 @@ public class VideoActivity extends ECVoIPBaseActivity
 
         initVideoLayout();
         isCreated = true;
-        Log.d("TIEJIANG","VideoActivity"); //add by tiejiang
     }
 
     private void initVideoLayout() {
@@ -152,8 +148,8 @@ public class VideoActivity extends ECVoIPBaseActivity
         if(setupManager == null) {
             return ;
         }
-
         if(mMaxSizeRemote) {
+            // 设置本地视频图像/远端视频图像显示窗口
             setupManager.setGlDisplayWindow(mSelfGlView , mRemoteView);
         } else {
             setupManager.setGlDisplayWindow(mRemoteView , mSelfGlView);
@@ -182,20 +178,20 @@ public class VideoActivity extends ECVoIPBaseActivity
         mVideoCancle.setOnClickListener(this);
         mVideoBegin.setOnClickListener(this);
         mVideoStop.setOnClickListener(this);
-
-        mRemoteView = (ECOpenGlView) findViewById(R.id.video_view);
+        // 远程图像显示配置
+        mRemoteView = (ECOpenGlView) findViewById(R.id.video_view); //远程图像显示
         mRemoteView.setVisibility(View.INVISIBLE);
-        mRemoteView.setGlType(ECOpenGlView.RenderType.RENDER_REMOTE);
-        mRemoteView.setAspectMode(ECOpenGlView.AspectMode.CROP);
-
-        mSelfGlView = (ECOpenGlView) findViewById(R.id.localvideo_view);
-        mSelfGlView.setGlType(ECOpenGlView.RenderType.RENDER_PREVIEW);
-        mSelfGlView.setAspectMode(ECOpenGlView.AspectMode.CROP);
+        mRemoteView.setGlType(ECOpenGlView.RenderType.RENDER_REMOTE); //远端图像显示类型/绘制类型
+        mRemoteView.setAspectMode(ECOpenGlView.AspectMode.CROP); // 图像等比按照中心区域显示屏截取
+        // 本地图像显示配置
+        mSelfGlView = (ECOpenGlView) findViewById(R.id.localvideo_view);  //本地图像显示
+        mSelfGlView.setGlType(ECOpenGlView.RenderType.RENDER_PREVIEW); //本地图像显示类型/绘制类型
+        mSelfGlView.setAspectMode(ECOpenGlView.AspectMode.CROP); // 图像等比按照中心区域显示屏截取
         mSelfGlView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mMaxSizeRemote = !mMaxSizeRemote;
-                attachGlView();
+                attachGlView();//点击本地显示view时候交换view的显示内容
             }
         });
 
@@ -205,8 +201,8 @@ public class VideoActivity extends ECVoIPBaseActivity
             @Override
             public void onCameraInit(boolean result) {
                 if (!result) {
+                    Log.d("TIEJIANG", "VideoActivity---initResourceRefs" + "摄像头被占用");
                     Toast.makeText(VideoActivity.this, "摄像头被占用", Toast.LENGTH_SHORT).show();
-//                    ToastUtil.showMessage("摄像头被占用");
                 }
             }
         });
@@ -231,21 +227,20 @@ public class VideoActivity extends ECVoIPBaseActivity
         // bottom ...
         mVideoCancle.setVisibility(View.GONE);
         mVideoCallTips.setVisibility(View.VISIBLE);
-        mVideoCallTips.setText(getString(R.string.str_video_bottom_time, mCallNumber));
+//        mVideoCallTips.setText(getString(R.string.str_video_bottom_time, mCallNumber));
+        mVideoCallTips.setText(R.string.str_video_bottom_time);
         mVideoStop.setVisibility(View.VISIBLE);
         mVideoStop.setEnabled(true);
 
         mCaptureView.setVisibility(View.VISIBLE);
-
+        // mChronometer 计时器
         mChronometer = (Chronometer) findViewById(R.id.chronometer);
         mChronometer.setBase(SystemClock.elapsedRealtime());
         mChronometer.setVisibility(View.VISIBLE);
         mChronometer.start();
         // mDiaerpadBtn.setVisibility(View.VISIBLE);
 //        mDiaerpadBtn.setEnabled(false);
-
     }
-
 
     /**
      * 根据状态,修改按钮属性及关闭操作
@@ -253,7 +248,6 @@ public class VideoActivity extends ECVoIPBaseActivity
     private void finishCalling() {
         try {
             // mChronometer.setVisibility(View.GONE);
-
             mVideoTopTips.setVisibility(View.VISIBLE);
             mCameraSwitch.setVisibility(View.GONE);
             mVideoTopTips.setText(R.string.ec_voip_calling_finish);
@@ -263,9 +257,7 @@ public class VideoActivity extends ECVoIPBaseActivity
                 mChronometer.stop();
                 mVideoLayout.setVisibility(View.GONE);
                 mVideoIcon.setVisibility(View.VISIBLE);
-
                 mCaptureView.setVisibility(View.GONE);
-
                 // bottom can't click ...
                 mVideoStop.setEnabled(false);
             } else {
@@ -425,69 +417,6 @@ public class VideoActivity extends ECVoIPBaseActivity
         }
     }
 
-    private void onKeyBordClick(int id) {
-//        switch (id) {
-//            case R.id.zero: {
-//                keyPressed(KeyEvent.KEYCODE_0);
-//                return;
-//            }
-//            case R.id.one: {
-//                keyPressed(KeyEvent.KEYCODE_1);
-//                return;
-//            }
-//            case R.id.two: {
-//                keyPressed(KeyEvent.KEYCODE_2);
-//                return;
-//            }
-//            case R.id.three: {
-//                keyPressed(KeyEvent.KEYCODE_3);
-//                return;
-//            }
-//            case R.id.four: {
-//                keyPressed(KeyEvent.KEYCODE_4);
-//                return;
-//            }
-//            case R.id.five: {
-//                keyPressed(KeyEvent.KEYCODE_5);
-//                return;
-//            }
-//            case R.id.six: {
-//                keyPressed(KeyEvent.KEYCODE_6);
-//                return;
-//            }
-//            case R.id.seven: {
-//                keyPressed(KeyEvent.KEYCODE_7);
-//                return;
-//            }
-//            case R.id.eight: {
-//                keyPressed(KeyEvent.KEYCODE_8);
-//                return;
-//            }
-//            case R.id.nine: {
-//                keyPressed(KeyEvent.KEYCODE_9);
-//                return;
-//            }
-//            case R.id.star: {
-//                keyPressed(KeyEvent.KEYCODE_STAR);
-//                return;
-//            }
-//            case R.id.pound: {
-//                keyPressed(KeyEvent.KEYCODE_POUND);
-//                return;
-//            }
-//        }
-    }
-
-    private EditText mDmfInput;
-
-    void keyPressed(int keyCode) {
-        KeyEvent event = new KeyEvent(KeyEvent.ACTION_DOWN, keyCode);
-        mDmfInput.getText().clear();
-        mDmfInput.onKeyDown(keyCode, event);
-//        sendDTMF(mDmfInput.getText().toString().toCharArray()[0]);
-    }
-
-
     protected void doHandUpReleaseCall() {
 
         // Hang up the video call...
@@ -508,22 +437,6 @@ public class VideoActivity extends ECVoIPBaseActivity
         if (!isConnect) {
             finish();
         }
-    }
-
-    private void setupKeypad() {
-        /** Setup the listeners for the buttons */
-//        findViewById(R.id.zero).setOnClickListener(this);
-//        findViewById(R.id.one).setOnClickListener(this);
-//        findViewById(R.id.two).setOnClickListener(this);
-//        findViewById(R.id.three).setOnClickListener(this);
-//        findViewById(R.id.four).setOnClickListener(this);
-//        findViewById(R.id.five).setOnClickListener(this);
-//        findViewById(R.id.six).setOnClickListener(this);
-//        findViewById(R.id.seven).setOnClickListener(this);
-//        findViewById(R.id.eight).setOnClickListener(this);
-//        findViewById(R.id.nine).setOnClickListener(this);
-//        findViewById(R.id.star).setOnClickListener(this);
-//        findViewById(R.id.pound).setOnClickListener(this);
     }
 
     @Override
@@ -561,6 +474,8 @@ public class VideoActivity extends ECVoIPBaseActivity
         int height = videoRatio.getHeight();
         if (width == 0 || height == 0) {
 //            LogUtil.e(TAG, "invalid video width(" + width + ") or height(" + height + ")");
+            Log.d("TIEJIANG", "VideoActivity---onVideoRatioChanged"
+                    + "invalid video width(" + width + ") or height(" + height + ")");
             return;
         }
         mRemoteView.setVisibility(View.VISIBLE);

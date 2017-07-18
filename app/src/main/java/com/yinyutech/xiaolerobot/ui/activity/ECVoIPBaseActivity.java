@@ -226,7 +226,7 @@ public abstract class ECVoIPBaseActivity extends Activity
         super.onNewIntent(intent);
 //        LogUtil.e("setintent");
         ECHandlerHelper.removeCallbacksRunnOnUI(OnCallFinish);
-        setIntent(intent);
+//        setIntent(intent);
 //        setIntent(sIntent);
         if(init()) {
             return ;

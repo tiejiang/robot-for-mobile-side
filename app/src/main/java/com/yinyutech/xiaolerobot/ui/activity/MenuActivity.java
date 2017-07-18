@@ -36,10 +36,6 @@ public class MenuActivity extends Activity implements IMChattingHelper.OnMessage
     private String nickName = "20170717";
     private String contactID = "20170717";
 
-//    String mobile = "71707102";
-//    String pass = "";
-//    String appKey = "8aaf070858cd982e0158e21ff0000cee";
-//    String token = "ca8bdec6e6ed3cc369b8122a1c19306d";
     ECInitParams.LoginAuthType mLoginAuthType = ECInitParams.LoginAuthType.NORMAL_AUTH;
 
     @Override
@@ -49,14 +45,6 @@ public class MenuActivity extends Activity implements IMChattingHelper.OnMessage
 //        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_menu);
 
-        //save app key/ID and contact number etc. and init rong-lian-yun SDK
-//        ClientUser clientUser = new ClientUser(mobile);
-//        clientUser.setAppKey(appKey);
-//        clientUser.setAppToken(token);
-//        clientUser.setLoginAuthType(mLoginAuthType);
-//        clientUser.setPassword(pass);
-//        CCPAppManager.setClientUser(clientUser);
-//        SDKCoreHelper.init(MenuActivity.this, ECInitParams.LoginMode.FORCE_LOGIN);
         IMChattingHelper.setOnMessageReportCallback(MenuActivity.this);
 
         mButtonMonitor = (Button)findViewById(R.id.btn_monitor);
@@ -108,7 +96,7 @@ public class MenuActivity extends Activity implements IMChattingHelper.OnMessage
         }
 
         Log.d("TIEJIANG", "[MainActivity-onPushMessage]" + ",sessionId :" + sessionId);// add by tiejiang
-//mReceiveEditText.setText(message);
+        //mReceiveEditText.setText(message);
         handleSendTextMessage(message + "callback");
     }
     /**
@@ -120,56 +108,56 @@ public class MenuActivity extends Activity implements IMChattingHelper.OnMessage
             return ;
         }
         if(text.toString().trim().length() <= 0) {
-//canotSendEmptyMessage();
+            //canotSendEmptyMessage();
             return ;
         }
-// 组建一个待发送的ECMessage
+        // 组建一个待发送的ECMessage
         ECMessage msg = ECMessage.createECMessage(ECMessage.Type.TXT);
-// 设置消息接收者
-//msg.setTo(mRecipients);
+        // 设置消息接收者
+        //msg.setTo(mRecipients);
         msg.setTo("20170717"); // attenionthis number is not the login number! / modified by tiejiang
         ECTextMessageBody msgBody=null;
         Boolean isBQMMMessage=false;
         String emojiNames = null;
-//if(text.toString().contains(CCPChattingFooter2.TXT_MSGTYPE)&& text.toString().contains(CCPChattingFooter2.MSG_DATA)){
-//try {
-//JSONObject jsonObject = new JSONObject(text.toString());
-//String emojiType=jsonObject.getString(CCPChattingFooter2.TXT_MSGTYPE);
-//if(emojiType.equals(CCPChattingFooter2.EMOJITYPE) || emojiType.equals(CCPChattingFooter2.FACETYPE)){//说明是含有BQMM的表情
-//isBQMMMessage=true;
-//emojiNames=jsonObject.getString(CCPChattingFooter2.EMOJI_TEXT);
-//}
-//} catch (JSONException e) {
-//e.printStackTrace();
-//}
-//}
+        //if(text.toString().contains(CCPChattingFooter2.TXT_MSGTYPE)&& text.toString().contains(CCPChattingFooter2.MSG_DATA)){
+        //try {
+        //JSONObject jsonObject = new JSONObject(text.toString());
+        //String emojiType=jsonObject.getString(CCPChattingFooter2.TXT_MSGTYPE);
+        //if(emojiType.equals(CCPChattingFooter2.EMOJITYPE) || emojiType.equals(CCPChattingFooter2.FACETYPE)){//说明是含有BQMM的表情
+        //isBQMMMessage=true;
+        //emojiNames=jsonObject.getString(CCPChattingFooter2.EMOJI_TEXT);
+        //}
+        //} catch (JSONException e) {
+        //e.printStackTrace();
+        //}
+        //}
         if (isBQMMMessage) {
             msgBody = new ECTextMessageBody(emojiNames);
             msg.setBody(msgBody);
             msg.setUserData(text.toString());
         } else {
-// 创建一个文本消息体，并添加到消息对象中
+            // 创建一个文本消息体，并添加到消息对象中
             msgBody = new ECTextMessageBody(text.toString());
             msg.setBody(msgBody);
             Log.d("TIEJIANG", "[RemoteControlCommandActivity]-handleSendTextMessage" + ", txt = " + text);// add by tiejiang
         }
 
-//String[] at = mChattingFooter.getAtSomeBody();
-//msgBody.setAtMembers(at);
-//mChattingFooter.clearSomeBody();
+            //String[] at = mChattingFooter.getAtSomeBody();
+            //msgBody.setAtMembers(at);
+            //mChattingFooter.clearSomeBody();
         try {
-// 发送消息，该函数见上
+            // 发送消息，该函数见上
             long rowId = -1;
-//if(mCustomerService) {
-//rowId = CustomerServiceHelper.sendMCMessage(msg);
-//} else {
+        //if(mCustomerService) {
+        //rowId = CustomerServiceHelper.sendMCMessage(msg);
+        //} else {
             Log.d("TIEJIANG", "[RemoteControlCommandActivity]-SendECMessage");// add by tiejiang
             rowId = IMChattingHelper.sendECMessage(msg);
 
-//}
-// 通知列表刷新
-//msg.setId(rowId);
-//notifyIMessageListView(msg);
+        //}
+        // 通知列表刷新
+        //msg.setId(rowId);
+        //notifyIMessageListView(msg);
         } catch (Exception e) {
             e.printStackTrace();
             Log.d("TIEJIANG", "[RemoteControlCommandActivity]-send failed");// add by tiejiang
