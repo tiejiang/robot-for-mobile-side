@@ -23,12 +23,10 @@ public class BaseActivity extends AppCompatActivity {
                 super.startActivity(intent);
             }
             else{
-
 //                XiaoLeApplication.getInstance().putIntent(intent);
 //                Intent loginIntent = new Intent(this
 //                        , LoginActivity.class);
 //                super.startActivity(intent);
-
             }
 
         }

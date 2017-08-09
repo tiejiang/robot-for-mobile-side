@@ -68,9 +68,9 @@ public class SplashActivity extends BaseActivity {
 			@Override
 			public void onAnimationEnd(Animation animation) {
 				// TODO Auto-generated method stub
-				//启动homeactivty，相当于Intent
-//				openActivity(MainActivity.class);
-				openActivity(MenuActivity.class);
+				//判断登录信息进入到不同界面（登录注册/主界面）
+				openActivity(MainActivity.class);
+//				openActivity(MenuActivity.class);
 				overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 				SplashActivity.this.finish();
 			}

@@ -97,8 +97,10 @@ public class MenuActivity extends Activity implements IMChattingHelper.OnMessage
 
         Log.d("TIEJIANG", "[MainActivity-onPushMessage]" + ",sessionId :" + sessionId);// add by tiejiang
         //mReceiveEditText.setText(message);
+        // test code
         handleSendTextMessage(message + "callback");
     }
+
     /**
      * 处理文本发送方法事件通知
      * @param text

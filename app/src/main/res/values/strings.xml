@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">XiaoLeRobot</string>
+    <string name="app_name">小乐</string>
     <string name="stop_tts">停止合成</string>
     <string name="start_tts">开始合成</string>
     <string name="lable_status">识别状态:</string>
