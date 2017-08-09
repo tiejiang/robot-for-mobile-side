@@ -27,15 +27,23 @@
             android:background="@drawable/splash_loading_item" />
     </RelativeLayout>
 
-    <!-- <TextView
+    <Button
+        android:id="@+id/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/login"
+        android:layout_above="@+id/regist"
+        android:layout_alignLeft="@+id/regist"
+        android:layout_alignStart="@+id/regist"
+        android:layout_marginBottom="18dp" />
+    <Button
+        android:id="@+id/regist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/register"
+
         android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/relativeLayout1"
-        android:layout_marginBottom="22dp"
-        android:gravity="center_horizontal"
-        android:text="@string/splash_version_info"
-        android:textColor="@android:color/white"
-        android:textSize="16sp" /> -->
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="59dp" />
 
 </RelativeLayout>

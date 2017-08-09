@@ -34,7 +34,7 @@
     <string name="cantonese">粤语</string>
     <string name="opening_recode_devices"> 正在打开录音设备</string>
     <string name="xiaole">小乐</string>
-    <string name="device_control">设备管理</string>
+    <string name="device_control">联网</string>
     <string name="option">选项</string>
     <string name="ec_voip_calling_accepting">正在接听...</string>
     <string name="ec_voip_call_connecting_server">正在连接服务器&#8230;</string>

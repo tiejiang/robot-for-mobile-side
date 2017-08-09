@@ -46,9 +46,9 @@ public class MainActivity extends BaseActivity {
 
     private void initTab() {
 
-        Tab tab_home = new Tab(HomeFragment.class,R.string.xiaole,R.drawable.btn);
-        Tab tab_deviceControl = new Tab(DeviceControlFragment.class,R.string.device_control,R.drawable.btn);
-        Tab tab_option = new Tab(OptionFragment.class,R.string.option,R.drawable.btn);
+        Tab tab_home = new Tab(HomeFragment.class,R.string.xiaole,R.drawable.bottom_xiaole);
+        Tab tab_deviceControl = new Tab(DeviceControlFragment.class,R.string.device_control,R.drawable.bottom_net);
+        Tab tab_option = new Tab(OptionFragment.class,R.string.option,R.drawable.bottom_option);
 
         mTabs.add(tab_home);
         mTabs.add(tab_deviceControl);

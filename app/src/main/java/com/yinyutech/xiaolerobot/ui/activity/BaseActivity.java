@@ -25,7 +25,7 @@ public class BaseActivity extends AppCompatActivity {
             else{
 //                XiaoLeApplication.getInstance().putIntent(intent);
 //                Intent loginIntent = new Intent(this
-//                        , LoginActivity.class);
+//                        , RegistActivity.class);
 //                super.startActivity(intent);
             }
 

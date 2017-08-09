@@ -9,117 +9,92 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:orientation="horizontal">
 
-        <RelativeLayout
-            android:id="@+id/account"
+        <View
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            />
+
+        <TextView
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="系统选项"
+            android:textSize="25sp"
+            android:textColor="@color/black"/>
 
-            <ImageView
-                android:id="@+id/option_control"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/option_choose" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="账户管理"/>
 
-        </RelativeLayout>
+
     </LinearLayout>
+
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:background="@color/white"
+        android:layout_height="50dp"
         />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
 
-        <RelativeLayout
-            android:id="@+id/album"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/option_user"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/option_user" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="相册"/>
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/option_choose"
-                />
-
-        </RelativeLayout>
-
-    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:background="@color/white"
+        android:layout_height="20dp"
         />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/option_album"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/option_album"/>
 
 
-        <RelativeLayout
-            android:id="@+id/video"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="视频"/>
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/option_choose"/>
-
-        </RelativeLayout>
-    </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:background="@color/white"
+        android:layout_height="20dp"
         />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/option_version"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/option_version"/>
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="版本说明"/>
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/option_choose"/>
-        </RelativeLayout>
-
-    </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:background="@color/white"
+        android:layout_height="20dp"
+        />
+
+
+    <ImageView
+        android:id="@+id/option_setting"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/option_setting"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
         />
 
 </LinearLayout>

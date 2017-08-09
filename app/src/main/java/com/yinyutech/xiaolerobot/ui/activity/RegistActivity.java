@@ -22,7 +22,7 @@ import cn.smssdk.SMSSDK;
  * Created by yinyu-tiejiang on 17-7-13.
  */
 
-public class LoginActivity extends Activity {
+public class RegistActivity extends Activity {
 
     private EditText et_number;
     private String number;
@@ -32,7 +32,7 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_regist);
 
         et_number = (EditText) findViewById(R.id.et_phone);
         et_security = (EditText) findViewById(R.id.et_security);
@@ -79,7 +79,7 @@ public class LoginActivity extends Activity {
                             public void run() {
                                 showDailog("恭喜你！通过验证");
                                 //注册成功，进入到主界面
-                                Intent mIntent = new Intent(LoginActivity.this, MainActivity.class);
+                                Intent mIntent = new Intent(RegistActivity.this, MainActivity.class);
                                 startActivity(mIntent);
                                 dialog.dismiss();
                                 //    Toast.makeText(MainActivity.this, "通过验证", Toast.LENGTH_SHORT).show();
@@ -112,7 +112,7 @@ public class LoginActivity extends Activity {
     //验证结果弹窗
     private void showDailog(String text) {
 
-        new AlertDialog.Builder(LoginActivity.this)
+        new AlertDialog.Builder(RegistActivity.this)
                 .setTitle(text)
                 .setPositiveButton("确定", null)
                 .show();
