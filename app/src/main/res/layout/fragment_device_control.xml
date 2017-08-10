@@ -19,7 +19,7 @@
             android:id="@+id/base_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/net_base_img"
+            android:background="@drawable/net_progress_bar_first"
             />
 
 
