@@ -7,31 +7,25 @@ import android.view.ViewGroup;
 
 import com.yinyutech.xiaolerobot.R;
 
-public class HomeFragment extends BaseFragment {
 
-
+/**
+ * 备用ＵＩ方案
+ * 准备添加ｖｉｄｅｏＡｃｔｉｖｉｔｙ到此ｆｒａｇｍｅｎｔ
+ * 20170810
+ * */
+public class HomeFragment extends BaseFragment{
 
     private static  final  String TAG="HomeFragment";
 
+
     @Override
     public View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return    inflater.inflate(R.layout.fragment_home,container,false);
+        return inflater.inflate(R.layout.fragment_home,container,false);
     }
 
     @Override
     public void init() {
 
-//        requestImages();
-
-//        initRecyclerView();
     }
 
-    
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-//        mSliderLayout.stopAutoCycle();
-    }
 }

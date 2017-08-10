@@ -21,8 +21,7 @@ import com.yuntongxun.ecsdk.VideoRatio;
 import com.yuntongxun.ecsdk.platformtools.ECHandlerHelper;
 
 /**
- * com.yuntongxun.ecdemo.ui.voip in ECDemo_Android
- * Created by Jorstin on 2015/7/3.
+ * Created by tiejiang on 2017/07/03.
  */
 public abstract class ECVoIPBaseActivity extends Activity
 //        ECSuperActivity
