@@ -48,7 +48,7 @@ public class SplashActivity extends BaseActivity {
 			public void onClick(View v) {
 				if (whetherLogin()){
 					openActivity(MainActivity.class);
-				}else {s
+				}else {
 					Log.d("TIEJIANG", "SplashActivity---没有注册信息");
                     Toast.makeText(SplashActivity.this, "请您先注册", Toast.LENGTH_LONG).show();
                 }

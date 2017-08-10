@@ -26,29 +26,7 @@ public class HomeFragment extends BaseFragment {
 //        initRecyclerView();
     }
 
-    //banner request
-    private  void requestImages(){
-
-//        String url ="http://112.124.22.238:8081/course_api/banner/query?type=1";
-//
-//
-//
-//        httpHelper.get(url, new SpotsCallBack<List<Banner>>(getActivity()){
-//
-//
-//            @Override
-//            public void onSuccess(Response response, List<Banner> banners) {
-//
-//                mBanner = banners;
-//                initSlider();
-//            }
-//
-//            @Override
-//            public void onError(Response response, int code, Exception e) {
-//
-//            }
-//        });
-    }
+    
 
     @Override
     public void onDestroy() {
