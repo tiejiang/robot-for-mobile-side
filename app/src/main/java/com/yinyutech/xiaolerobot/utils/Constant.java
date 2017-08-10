@@ -9,6 +9,10 @@ public class Constant {
     
     public static final int REQUEST_CODE = 1;
     public static final int ERROE_NUM = 5;
+
+    public static final String USER_MESSAGE = "user_data";   //用户注册信息的sharedPreference
+    public static final String USER_NUMBER = "user_number";
+    public static final String USER_SERCURITY = "user_security";
     
     public static Vector<String> mNotEncryptionApp;
     public static void filter(){

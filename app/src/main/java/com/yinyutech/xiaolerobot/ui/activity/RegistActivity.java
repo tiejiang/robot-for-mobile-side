@@ -3,7 +3,9 @@ package com.yinyutech.xiaolerobot.ui.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -12,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.yinyutech.xiaolerobot.R;
+import com.yinyutech.xiaolerobot.utils.Constant;
 
 import java.util.HashMap;
 
@@ -28,6 +31,9 @@ public class RegistActivity extends Activity {
     private String number;
     private EditText et_security;
     private ProgressDialog dialog;
+    private String security = "";
+
+    private SharedPreferences mUserSharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,10 +84,23 @@ public class RegistActivity extends Activity {
                             @Override
                             public void run() {
                                 showDailog("恭喜你！通过验证");
+                                //保存注册用户信息
+                                mUserSharedPreferences = getSharedPreferences(Constant.USER_MESSAGE, Context.MODE_PRIVATE);
+                                SharedPreferences.Editor mEditor = mUserSharedPreferences.edit();
+                                mEditor.putString(Constant.USER_NUMBER, number);
+                                mEditor.putString(Constant.USER_SERCURITY, security);
+                                mEditor.commit();
+                                //test code to get sharedPreference value
+                                SharedPreferences sp = getSharedPreferences(Constant.USER_MESSAGE, Context.MODE_PRIVATE);
+                                String number = sp.getString(Constant.USER_NUMBER, "0");
+                                String security = sp.getString(Constant.USER_SERCURITY, "1");
+                                Log.d("TIEJIANG", "RegistActivity---NUMBER= " + number + " SECURITY= " + security);
+
+
                                 //注册成功，进入到主界面
                                 Intent mIntent = new Intent(RegistActivity.this, MainActivity.class);
                                 startActivity(mIntent);
-                                dialog.dismiss();
+                                RegistActivity.this.finish();
                                 //    Toast.makeText(MainActivity.this, "通过验证", Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -137,7 +156,7 @@ public class RegistActivity extends Activity {
      * @param v
      */
     public void testSecurity(View v) {
-        String security = et_security.getText().toString();
+        security = et_security.getText().toString();
         if (!TextUtils.isEmpty(security)) {
             dialog = ProgressDialog.show(this, null, "正在验证...", false, true);
             //提交短信验证码

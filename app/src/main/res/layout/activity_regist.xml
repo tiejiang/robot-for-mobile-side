@@ -65,6 +65,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="获取验证码"
+        android:onClick="getSecurity"
         android:background="@drawable/auth_code"
         android:layout_alignBottom="@+id/et_security"
         android:layout_alignRight="@+id/et_phone"
