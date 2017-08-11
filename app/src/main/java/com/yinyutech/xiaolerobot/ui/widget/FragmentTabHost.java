@@ -33,6 +33,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -266,7 +267,10 @@ public class FragmentTabHost extends TabHost implements
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
 
+        Log.d("TIEJIANG", "FragmentTabHost---onAttachedToWindow");
+
         String currentTab = getCurrentTabTag();
+        Log.d("TIEJIANG", "FragmentTabHost---currentTab = " + currentTab);
 
         // Go through all tabs and make sure their fragments match
         // the correct state.
@@ -274,6 +278,9 @@ public class FragmentTabHost extends TabHost implements
         for (int i = 0; i < mTabs.size(); i++) {
             TabInfo tab = mTabs.get(i);
             tab.fragment = mFragmentManager.findFragmentByTag(tab.tag);
+            //test code
+//            android.support.v4.app.Fragment fragment = tab.fragment;
+
 //			if (tab.fragment != null && !tab.fragment.isDetached()) {
             if (tab.fragment != null) {
                 if (tab.tag.equals(currentTab)) {

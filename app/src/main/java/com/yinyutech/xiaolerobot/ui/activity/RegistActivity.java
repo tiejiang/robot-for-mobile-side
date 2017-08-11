@@ -91,10 +91,10 @@ public class RegistActivity extends Activity {
                                 mEditor.putString(Constant.USER_SERCURITY, security);
                                 mEditor.commit();
                                 //test code to get sharedPreference value
-                                SharedPreferences sp = getSharedPreferences(Constant.USER_MESSAGE, Context.MODE_PRIVATE);
-                                String number = sp.getString(Constant.USER_NUMBER, "0");
-                                String security = sp.getString(Constant.USER_SERCURITY, "1");
-                                Log.d("TIEJIANG", "RegistActivity---NUMBER= " + number + " SECURITY= " + security);
+//                                SharedPreferences sp = getSharedPreferences(Constant.USER_MESSAGE, Context.MODE_PRIVATE);
+//                                String number = sp.getString(Constant.USER_NUMBER, "0");
+//                                String security = sp.getString(Constant.USER_SERCURITY, "1");
+//                                Log.d("TIEJIANG", "RegistActivity---NUMBER= " + number + " SECURITY= " + security);
 
 
                                 //注册成功，进入到主界面

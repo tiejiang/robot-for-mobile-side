@@ -184,16 +184,16 @@ public class VideoActivity extends ECVoIPBaseActivity
         mRemoteView.setGlType(ECOpenGlView.RenderType.RENDER_REMOTE); //远端图像显示类型/绘制类型
         mRemoteView.setAspectMode(ECOpenGlView.AspectMode.CROP); // 图像等比按照中心区域显示屏截取
         // 本地图像显示配置
-        mSelfGlView = (ECOpenGlView) findViewById(R.id.localvideo_view);  //本地图像显示
-        mSelfGlView.setGlType(ECOpenGlView.RenderType.RENDER_PREVIEW); //本地图像显示类型/绘制类型
-        mSelfGlView.setAspectMode(ECOpenGlView.AspectMode.CROP); // 图像等比按照中心区域显示屏截取
-        mSelfGlView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mMaxSizeRemote = !mMaxSizeRemote;
-                attachGlView();//点击本地显示view时候交换view的显示内容
-            }
-        });
+//        mSelfGlView = (ECOpenGlView) findViewById(R.id.localvideo_view);  //本地图像显示
+//        mSelfGlView.setGlType(ECOpenGlView.RenderType.RENDER_PREVIEW); //本地图像显示类型/绘制类型
+//        mSelfGlView.setAspectMode(ECOpenGlView.AspectMode.CROP); // 图像等比按照中心区域显示屏截取
+//        mSelfGlView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mMaxSizeRemote = !mMaxSizeRemote;
+//                attachGlView();//点击本地显示view时候交换view的显示内容
+//            }
+//        });
 
 
         mCaptureView = new ECCaptureView(this);

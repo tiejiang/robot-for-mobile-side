@@ -10,13 +10,63 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:layout_weight="2"
+            android:text="WIFI密码"
+            android:textColor="@color/black"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"
+            android:text="热点"
+            android:textColor="@color/black"
+            />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_weight="1"
+            android:text="配对"
+            android:textColor="@color/black"
+            />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:layout_weight="1"
+            android:text="完成"
+            android:textColor="@color/black"
+            />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_weight="1"
+            android:text="绑定"
+            android:textColor="@color/black"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/linearLayout">
 
         <ImageView
-            android:id="@+id/base_img"
+            android:id="@+id/progress_img_fist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/net_progress_bar_first"
@@ -26,36 +76,37 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout_second_step"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/linearLayout2"
         android:orientation="vertical"
-        android:layout_above="@+id/textView2"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="200dp">
 
         <TextView
             android:id="@+id/hint_first"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1. "
-            android:textColor="@color/black"/>
+            android:text="1. 请连接到机器热点: lele924"
+            android:textColor="@color/black"
+            />
         <TextView
             android:id="@+id/hint_second"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2. "
+            android:text="2. 向机器发送WIFI信息"
             android:textColor="@color/black"/>
         <TextView
             android:id="@+id/hint_third"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="3. "
+            android:text="3. 重新连接到您的WIFI网络"
             android:textColor="@color/black"/>
         <TextView
             android:id="@+id/hint_fouth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="4. "
+            android:text="4. 机器语音提示网络连接成功之后点击下一步"
             android:textColor="@color/black"/>
 
     </LinearLayout>
@@ -81,7 +132,7 @@
         android:layout_centerHorizontal="true" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/wifi_input_hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="请输入您的WIFI密码"
@@ -90,6 +141,16 @@
         android:layout_above="@+id/wifi_user"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="36dp" />
+    <TextView
+        android:id="@+id/setting_over"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="设置完成，快来与小乐一起嗨皮吧！"
+        android:textSize="15sp"
+        android:textColor="@color/black"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        />
 
 
     <Button
@@ -101,6 +162,40 @@
         android:layout_marginBottom="20dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+    <LinearLayout
+        android:id="@+id/linearLayout_final_step"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+
+        <Button
+            android:id="@+id/button_share"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="授权给好友"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/net_nextstep"
+            />
+
+        <View
+            android:layout_width="5dp"
+            android:layout_height="45dp"
+            />
+
+        <Button
+            android:id="@+id/button_enter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="进入设备"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/net_nextstep"/>
+    </LinearLayout>
+
 
 
 </RelativeLayout>

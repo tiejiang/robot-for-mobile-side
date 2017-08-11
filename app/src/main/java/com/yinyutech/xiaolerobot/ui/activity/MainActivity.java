@@ -1,6 +1,8 @@
 package com.yinyutech.xiaolerobot.ui.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,8 +15,8 @@ import android.widget.TextView;
 import com.yinyutech.xiaolerobot.R;
 import com.yinyutech.xiaolerobot.bean.Tab;
 import com.yinyutech.xiaolerobot.ui.fragment.DeviceControlFragment;
-import com.yinyutech.xiaolerobot.ui.fragment.OptionFragment;
 import com.yinyutech.xiaolerobot.ui.fragment.HomeFragment;
+import com.yinyutech.xiaolerobot.ui.fragment.OptionFragment;
 import com.yinyutech.xiaolerobot.ui.widget.FragmentTabHost;
 
 import java.util.ArrayList;
@@ -23,32 +25,79 @@ import java.util.List;
 public class MainActivity extends BaseActivity {
 
     private LayoutInflater mInflater;
-    private FragmentTabHost mTabhost;
+    private static FragmentTabHost mTabhost;
     private DeviceControlFragment deviceControlFragment;
+    private HomeFragment mHomeFragment;
     private List<Tab> mTabs = new ArrayList<>(3);
+    public static Handler mTabhostSkipHandler;
+    Tab tab_home ;
+    Tab tab_deviceControl ;
+    Tab tab_option ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        welcom = (Button)findViewById(R.id.welcom);
-//        welcom.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent mIntent = new Intent(MainActivity.this, YunZhiShengActivity.class);
-//                startActivity(mIntent);
-//
-//            }
-//        });
-
         initTab();
+        Handler mHandler = new Handler(){
+
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+
+                if(mHomeFragment == null){
+                    //test code
+                    String tabStr = mTabhost.getCurrentTabTag();
+                    Fragment fragment =  getSupportFragmentManager().findFragmentByTag(tabStr);
+                    if(fragment ==null){
+                        mHomeFragment= (HomeFragment) fragment;
+                    }
+                }
+                Bundle mBundle = new Bundle();
+                mBundle.putString("DEVICE", "device_off");
+//        mHomeFragment = new HomeFragment();
+                mHomeFragment.setArguments(mBundle);
+            }
+        };
+
+
+        mTabhostSkipHandler = new Handler(){
+
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                switch (msg.what){
+                    case 0:
+                        if (((String)msg.obj).equals("setting_ok")){
+                            //启动HomeFragment
+                            mTabhost.setCurrentTab(0);
+                            //设置对应ｂｕｔｔｏｎ为ｃｈｅｃｋｅｄ状态
+//                        ((RadioButton)findViewById(R.id.radio_button0)).setChecked(true);
+//                            Fragment fragment =  getSupportFragmentManager().findFragmentByTag(getString(R.string.xiaole));
+//                            Bundle mBundle = new Bundle();
+//                            mBundle.putString("DEVICE_ON", "device_on");
+//
+//                            mHomeFragment.setArguments(mBundle);
+                        }
+
+                        break;
+                    case 1:
+
+                        break;
+                    case 2:
+
+                        break;
+                }
+            }
+        };
     }
 
     private void initTab() {
 
-        Tab tab_home = new Tab(HomeFragment.class,R.string.xiaole,R.drawable.bottom_xiaole);
-        Tab tab_deviceControl = new Tab(DeviceControlFragment.class,R.string.device_control,R.drawable.bottom_net);
-        Tab tab_option = new Tab(OptionFragment.class,R.string.option,R.drawable.bottom_option);
+        tab_home = new Tab(HomeFragment.class,R.string.xiaole,R.drawable.bottom_xiaole);
+        tab_deviceControl = new Tab(DeviceControlFragment.class,R.string.device_control,R.drawable.bottom_net);
+        tab_option = new Tab(OptionFragment.class,R.string.option,R.drawable.bottom_option);
 
         mTabs.add(tab_home);
         mTabs.add(tab_deviceControl);
@@ -63,6 +112,9 @@ public class MainActivity extends BaseActivity {
             tabSpec.setIndicator(buildIndicator(tab));
             mTabhost.addTab(tabSpec,tab.getFragment(),null);
         }
+        //test code  fragment = null !
+//        String tabStr = mTabhost.getCurrentTabTag();
+//        Fragment fragment =  getSupportFragmentManager().findFragmentByTag(tabStr);
 
         mTabhost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
