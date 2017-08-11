@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.yinyutech.xiaolerobot.R;
+import com.yinyutech.xiaolerobot.common.CCPAppManager;
+import com.yuntongxun.ecsdk.ECVoIPCallManager;
 
 
 /**
@@ -29,6 +31,13 @@ public class HomeFragment extends BaseFragment{
 
         mHomeFragmenView =  inflater.inflate(R.layout.fragment_home,container,false);
         mStarControl = (Button)mHomeFragmenView.findViewById(R.id.start_control);
+        mStarControl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CCPAppManager.callVoIPAction(getActivity(), ECVoIPCallManager.CallType.VIDEO,
+                        "20170717", "20170717",false);
+            }
+        });
         mStarControl.setVisibility(View.GONE);
 
         mStateChangeHandler = new Handler(){
