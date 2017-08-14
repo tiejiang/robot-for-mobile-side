@@ -12,6 +12,7 @@ import android.widget.Button;
 
 import com.yinyutech.xiaolerobot.R;
 import com.yinyutech.xiaolerobot.common.CCPAppManager;
+import com.yinyutech.xiaolerobot.ui.activity.MySurfaceViewControler;
 import com.yuntongxun.ecsdk.ECVoIPCallManager;
 
 
@@ -23,22 +24,26 @@ public class HomeFragment extends BaseFragment{
 
     private static  final  String TAG="HomeFragment";
     private View mHomeFragmenView;
-    private Button mStarControl;
+    private Button mVideoOpen;
     public static Handler mStateChangeHandler;
+    public MySurfaceViewControler mMySurfaceViewControler;
 
     @Override
     public View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         mHomeFragmenView =  inflater.inflate(R.layout.fragment_home,container,false);
-        mStarControl = (Button)mHomeFragmenView.findViewById(R.id.start_control);
-        mStarControl.setOnClickListener(new View.OnClickListener() {
+        mVideoOpen = (Button)mHomeFragmenView.findViewById(R.id.open_video);
+//        mMySurfaceViewControler = (MySurfaceViewControler)mHomeFragmenView.findViewById(R.id.surface);
+        mMySurfaceViewControler = new MySurfaceViewControler(getActivity());
+
+        mVideoOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CCPAppManager.callVoIPAction(getActivity(), ECVoIPCallManager.CallType.VIDEO,
                         "20170717", "20170717",false);
             }
         });
-        mStarControl.setVisibility(View.GONE);
+        mVideoOpen.setVisibility(View.GONE);
 
         mStateChangeHandler = new Handler(){
 
@@ -47,7 +52,7 @@ public class HomeFragment extends BaseFragment{
                 super.handleMessage(msg);
                 switch (msg.what){
                     case 0:
-                        mStarControl.setVisibility(View.VISIBLE);
+                        mVideoOpen.setVisibility(View.VISIBLE);
                         Log.d("TIEJIANG", "state_change");
 
                         break;

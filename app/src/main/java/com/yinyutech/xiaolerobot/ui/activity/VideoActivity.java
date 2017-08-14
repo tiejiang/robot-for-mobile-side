@@ -197,6 +197,13 @@ public class VideoActivity extends ECVoIPBaseActivity
 
 
         mCaptureView = new ECCaptureView(this);
+
+        //test code beging
+//        mCaptureView.setCaptureParams();
+//        mCaptureView.setNeedCapture(true);
+//        mCaptureView.setResolution(320*240);
+        //test code end
+
         mCaptureView.setOnCameraInitListener(new OnCameraInitListener() {
             @Override
             public void onCameraInit(boolean result) {
@@ -207,8 +214,8 @@ public class VideoActivity extends ECVoIPBaseActivity
             }
         });
         mVideoLayout = (FrameLayout) findViewById(R.id.Video_layout);
-        mCameraSwitch = findViewById(R.id.camera_switch);
-        mCameraSwitch.setOnClickListener(this);
+//        mCameraSwitch = findViewById(R.id.camera_switch);
+//        mCameraSwitch.setOnClickListener(this);
         video_switch = findViewById(R.id.video_switch);
         video_switch.setOnClickListener(this);
 
@@ -221,7 +228,7 @@ public class VideoActivity extends ECVoIPBaseActivity
         mVideoLayout.setVisibility(View.VISIBLE);
         mVideoIcon.setVisibility(View.GONE);
         mVideoTopTips.setVisibility(View.GONE);
-        mCameraSwitch.setVisibility(View.VISIBLE);
+//        mCameraSwitch.setVisibility(View.VISIBLE);
         mVideoTipsLy.setVisibility(View.VISIBLE);
         mVideoBegin.setVisibility(View.GONE);
         // bottom ...
@@ -249,7 +256,7 @@ public class VideoActivity extends ECVoIPBaseActivity
         try {
             // mChronometer.setVisibility(View.GONE);
             mVideoTopTips.setVisibility(View.VISIBLE);
-            mCameraSwitch.setVisibility(View.GONE);
+//            mCameraSwitch.setVisibility(View.GONE);
             mVideoTopTips.setText(R.string.ec_voip_calling_finish);
 
             if (isConnect) {
@@ -274,7 +281,7 @@ public class VideoActivity extends ECVoIPBaseActivity
     private void finishCalling(int reason) {
         try {
             mVideoTopTips.setVisibility(View.VISIBLE);
-            mCameraSwitch.setVisibility(View.GONE);
+//            mCameraSwitch.setVisibility(View.GONE);
             mCaptureView.setVisibility(View.GONE);
 //            mDiaerpadBtn.setVisibility(View.GONE);
             if (isConnect) {
@@ -306,6 +313,7 @@ public class VideoActivity extends ECVoIPBaseActivity
                             ECPreferenceSettings.SETTINGS_RATIO_CUSTOM.getId(),
                             (String) ECPreferenceSettings.SETTINGS_RATIO_CUSTOM
                                     .getDefaultValue());
+            Log.d("TIEJIANG", "VideoActivity---onResume= " + "ratio= " + ratio);
 
             if (!TextUtils.isEmpty(ratio)) {
                 String[] arr = ratio.split("\\*");
@@ -316,6 +324,7 @@ public class VideoActivity extends ECVoIPBaseActivity
             } else {
                 if (mCaptureView != null) {
                     mCaptureView.onResume();
+
                 }
             }
         }
@@ -328,6 +337,9 @@ public class VideoActivity extends ECVoIPBaseActivity
             return -1;
         }
         CameraInfo[] infos = voIPSetupManager.getCameraInfos();
+        Log.d("TIEJIANG", "infos[]= " + infos[0].name);
+        Log.d("TIEJIANG", "infos[]= " + infos[1].name);
+
         for (int i = 0; i < infos.length; i++) {
 
             CameraCapability[] arr = infos[i].caps;
@@ -400,13 +412,13 @@ public class VideoActivity extends ECVoIPBaseActivity
 
                 doHandUpReleaseCall();
                 break;
-            case R.id.camera_switch:
-                mCameraSwitch.setEnabled(false);
-                if (mCaptureView != null) {
-                    mCaptureView.switchCamera();
-                }
-                mCameraSwitch.setEnabled(true);
-                break;
+//            case R.id.camera_switch:
+//                mCameraSwitch.setEnabled(false);
+//                if (mCaptureView != null) {
+//                    mCaptureView.switchCamera();
+//                }
+//                mCameraSwitch.setEnabled(true);
+//                break;
             case R.id.layout_call_dialnum:
 //                setDialerpadUI();
                 break;

@@ -303,16 +303,16 @@ public class BackupHomeFragment extends Fragment
             mRemoteView.setGlType(ECOpenGlView.RenderType.RENDER_REMOTE); //远端图像显示类型/绘制类型
             mRemoteView.setAspectMode(ECOpenGlView.AspectMode.CROP); // 图像等比按照中心区域显示屏截取
             // 本地图像显示配置
-            mSelfGlView = (ECOpenGlView) mFragmentView.findViewById(R.id.localvideo_view);  //本地图像显示
-            mSelfGlView.setGlType(ECOpenGlView.RenderType.RENDER_PREVIEW); //本地图像显示类型/绘制类型
-            mSelfGlView.setAspectMode(ECOpenGlView.AspectMode.CROP); // 图像等比按照中心区域显示屏截取
-            mSelfGlView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mMaxSizeRemote = !mMaxSizeRemote;
-                    attachGlView();//点击本地显示view时候交换view的显示内容
-                }
-            });
+//            mSelfGlView = (ECOpenGlView) mFragmentView.findViewById(R.id.localvideo_view);  //本地图像显示
+//            mSelfGlView.setGlType(ECOpenGlView.RenderType.RENDER_PREVIEW); //本地图像显示类型/绘制类型
+//            mSelfGlView.setAspectMode(ECOpenGlView.AspectMode.CROP); // 图像等比按照中心区域显示屏截取
+//            mSelfGlView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    mMaxSizeRemote = !mMaxSizeRemote;
+//                    attachGlView();//点击本地显示view时候交换view的显示内容
+//                }
+//            });
 
 
             mCaptureView = new ECCaptureView(getActivity());
@@ -326,8 +326,8 @@ public class BackupHomeFragment extends Fragment
                 }
             });
             mVideoLayout = (FrameLayout) mFragmentView.findViewById(R.id.Video_layout);
-            mCameraSwitch = mFragmentView.findViewById(R.id.camera_switch);
-            mCameraSwitch.setOnClickListener(this);
+//            mCameraSwitch = mFragmentView.findViewById(R.id.camera_switch);
+//            mCameraSwitch.setOnClickListener(this);
             video_switch = mFragmentView.findViewById(R.id.video_switch);
             video_switch.setOnClickListener(this);
 
@@ -549,13 +549,13 @@ public class BackupHomeFragment extends Fragment
 
                 doHandUpReleaseCall();
                 break;
-            case R.id.camera_switch:
-                mCameraSwitch.setEnabled(false);
-                if (mCaptureView != null) {
-                    mCaptureView.switchCamera();
-                }
-                mCameraSwitch.setEnabled(true);
-                break;
+//            case R.id.camera_switch:
+//                mCameraSwitch.setEnabled(false);
+//                if (mCaptureView != null) {
+//                    mCaptureView.switchCamera();
+//                }
+//                mCameraSwitch.setEnabled(true);
+//                break;
             case R.id.layout_call_dialnum:
 //                setDialerpadUI();
                 break;

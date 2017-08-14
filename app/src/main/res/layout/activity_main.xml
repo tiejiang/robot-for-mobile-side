@@ -26,8 +26,7 @@ android:orientation="vertical">
             android:id="@android:id/tabcontent"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_weight="0"
-            android:background="@drawable/fragment_bg"/>
+            android:layout_weight="0"/>
     </com.yinyutech.xiaolerobot.ui.widget.FragmentTabHost>
 
 </LinearLayout>
