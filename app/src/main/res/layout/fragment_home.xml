@@ -32,8 +32,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/start_control"
-        android:layout_toStartOf="@+id/start_control"
         android:layout_marginRight="27dp"
         android:layout_marginEnd="27dp"
         android:layout_marginBottom="43dp"
