@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -29,13 +30,23 @@
 
 
     <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_marginRight="27dp"
         android:layout_marginEnd="27dp"
         android:layout_marginBottom="43dp"
-        android:id="@+id/frameLayout">
+        android:background="@drawable/hand_control_base">
+
+        <com.yinyutech.xiaolerobot.ui.ControlView
+            android:id="@+id/control_view"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+
+            />
+
+
         <!---
     <LinearLayout
         android:layout_width="wrap_content"
