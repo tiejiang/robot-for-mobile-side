@@ -10,5 +10,22 @@
     <color name="voip_interface_text_color">#bababa</color>
     <color name="transparent">#00000000</color>
 
+    <color name="white_light">#DDDDDD</color>
+    <color name="white_dark">#999999</color>
+    <color name="cool_gray_transparent">#CC222222</color>
+    <color name="list_divider">#CC505050</color>
+    <color name="splitViewColor">#CCCCCC</color>
+    <color name="SbMenuFontColor">#666666</color>
+    <color name="SbListFontColor">#3c3c3c</color>
+    <color name="SbMoreBtnColor">#FF3366</color>
+    <color name="TitleBar">#E72929</color>
+    <color name="alert">#CC0000</color>
+    <color name="confirm">#FF8800</color>
+    <color name="info">#669900</color>
+    <color name="ThemeYellow">#F5A623</color>
+    <color name="ThemeRed">#E72929</color>
+    <color name="ThemeRedLight">#F34E4E</color>
+    <color name="Black_60">#3C3C3C</color>
+
     <drawable name="transparent_background">#909090</drawable>
 </resources>

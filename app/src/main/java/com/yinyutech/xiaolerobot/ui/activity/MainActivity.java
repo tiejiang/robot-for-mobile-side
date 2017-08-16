@@ -1,5 +1,7 @@
 package com.yinyutech.xiaolerobot.ui.activity;
 
+import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,10 +16,14 @@ import android.widget.TextView;
 
 import com.yinyutech.xiaolerobot.R;
 import com.yinyutech.xiaolerobot.bean.Tab;
+import com.yinyutech.xiaolerobot.bean.UserInfo;
 import com.yinyutech.xiaolerobot.ui.fragment.DeviceControlFragment;
 import com.yinyutech.xiaolerobot.ui.fragment.HomeFragment;
 import com.yinyutech.xiaolerobot.ui.fragment.OptionFragment;
 import com.yinyutech.xiaolerobot.ui.widget.FragmentTabHost;
+import com.yinyutech.xiaolerobot.utils.soundbox.SoundBoxManager;
+import com.yinyutech.xiaolerobot.utils.soundbox.SoundBoxServiceAction;
+import com.yinyutech.xiaolerobot.utils.soundbox.UDPServerService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +44,19 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+        // 第二步：初始化音乐和音箱服务
+        SoundBoxServiceAction.getInstance().setupContext(getApplicationContext());
+        SoundBoxManager.getInstance().setupContext(getApplicationContext());
+        UserInfo.sharedUserInfo().setupSharedUserInfo(getApplicationContext());
+
+        // 第三步：注册事件监听
+//        EventBus.getDefault().register(this);
+
+        // 第四步：启动音箱发现服务
+        startService(new Intent(this, UDPServerService.class));
 
         initTab();
         Handler mHandler = new Handler(){

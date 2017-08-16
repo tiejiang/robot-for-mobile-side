@@ -7,7 +7,6 @@
     android:background="@drawable/fragment_bg"
     >
 
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,26 +38,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1. 请连接到机器热点: lele924"
-            android:textColor="@color/black"
             />
         <TextView
             android:id="@+id/hint_second"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2. 向机器发送WIFI信息"
-            android:textColor="@color/black"/>
+            />
         <TextView
             android:id="@+id/hint_third"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="3. 重新连接到您的WIFI网络"
-            android:textColor="@color/black"/>
+            />
         <TextView
             android:id="@+id/hint_fouth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="4. 机器语音提示网络连接成功之后点击下一步"
-            android:textColor="@color/black"/>
+            />
 
     </LinearLayout>
 
@@ -69,6 +67,7 @@
         android:background="@drawable/input_box"
         android:hint="WIFI名称:"
         android:layout_marginBottom="24dp"
+        android:gravity="center"
         android:layout_above="@+id/wifi_pwd"
         android:layout_alignLeft="@+id/wifi_pwd"
         android:layout_alignStart="@+id/wifi_pwd" />
@@ -79,6 +78,8 @@
         android:layout_height="wrap_content"
         android:background="@drawable/input_box"
         android:hint="WIFI密码:"
+        android:text="lele924**--1688"
+        android:gravity="center"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 

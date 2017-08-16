@@ -1,6 +1,5 @@
 package com.yinyutech.xiaolerobot.ui.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -74,16 +73,17 @@ public class HomeFragment extends BaseFragment{
 
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+//    @Override
+//    public void onAttach(Context context) {
+//        super.onAttach(context);
+//
+////        if (getArguments().getBundle().getString("DEVICE_ON") != null){
+////            String isDeviceOn = getArguments().getString("DEVICE_ON");
+////            Log.d("TIEJIANG", "isDeviceOn= " + isDeviceOn);
+////        }else if(getArguments().getString("DEVICE_ON") != null){
+////            Log.d("TIEJIANG", "isDeviceOn= " + "device_off");
+////        }
+//
+//    }
 
-//        if (getArguments().getBundle().getString("DEVICE_ON") != null){
-//            String isDeviceOn = getArguments().getString("DEVICE_ON");
-//            Log.d("TIEJIANG", "isDeviceOn= " + isDeviceOn);
-//        }else if(getArguments().getString("DEVICE_ON") != null){
-//            Log.d("TIEJIANG", "isDeviceOn= " + "device_off");
-//        }
-
-    }
 }
