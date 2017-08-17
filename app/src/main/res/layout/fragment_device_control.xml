@@ -37,7 +37,7 @@
             android:id="@+id/hint_first"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1. 请连接到机器热点: lele924"
+            android:text="1. 正在连接到小乐机器人热点"
             />
         <TextView
             android:id="@+id/hint_second"

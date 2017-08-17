@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 
 import com.yinyutech.xiaolerobot.R;
 import com.yinyutech.xiaolerobot.common.CCPAppManager;
@@ -24,16 +25,21 @@ public class HomeFragment extends BaseFragment{
     private static  final  String TAG="HomeFragment";
     private View mHomeFragmenView;
     private Button mVideoOpen;
+    private FrameLayout mFramelayoutControlView;
     public static Handler mStateChangeHandler;
     public MySurfaceViewControler mMySurfaceViewControler;
+
 
     @Override
     public View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         mHomeFragmenView =  inflater.inflate(R.layout.fragment_home,container,false);
         mVideoOpen = (Button)mHomeFragmenView.findViewById(R.id.open_video);
-//        mMySurfaceViewControler = (MySurfaceViewControler)mHomeFragmenView.findViewById(R.id.surface);
-        mMySurfaceViewControler = new MySurfaceViewControler(getActivity());
+        mMySurfaceViewControler = (MySurfaceViewControler)mHomeFragmenView.findViewById(R.id.control_view);
+//        mFramelayoutControlView = (FrameLayout)mHomeFragmenView.findViewById(R.id.framelayout_control_view);
+        mMySurfaceViewControler.setVisibility(View.INVISIBLE);
+//        mFramelayoutControlView.setVisibility(View.INVISIBLE);
+//        mMySurfaceViewControler = new MySurfaceViewControler(getActivity());
 
         mVideoOpen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,7 +57,11 @@ public class HomeFragment extends BaseFragment{
                 super.handleMessage(msg);
                 switch (msg.what){
                     case 0:
+
+//                        mFramelayoutControlView.setVisibility(View.VISIBLE);
+                        mMySurfaceViewControler.setVisibility(View.VISIBLE);
                         mVideoOpen.setVisibility(View.VISIBLE);
+
                         Log.d("TIEJIANG", "state_change");
 
                         break;
