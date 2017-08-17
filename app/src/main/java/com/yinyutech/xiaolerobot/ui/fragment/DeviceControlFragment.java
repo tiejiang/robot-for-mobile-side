@@ -3,6 +3,7 @@ package com.yinyutech.xiaolerobot.ui.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.yinyutech.xiaolerobot.R;
@@ -45,6 +47,7 @@ public class DeviceControlFragment extends BaseFragment {
     private TextView wifiInputHint, settingOver;
     private TextView hintFirst, hintSecond, hintThird, hintFouth;
     private LinearLayout mLinearLayoutSecond, mLinearLayoutFinalStep;
+    private ProgressBar mNetProgressBar;
     private final long shortTime = 1000;
     private final long longTime = 5000;
 
@@ -98,6 +101,10 @@ public class DeviceControlFragment extends BaseFragment {
             if (AddBoxStatus.getInstance().uploadWiFiName.equals(ssid) && manager.isWiFiConnected()) {
                 setCurrentStep(4);
                 mImageView.setBackgroundResource(R.drawable.net_progress_bar_fifth);
+                //设置按键可用
+                nextStep.setEnabled(true);
+                //Progress 可见
+                mNetProgressBar.setVisibility(View.INVISIBLE);
 //                EventBus.getDefault().post(new AddBoxButtonEnableEvent(true, false));
 
 //                statusTextView.setText("请点击下一步继续");
@@ -142,6 +149,8 @@ public class DeviceControlFragment extends BaseFragment {
         mButtonEnter = (Button)mDeviceControlFragmentView.findViewById(R.id.button_enter);
         mButtonShare = (Button)mDeviceControlFragmentView.findViewById(R.id.button_share);
         mLinearLayoutFinalStep.setVisibility(View.GONE);
+        mNetProgressBar = (ProgressBar)mDeviceControlFragmentView.findViewById(R.id.net_progressBar);
+        mNetProgressBar.setVisibility(View.INVISIBLE);
 
         // 联网配对步骤
         nextStep.setOnClickListener(new View.OnClickListener() {
@@ -165,15 +174,20 @@ public class DeviceControlFragment extends BaseFragment {
                         mWifiPwd.setVisibility(View.GONE);
                         wifiInputHint.setVisibility(View.GONE);
                         //第二步组件可见
+                        mNetProgressBar.setVisibility(View.VISIBLE);
                         mLinearLayoutSecond.setVisibility(View.VISIBLE);
                         mImageView.setBackgroundResource(R.drawable.net_progress_bar_second);
 
                         //热点->配对->完成
 //                        mLinearLayoutSecond.setVisibility(View.INVISIBLE);
                         setCurrentStep(1);
+                        //设置按键不可用
+//                        nextStep.setBackgroundColor(Color.GRAY);
+                        nextStep.setEnabled(false);
                         // 先停止
                         stopStepWork();
                         timerHandler.postDelayed(detectHotspot, shortTime);
+
                         mStepFlag = 2;
                         Log.d(TAG, "DeviceControlFragment---mStepFlag= " + mStepFlag);
 

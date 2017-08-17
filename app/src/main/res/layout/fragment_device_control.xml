@@ -83,6 +83,15 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
+    <ProgressBar
+        android:id="@+id/net_progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_above="@+id/next_step"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="74dp" />
+
     <TextView
         android:id="@+id/wifi_input_hint"
         android:layout_width="wrap_content"
@@ -93,6 +102,7 @@
         android:layout_above="@+id/wifi_user"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="36dp" />
+
     <TextView
         android:id="@+id/setting_over"
         android:layout_width="wrap_content"

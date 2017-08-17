@@ -30,6 +30,23 @@
         android:layout_marginBottom="50dp"/>
 -->
 
+
+    <FrameLayout
+        android:id="@+id/framelayout_control_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/open_video"
+        >
+
+        <com.yinyutech.xiaolerobot.ui.activity.MySurfaceViewControler
+            android:id="@+id/control_view"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            />
+    </FrameLayout>
+
+
     <Button
         android:id="@+id/open_video"
         android:layout_width="wrap_content"
@@ -39,21 +56,4 @@
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
         />
-
-    <FrameLayout
-        android:id="@+id/framelayout_control_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/open_video"
-        >
-
-    <com.yinyutech.xiaolerobot.ui.activity.MySurfaceViewControler
-        android:id="@+id/control_view"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center"
-        />
-    </FrameLayout>
-
-
 </RelativeLayout>
