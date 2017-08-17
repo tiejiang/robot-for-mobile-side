@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.format.Formatter;
+import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yinyutech.xiaolerobot.bean.UserInfo;
@@ -92,6 +93,7 @@ public class SoundBoxManager {
                     if (status) {
                         // 连接音箱成功
 //                        service.startQueryMusicPlayingInfo();
+                        Log.d("TIEJIANG", "SoundBoxManager---connectToBoxHost" + ", status= " + status + "连接音箱成功");
                     }
 
                     if (completion != null)

@@ -52,6 +52,7 @@ public class DeviceControlFragment extends BaseFragment {
     private final long longTime = 5000;
 
     private Handler timerHandler = new Handler();
+
     private Runnable detectHotspot = new Runnable() {
         @Override
         public void run() {
@@ -60,7 +61,9 @@ public class DeviceControlFragment extends BaseFragment {
 
             SoundBoxManager manager = SoundBoxManager.getInstance();
             String ssid = manager.currentSSIDName();
-            Logger.v("detectHotspot SSID: %s", ssid);
+//            Logger.v("detectHotspot SSID: %s", ssid);
+            Log.d("TIEJIANG", "detectHotspot SSID: "  + ssid);
+            Log.d("TIEJIANG", "detectHotspot--manager.isWiFiConnected()= " + manager.isWiFiConnected());
 
             if (SoundBoxManager.kBoxWiFiHotspotName.equals(ssid) && manager.isWiFiConnected()) {
 //                statusTextView.setText("正在向音箱发送Wi-Fi连接信息...");
@@ -92,7 +95,10 @@ public class DeviceControlFragment extends BaseFragment {
 
             SoundBoxManager manager = SoundBoxManager.getInstance();
             String ssid = manager.currentSSIDName();
-            Logger.v("detectWiFi SSID: %s", ssid);
+//            Logger.v("detectWiFi SSID: %s", ssid);
+            Log.d("TIEJIANG", "detectWiFi SSID: "  + ssid);
+            Log.d("TIEJIANG", "AddBoxStatus.getInstance().uploadWiFiName= " + AddBoxStatus.getInstance().uploadWiFiName);
+            Log.d("TIEJIANG", "detectWiFi--manager.isWiFiConnected()= " + manager.isWiFiConnected());
 
 //            statusTextView.setText("正在连接Wi-Fi网络...");
             setCurrentStep(3);
@@ -110,6 +116,7 @@ public class DeviceControlFragment extends BaseFragment {
 //                statusTextView.setText("请点击下一步继续");
             } else {
                 timerHandler.postDelayed(detectWiFi, longTime);
+
             }
         }
     };
@@ -166,9 +173,9 @@ public class DeviceControlFragment extends BaseFragment {
 //                mEditor.commit();
                 switch (mStepFlag){
                     case 1:
-                        //获得WIFI密码（和名称）
+                        //获得WIFI密码
                         AddBoxStatus abs = AddBoxStatus.getInstance();
-                        abs.uploadWiFiPassword = mWifiPwd.getText().toString();
+                        abs.uploadWiFiPassword = mWifiPwd.getText().toString().trim();
 
                         mWifiName.setVisibility(View.GONE);
                         mWifiPwd.setVisibility(View.GONE);
