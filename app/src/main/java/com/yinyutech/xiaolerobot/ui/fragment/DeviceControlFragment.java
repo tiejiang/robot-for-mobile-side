@@ -1,6 +1,7 @@
 package com.yinyutech.xiaolerobot.ui.fragment;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -21,6 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.yinyutech.xiaolerobot.R;
+import com.yinyutech.xiaolerobot.XiaoLeApplication;
 import com.yinyutech.xiaolerobot.model.AddBoxStatus;
 import com.yinyutech.xiaolerobot.ui.activity.MainActivity;
 import com.yinyutech.xiaolerobot.utils.Constant;
@@ -308,18 +310,27 @@ public class DeviceControlFragment extends BaseFragment {
 
         WifiConfiguration wifiConfig = null;
         for( WifiConfiguration i : list ) {
+            Log.d("TIEJIANG", "DeviceControlFragement---connectToOriginWiFi" + "wifi list= " + i.SSID);
             if(i.SSID != null && i.SSID.equals("\"" + AddBoxStatus.getInstance().uploadWiFiName + "\"")) {
                 wifiConfig = i;
+                Log.d("TIEJIANG", "DeviceControlFragement---connectToOriginWiFi" + " matched ssid= " + wifiConfig.SSID);
+                Log.d("TIEJIANG", "DeviceControlFragment---connectToOriginWiFi" + " wifiConfig.networkId= "+ wifiConfig.networkId);
                 break;
             }
+
         }
 
         if (wifiConfig != null) {
             boolean isSuccess = wifiManager.enableNetwork(wifiConfig.networkId, true);
-
-            Logger.v("connect to origin Wifi: %s", isSuccess ? "success" : "fail");
+            int connectState = wifiManager.getConfiguredNetworks().get(wifiConfig.networkId).status;
+            Log.d("TIEJIANG", "DeviceControlFragment---connectToOriginWiFi" + " connectState= "+ connectState);
+            // isSuccess 如果返回true只是代表wifiManager去执行连接网络的指令了,并不代表已经连接上网络
+            Log.d("TIEJIANG", "DeviceControlFragment---connectToOriginWiFi" + " wifiConfig.networkId= "+ wifiConfig.networkId);
+//            Logger.v("connect to origin Wifi: %s", isSuccess ? "success" : "fail");
+            Log.d("TIEJIANG con ori wifi: ", isSuccess ? "success" : "fail");
         } else {
-            Logger.v("Origin Wifi config missing");
+//            Logger.v("Origin Wifi config missing");
+            Log.d("TIEJIANG", "connectToOriginWiFi---" + " Origin Wifi config missing");
         }
 
         return true;

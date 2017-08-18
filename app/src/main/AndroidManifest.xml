@@ -136,7 +136,7 @@
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.GET_TASKS" />
-
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
 
     //接收IM消息的自定义权限
     <permission android:name="com.skyee.skyeerobotcleaner.permission.RECEIVE_MSG" android:protectionLevel="signature"/>
