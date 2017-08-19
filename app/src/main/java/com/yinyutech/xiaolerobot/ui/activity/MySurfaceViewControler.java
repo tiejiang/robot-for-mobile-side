@@ -16,14 +16,20 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.yinyutech.xiaolerobot.R;
+import com.yinyutech.xiaolerobot.helper.IMChattingHelper;
+import com.yinyutech.xiaolerobot.utils.Constant;
+import com.yuntongxun.ecsdk.ECError;
+import com.yuntongxun.ecsdk.ECMessage;
+import com.yuntongxun.ecsdk.im.ECTextMessageBody;
 
+import java.util.List;
 import java.util.Random;
 
 /**
  * Created by yinyu-tiejiang on 17-8-15.
  */
 
-public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder.Callback, Runnable {
+public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder.Callback, IMChattingHelper.OnMessageReportCallback {
 
     private float screenW;        //屏幕宽度
     private float screenH;        //屏幕高度
@@ -41,6 +47,7 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
     private Resources mResources = getResources();
     private Bitmap mBitmap, backgroundBitmap;
     private boolean beginDrawing = false;
+    private String isBeginSendControlCommand = "";
 
     public MySurfaceViewControler(Context context){
         super(context);
@@ -63,7 +70,7 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
         initPaint();
         sfh = getHolder();
         sfh.addCallback(this);
-        th = new Thread(this);
+        th = new Thread(new DrawViewRunnable());
     }
 
     private void initPaint(){
@@ -84,6 +91,7 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
 
         Log.d("TIEJIANG", "surfaceCreated " + "screenW= " + screenW + ", screenH= " + screenH);
 
+//        MenuActivity.handleSendTextMessage(Constant.BEGING_SEND); //发送指令到H3请求开始发送运动控制指令
         //启动绘图线程
         beginDrawing = true;
         th.start();
@@ -109,17 +117,33 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
         Log.d("TIEJIANG", "surfaceView destoryed " + "beginDrawing= " + beginDrawing);
     }
 
-    @Override
-    public void run() {
-        while(beginDrawing){
-            try{
-                myDraw();
-                Thread.sleep(100);
-            }catch(InterruptedException e){
-                e.printStackTrace();
+    class DrawViewRunnable implements Runnable {
+
+        @Override
+        public void run() {
+            while(beginDrawing){
+                try{
+                    myDraw();
+                    Thread.sleep(200);
+                }catch(InterruptedException e){
+                    e.printStackTrace();
+                }
             }
         }
     }
+
+
+//    @Override
+//    public void run() {
+//        while(beginDrawing){
+//            try{
+//                myDraw();
+//                Thread.sleep(200);
+//            }catch(InterruptedException e){
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
     public float[] getRect(){
         //获取屏幕宽度 (实际为获取了所创建的surfaceview的大小,并且是"绘制区域"大小)
@@ -145,29 +169,39 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
          * 构建方程
          * 方程1: y = (circlePointY)/(circlePointX) * x
          * 方程2: (y-circlePointY)/circlePointY = (x-circlePointX)/(screenW-circlePointX)
-         * 方程2: (-circlePointY)*x + (circlePointX-screenW+radius)*y + (screenW-radius)*circlePointY = 0
+         * 方程2等价于: (-circlePointY)*x + (circlePointX-screenW+radius)*y + (screenW-radius)*circlePointY = 0
          * */
         equationOne = (circlePointY)/(circlePointX) * x - y;
         equationTwo = (-circlePointY)*x + (circlePointX-screenW+radius)*y + (screenW-radius)*circlePointY;
 //        Log.d("TIEJIANG", "equationOne= " + equationOne + ", equationTwo= " + equationTwo);
 
-        // 注意去掉等号部分,等号部分在原点--初始位置
-        if (equationOne > 0 && equationTwo > 0){  //"前进区域"
-            Log.d("TIEJIANG", "forward");
-            return 1 ;
-        } else if (equationOne < 0 && equationTwo < 0){  // "后退区域"
-            Log.d("TIEJIANG", "back");
-            return 2;
-        } else if(equationOne < 0 && equationTwo > 0){    //"左转区域"
-            Log.d("TIEJIANG", "turn left");
-            return 3;
-        } else if (equationOne > 0 && equationTwo < 0){    //"右转区域"
-            Log.d("TIEJIANG", "turn right");
-            return 4;
-        } else{
-            Log.d("TIEJIANG", "origin point");
-            return 0;
-        }
+//        if (isBeginSendControlCommand.equals(Constant.BEGING_CONFIRM)){   //
+
+            // 注意去掉等号部分,等号部分在原点--初始位置
+            if (equationOne > 0 && equationTwo > 0){  //"前进区域"
+
+                MenuActivity.handleSendTextMessage(Constant.MOBILE_FORWARD);
+                Log.d("TIEJIANG", "forward");
+                return 1 ;
+            } else if (equationOne < 0 && equationTwo < 0){  // "后退区域"
+                MenuActivity.handleSendTextMessage(Constant.MOBILE_BACK);
+                Log.d("TIEJIANG", "back");
+                return 2;
+            } else if(equationOne < 0 && equationTwo > 0){    //"左转区域"
+                MenuActivity.handleSendTextMessage(Constant.MOBILE_TURN_LEFT);
+                Log.d("TIEJIANG", "turn left");
+                return 3;
+            } else if (equationOne > 0 && equationTwo < 0){    //"右转区域"
+                MenuActivity.handleSendTextMessage(Constant.MOBILE_TURN_RIGHTT);
+                Log.d("TIEJIANG", "turn right");
+                return 4;
+            } else{
+//                Log.d("TIEJIANG", "origin point");
+                return 0;
+            }
+//        }
+
+
 
     }
 
@@ -181,13 +215,18 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
     protected void myDraw() {
         //获取canvas实例
         canvas = sfh.lockCanvas();
-        canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);//绘制透明色
-        canvas.drawBitmap(mBitmap, cx, cy, paint);
-        directionControl(cx, cy);
-        //修正圆点坐标
-        revise();
-        //随机设置画笔颜色
+        try {
+            canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);//绘制透明色
+            canvas.drawBitmap(mBitmap, cx, cy, paint);
+            directionControl(cx, cy);
+            //修正圆点坐标
+            revise();
+            //随机设置画笔颜色
 //        setPaintRandomColor();
+        }catch (java.lang.NullPointerException e){
+            Log.d("TIEJIANG", "NuLLPointerException");
+        }
+
         //将画好的画布提交
         sfh.unlockCanvasAndPost(canvas);
     }
@@ -250,4 +289,23 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
     }
 
 
+    @Override
+    public void onMessageReport(ECError error, ECMessage message) {
+
+    }
+
+    @Override
+    public void onPushMessage(String sessionId, List<ECMessage> msgs) {
+        int msgsSize = msgs.size();
+        String message = " ";
+        for (int i = 0; i < msgsSize; i++){
+            message = ((ECTextMessageBody) msgs.get(i).getBody()).getMessage();
+            Log.d("TIEJIANG", "[MainActivity-onPushMessage]" + "i :" + i + ", message = " + message);// add by tiejiang
+        }
+
+        Log.d("TIEJIANG", "[MainActivity-onPushMessage]" + ",sessionId :" + sessionId);// add by tiejiang
+        //mReceiveEditText.setText(message);
+        // test code
+        MenuActivity.handleSendTextMessage(message + "callback");
+    }
 }

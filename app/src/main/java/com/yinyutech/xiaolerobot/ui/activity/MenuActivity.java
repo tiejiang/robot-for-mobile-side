@@ -93,7 +93,7 @@ public class MenuActivity extends Activity implements IMChattingHelper.OnMessage
         Log.d("TIEJIANG", "[MainActivity-onPushMessage]" + ",sessionId :" + sessionId);// add by tiejiang
         //mReceiveEditText.setText(message);
         // test code
-        handleSendTextMessage(message + "callback");
+//        handleSendTextMessage(message + "callback");
     }
 
     /**
@@ -136,7 +136,7 @@ public class MenuActivity extends Activity implements IMChattingHelper.OnMessage
             // 创建一个文本消息体，并添加到消息对象中
             msgBody = new ECTextMessageBody(text.toString());
             msg.setBody(msgBody);
-            Log.d("TIEJIANG", "[RemoteControlCommandActivity]-handleSendTextMessage" + ", txt = " + text);// add by tiejiang
+            Log.d("TIEJIANG", "[MenuActivity]-handleSendTextMessage" + ", txt = " + text);// add by tiejiang
         }
 
             //String[] at = mChattingFooter.getAtSomeBody();
@@ -148,7 +148,7 @@ public class MenuActivity extends Activity implements IMChattingHelper.OnMessage
         //if(mCustomerService) {
         //rowId = CustomerServiceHelper.sendMCMessage(msg);
         //} else {
-            Log.d("TIEJIANG", "[RemoteControlCommandActivity]-SendECMessage");// add by tiejiang
+            Log.d("TIEJIANG", "[MenuActivity]-SendECMessage");// add by tiejiang
             rowId = IMChattingHelper.sendECMessage(msg);
 
         //}
@@ -157,7 +157,7 @@ public class MenuActivity extends Activity implements IMChattingHelper.OnMessage
         //notifyIMessageListView(msg);
         } catch (Exception e) {
             e.printStackTrace();
-            Log.d("TIEJIANG", "[RemoteControlCommandActivity]-send failed");// add by tiejiang
+            Log.d("TIEJIANG", "[MenuActivity]-send failed");// add by tiejiang
         }
     }
 }

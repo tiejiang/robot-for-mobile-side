@@ -21,6 +21,15 @@ public class Constant {
     public static final String WIFI_PWD = "wifi_pwd";
     
     public static Vector<String> mNotEncryptionApp;
+
+    public static final String BEGING_CONFIRM = "begin_confirm";  //移动端收到H3回发的确认开始发送指令
+    public static final String BEGING_SEND = "query_begin";  //移动端请求开始发送运动控制指令
+    public static final String MOBILE_FORWARD = "mobile_forward";
+    public static final String MOBILE_BACK = "mobile_back";
+    public static final String MOBILE_TURN_LEFT = "mobile_turn_left";
+    public static final String MOBILE_TURN_RIGHTT = "mobile_turn_right";
+
+
     public static void filter(){
     	mNotEncryptionApp = new Vector<String>();
         mNotEncryptionApp.add("com.android.contacts");
