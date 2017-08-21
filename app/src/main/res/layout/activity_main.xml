@@ -11,8 +11,18 @@ android:orientation="vertical">
         android:layout_width="fill_parent"
         android:layout_height="0dip"
         android:layout_weight="1"
-        android:background="@color/bg_color"
-        />
+        android:background="@color/bg_color">
+
+
+        <com.yinyutech.xiaolerobot.ui.activity.MySurfaceViewControler
+            android:id="@+id/control_view"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="330dp"
+            />
+
+    </FrameLayout>
+
 
 
     <com.yinyutech.xiaolerobot.ui.widget.FragmentTabHost
@@ -28,5 +38,16 @@ android:orientation="vertical">
             android:layout_height="0dp"
             android:layout_weight="0"/>
     </com.yinyutech.xiaolerobot.ui.widget.FragmentTabHost>
+
+<!--
+    <FrameLayout
+        android:id="@+id/framelayout_control_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/open_video"
+        >
+
+    </FrameLayout>
+-->
 
 </LinearLayout>

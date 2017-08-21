@@ -8,11 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 
 import com.yinyutech.xiaolerobot.R;
 import com.yinyutech.xiaolerobot.common.CCPAppManager;
-import com.yinyutech.xiaolerobot.ui.activity.MySurfaceViewControler;
 import com.yuntongxun.ecsdk.ECVoIPCallManager;
 
 
@@ -25,9 +23,9 @@ public class HomeFragment extends BaseFragment{
     private static  final  String TAG="HomeFragment";
     private View mHomeFragmenView;
     private Button mVideoOpen;
-    private FrameLayout mFramelayoutControlView;
+//    private FrameLayout mFramelayoutControlView;
     public static Handler mStateChangeHandler;
-    public MySurfaceViewControler mMySurfaceViewControler;
+//    public MySurfaceViewControler mMySurfaceViewControler;
 
 
     @Override
@@ -35,9 +33,9 @@ public class HomeFragment extends BaseFragment{
 
         mHomeFragmenView =  inflater.inflate(R.layout.fragment_home,container,false);
         mVideoOpen = (Button)mHomeFragmenView.findViewById(R.id.open_video);
-        mMySurfaceViewControler = (MySurfaceViewControler)mHomeFragmenView.findViewById(R.id.control_view);
+//        mMySurfaceViewControler = (MySurfaceViewControler)mHomeFragmenView.findViewById(R.id.control_view);
 //        mFramelayoutControlView = (FrameLayout)mHomeFragmenView.findViewById(R.id.framelayout_control_view);
-        mMySurfaceViewControler.setVisibility(View.INVISIBLE);
+//        mMySurfaceViewControler.setVisibility(View.INVISIBLE);
 //        mFramelayoutControlView.setVisibility(View.INVISIBLE);
 //        mMySurfaceViewControler = new MySurfaceViewControler(getActivity());
 
@@ -59,7 +57,7 @@ public class HomeFragment extends BaseFragment{
                     case 0:
 
 //                        mFramelayoutControlView.setVisibility(View.VISIBLE);
-                        mMySurfaceViewControler.setVisibility(View.VISIBLE);
+//                        mMySurfaceViewControler.setVisibility(View.VISIBLE);
                         mVideoOpen.setVisibility(View.VISIBLE);
 
                         Log.d("TIEJIANG", "state_change");
@@ -82,6 +80,40 @@ public class HomeFragment extends BaseFragment{
     public void init() {
 
     }
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d("TIEJIANG", "HomeFragment---onStop");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d("TIEJIANG", "HomeFragment---onDestroyView");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d("TIEJIANG", "HomeFragment---onDestroy");
+    }
+
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        Log.d("TIEJIANG", "HomeFragment---setUserVisibleHint()= " + isVisibleToUser);
+        if(isVisibleToUser){
+
+        }else {
+
+        }
+
+    }
+
+
 
 //    @Override
 //    public void onAttach(Context context) {

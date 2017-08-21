@@ -30,7 +30,7 @@
         android:layout_marginBottom="50dp"/>
 -->
 
-
+<!--
     <FrameLayout
         android:id="@+id/framelayout_control_view"
         android:layout_width="wrap_content"
@@ -45,7 +45,7 @@
             android:layout_gravity="center"
             />
     </FrameLayout>
-
+-->
 
     <Button
         android:id="@+id/open_video"

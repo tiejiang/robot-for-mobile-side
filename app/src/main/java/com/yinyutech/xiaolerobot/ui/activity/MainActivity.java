@@ -36,6 +36,8 @@ public class MainActivity extends BaseActivity {
     private HomeFragment mHomeFragment;
     private List<Tab> mTabs = new ArrayList<>(3);
     public static Handler mTabhostSkipHandler;
+//    public HomeFragCallBack mHomeFragCallBack;
+    public MySurfaceViewControler mMySurfaceViewControler;
     Tab tab_home ;
     Tab tab_deviceControl ;
     Tab tab_option ;
@@ -44,9 +46,9 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        mMySurfaceViewControler = (MySurfaceViewControler)findViewById(R.id.control_view);
+        mMySurfaceViewControler.setVisibility(View.GONE);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
-
         // 第二步：初始化音乐和音箱服务
         SoundBoxServiceAction.getInstance().setupContext(getApplicationContext());
         SoundBoxManager.getInstance().setupContext(getApplicationContext());
@@ -96,7 +98,7 @@ public class MainActivity extends BaseActivity {
 //                            Fragment fragment =  getSupportFragmentManager().findFragmentByTag(getString(R.string.xiaole));
 //                            Bundle mBundle = new Bundle();
 //                            mBundle.putString("DEVICE_ON", "device_on");
-//
+
 //                            mHomeFragment.setArguments(mBundle);
                         }
 
@@ -141,7 +143,15 @@ public class MainActivity extends BaseActivity {
 
                 if(tabId==getString(R.string.device_control)){
                     Log.d("TIEJIANG", "fragment change---device_control");
+                    mMySurfaceViewControler.setVisibility(View.GONE);
                     refData();
+                }else if (tabId==getString(R.string.xiaole)){
+                    Log.d("TIEJIANG", "fragment change---xiaole");
+                    mMySurfaceViewControler.setVisibility(View.VISIBLE);
+                }else if (tabId==getString(R.string.option)){
+                    Log.d("TIEJIANG", "fragment change---option");
+                    mMySurfaceViewControler.setVisibility(View.GONE);
+
                 }
             }
         });
@@ -166,7 +176,7 @@ public class MainActivity extends BaseActivity {
 
     private View buildIndicator(Tab tab){
 
-        View view =mInflater.inflate(R.layout.tab_indicator,null);
+        View view = mInflater.inflate(R.layout.tab_indicator,null);
         ImageView img = (ImageView) view.findViewById(R.id.icon_tab);
         TextView text = (TextView) view.findViewById(R.id.txt_indicator);
 
@@ -174,6 +184,16 @@ public class MainActivity extends BaseActivity {
         text.setText(tab.getTitle());
 
         return  view;
+    }
+
+
+    // fragment-home  和 MainActivity之间的回调机制,尚未调试通过
+    public void getHomeFragCallBack(HomeFragCallBack homeFragCallBack){
+        homeFragCallBack.isfragmentChange(true);
+    }
+
+    public interface HomeFragCallBack{
+        void isfragmentChange(boolean change);
     }
 
 }

@@ -42,7 +42,7 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
     private int colorArray[] = {Color.BLACK,Color.BLACK,Color.GREEN,Color.YELLOW, Color.RED};
     private int paintColor = colorArray[0]; //定义画笔默认颜色
     private Canvas canvas = null; //定义画布
-    private Thread th = null;     //定义线程
+//    private Thread th = null;     //定义线程
     private SurfaceHolder sfh = null;
     private Resources mResources = getResources();
     private Bitmap mBitmap, backgroundBitmap;
@@ -70,7 +70,7 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
         initPaint();
         sfh = getHolder();
         sfh.addCallback(this);
-        th = new Thread(new DrawViewRunnable());
+//        th = new Thread(new DrawViewRunnable());
     }
 
     private void initPaint(){
@@ -94,7 +94,10 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
 //        MenuActivity.handleSendTextMessage(Constant.BEGING_SEND); //发送指令到H3请求开始发送运动控制指令
         //启动绘图线程
         beginDrawing = true;
-        th.start();
+//        th.start();
+        // 避免线程
+        new Thread(new DrawViewRunnable()).start();
+
     }
 
     @Override
@@ -226,9 +229,11 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
         }catch (java.lang.NullPointerException e){
             Log.d("TIEJIANG", "NuLLPointerException");
         }
+        if (canvas != null){
+            //将画好的画布提交
+            sfh.unlockCanvasAndPost(canvas);
+        }
 
-        //将画好的画布提交
-        sfh.unlockCanvasAndPost(canvas);
     }
 
     //为画笔设置随机颜色
