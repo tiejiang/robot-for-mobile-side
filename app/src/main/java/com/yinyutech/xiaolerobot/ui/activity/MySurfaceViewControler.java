@@ -229,6 +229,7 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
 
             canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);//绘制透明色
             canvas.drawBitmap(mBitmap, cx, cy, paint);
+            Log.d("TIEJIANG", "THREAD ALWAYS RUN");
             directionControl(cx, cy);
             //修正圆点坐标
             revise();

@@ -36,7 +36,9 @@
             android:id="@+id/show_is_xiaole_exist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/input_box"/>
+            android:background="@drawable/input_box"
+            android:gravity="center"
+            android:layout_gravity="center"/>
     </LinearLayout>
 
     <LinearLayout

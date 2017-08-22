@@ -159,7 +159,7 @@ public class DeviceControlFragment extends BaseFragment {
                             isXiaoLeExist = true;
                             mShowIsXiaoleExist.setText("xiaole robot: " + hostip);
                         }else{
-                            mShowIsXiaoleExist.setText("尚未发现设备,请进入联网模式,寻找小乐吧！");
+                            mShowIsXiaoleExist.setText("未发现设备,请进入联网模式");
                             isXiaoLeExist = false;
                         }
                     }catch (JSONException e){
@@ -167,7 +167,7 @@ public class DeviceControlFragment extends BaseFragment {
                     }
                 }else {
                     //没有搜索到设备，需要联网配对
-                    mShowIsXiaoleExist.setText("尚未发现设备,请进入联网模式,寻找小乐吧！");
+                    mShowIsXiaoleExist.setText("未发现设备,请进入联网模式");
                     isXiaoLeExist = false;
                 }
             }
@@ -179,6 +179,12 @@ public class DeviceControlFragment extends BaseFragment {
 //        mWifiName.setText(AddBoxStatus.getInstance().uploadWiFiName);
 
         return mDeviceControlFragmentView;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+
     }
 
     @Override
@@ -216,10 +222,6 @@ public class DeviceControlFragment extends BaseFragment {
         mLinearLayoutFinalStep.setVisibility(View.GONE);
         mNetProgressBar = (ProgressBar)mDeviceControlFragmentView.findViewById(R.id.net_progressBar);
         mNetProgressBar.setVisibility(View.INVISIBLE);
-
-
-
-
 
         mLinearLayoutScanXiaole = (LinearLayout)mDeviceControlFragmentView.findViewById(R.id.linearLayout_scan_xiaole);
         mScanProgressBar = (ProgressBar)mDeviceControlFragmentView.findViewById(R.id.pairProgressBar);
