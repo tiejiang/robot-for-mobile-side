@@ -11,6 +11,7 @@ import android.widget.Button;
 
 import com.yinyutech.xiaolerobot.R;
 import com.yinyutech.xiaolerobot.common.CCPAppManager;
+import com.yinyutech.xiaolerobot.ui.activity.MySurfaceViewControler;
 import com.yuntongxun.ecsdk.ECVoIPCallManager;
 
 
@@ -25,7 +26,8 @@ public class HomeFragment extends BaseFragment{
     private Button mVideoOpen;
 //    private FrameLayout mFramelayoutControlView;
     public static Handler mStateChangeHandler;
-//    public MySurfaceViewControler mMySurfaceViewControler;
+    public MySurfaceViewControler mMySurfaceViewControler;
+    private boolean isDeviceFind = false;  //通过DeviceControlFragment发现了设备
 
 
     @Override
@@ -33,11 +35,10 @@ public class HomeFragment extends BaseFragment{
 
         mHomeFragmenView =  inflater.inflate(R.layout.fragment_home,container,false);
         mVideoOpen = (Button)mHomeFragmenView.findViewById(R.id.open_video);
-//        mMySurfaceViewControler = (MySurfaceViewControler)mHomeFragmenView.findViewById(R.id.control_view);
+        mMySurfaceViewControler = (MySurfaceViewControler)mHomeFragmenView.findViewById(R.id.control_view);
 //        mFramelayoutControlView = (FrameLayout)mHomeFragmenView.findViewById(R.id.framelayout_control_view);
-//        mMySurfaceViewControler.setVisibility(View.INVISIBLE);
+        mMySurfaceViewControler.setVisibility(View.INVISIBLE);
 //        mFramelayoutControlView.setVisibility(View.INVISIBLE);
-//        mMySurfaceViewControler = new MySurfaceViewControler(getActivity());
 
         mVideoOpen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,8 +58,9 @@ public class HomeFragment extends BaseFragment{
                     case 0:
 
 //                        mFramelayoutControlView.setVisibility(View.VISIBLE);
-//                        mMySurfaceViewControler.setVisibility(View.VISIBLE);
+                        mMySurfaceViewControler.setVisibility(View.VISIBLE);
                         mVideoOpen.setVisibility(View.VISIBLE);
+                        isDeviceFind = true;
 
                         Log.d("TIEJIANG", "state_change");
 
@@ -100,6 +102,21 @@ public class HomeFragment extends BaseFragment{
         Log.d("TIEJIANG", "HomeFragment---onDestroy");
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+
+        if (hidden){
+            mMySurfaceViewControler.setVisibility(View.INVISIBLE);
+            Log.d("TIEJIANG", "HomeFragment---onHiddenChanged" + " hidden= " + hidden);
+        }else if (isDeviceFind){
+            mMySurfaceViewControler.setVisibility(View.VISIBLE);
+        }
+
+//        isHomeFragmentHidden = hidden;
+//        Log.d("TIEJIANG", "HomeFragment---onHiddenChanged" + " hidden= " + hidden);
+
+    }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {

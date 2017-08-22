@@ -12,14 +12,14 @@
         android:layout_height="0dip"
         android:layout_weight="1"
         android:background="@color/bg_color">
-
+<!--
         <com.yinyutech.xiaolerobot.ui.activity.MySurfaceViewControler
             android:id="@+id/control_view"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_marginTop="330dp"
             />
-
+-->
     </FrameLayout>
 
 

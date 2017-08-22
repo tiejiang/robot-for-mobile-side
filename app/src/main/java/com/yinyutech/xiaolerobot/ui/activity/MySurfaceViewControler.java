@@ -61,6 +61,7 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
              */
             /*screenW = getWidth();
             screenH = getHeight();*/
+
         //注释以下三句,保留surfaceview黑框背景
         setBackgroundResource(R.drawable.hand_control_base);
         setZOrderOnTop(true);//使surfaceview放到最顶层
@@ -109,6 +110,7 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 
         mBitmap = BitmapFactory.decodeResource(mResources, R.drawable.control_point);
+//        backgroundBitmap = BitmapFactory.decodeResource(mResources, R.drawable.hand_control_base);
         radius = mBitmap.getHeight()/2;
 
         cx = screenW/2 - radius;
@@ -218,9 +220,13 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
          */
     //重写onDraw方法实现绘图操作
     protected void myDraw() {
+
         //获取canvas实例
         canvas = sfh.lockCanvas();
         try {
+            //画背景
+//            canvas.drawBitmap(backgroundBitmap, cx, cy, paint);
+
             canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);//绘制透明色
             canvas.drawBitmap(mBitmap, cx, cy, paint);
             directionControl(cx, cy);
@@ -313,6 +319,6 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
         Log.d("TIEJIANG", "[MainActivity-onPushMessage]" + ",sessionId :" + sessionId);// add by tiejiang
         //mReceiveEditText.setText(message);
         // test code
-        MenuActivity.handleSendTextMessage(message + "callback");
+//        MenuActivity.handleSendTextMessage(message + "callback");
     }
 }

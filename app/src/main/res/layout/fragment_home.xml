@@ -30,13 +30,12 @@
         android:layout_marginBottom="50dp"/>
 -->
 
-<!--
     <FrameLayout
         android:id="@+id/framelayout_control_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/open_video"
-        >
+        android:layout_alignParentStart="true">
 
         <com.yinyutech.xiaolerobot.ui.activity.MySurfaceViewControler
             android:id="@+id/control_view"
@@ -45,7 +44,6 @@
             android:layout_gravity="center"
             />
     </FrameLayout>
--->
 
     <Button
         android:id="@+id/open_video"
