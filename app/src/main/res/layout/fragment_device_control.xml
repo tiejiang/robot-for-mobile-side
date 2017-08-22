@@ -24,6 +24,47 @@
 
 
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linearLayout_show_is_xiaole_exist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/wifi_user"
+        android:layout_alignStart="@+id/wifi_user"
+        android:layout_marginBottom="18dp">
+
+        <Button
+            android:id="@+id/show_is_xiaole_exist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/input_box"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout_scan_xiaole"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="200dp"
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="正在寻找小乐，请稍等..."
+            android:id="@+id/pairTipTextView"
+            android:layout_marginBottom="30dp"
+            android:textColor="@color/black"/>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/pairProgressBar"
+            android:progress="0"
+            android:layout_gravity="center_horizontal" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout_second_step"
@@ -124,6 +165,7 @@
         android:layout_marginBottom="20dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+
     <LinearLayout
         android:id="@+id/linearLayout_final_step"
         android:layout_width="wrap_content"

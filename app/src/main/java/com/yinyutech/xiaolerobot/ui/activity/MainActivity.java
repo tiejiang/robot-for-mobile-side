@@ -1,6 +1,5 @@
 package com.yinyutech.xiaolerobot.ui.activity;
 
-import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,7 +22,6 @@ import com.yinyutech.xiaolerobot.ui.fragment.OptionFragment;
 import com.yinyutech.xiaolerobot.ui.widget.FragmentTabHost;
 import com.yinyutech.xiaolerobot.utils.soundbox.SoundBoxManager;
 import com.yinyutech.xiaolerobot.utils.soundbox.SoundBoxServiceAction;
-import com.yinyutech.xiaolerobot.utils.soundbox.UDPServerService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,8 +55,8 @@ public class MainActivity extends BaseActivity {
         // 第三步：注册事件监听
 //        EventBus.getDefault().register(this);
 
-        // 第四步：启动音箱发现服务
-        startService(new Intent(this, UDPServerService.class));
+        // 第四步：启动音箱发现服务 (21239端口被打开做监听数据)
+//        startService(new Intent(this, UDPServerService.class));
 
         initTab();
         Handler mHandler = new Handler(){

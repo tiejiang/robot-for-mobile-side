@@ -1,10 +1,8 @@
 package com.yinyutech.xiaolerobot.ui.fragment;
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -22,16 +20,19 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.yinyutech.xiaolerobot.R;
-import com.yinyutech.xiaolerobot.XiaoLeApplication;
+import com.yinyutech.xiaolerobot.logger.Logger;
 import com.yinyutech.xiaolerobot.model.AddBoxStatus;
 import com.yinyutech.xiaolerobot.ui.activity.MainActivity;
-import com.yinyutech.xiaolerobot.utils.Constant;
+import com.yinyutech.xiaolerobot.utils.soundbox.BoxUDPBroadcaster;
 import com.yinyutech.xiaolerobot.utils.soundbox.SoundBoxManager;
-import com.yinyutech.xiaolerobot.logger.Logger;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
 import static com.yinyutech.xiaolerobot.R.id.next_step;
+import static com.yinyutech.xiaolerobot.R.id.pairTipTextView;
 
 public class DeviceControlFragment extends BaseFragment {
 
@@ -41,17 +42,20 @@ public class DeviceControlFragment extends BaseFragment {
     private static final String TAG = "TIEJIANG";
     private View mDeviceControlFragmentView;
 
-    private Button nextStep, mButtonEnter, mButtonShare;
+    private Button nextStep, mButtonEnter, mButtonShare, mShowIsXiaoleExist;
     private EditText mWifiName, mWifiPwd;
     private SharedPreferences mWifiSharedPreferences;
     private int mStepFlag = 1;
     private ImageView mImageView;
-    private TextView wifiInputHint, settingOver;
+    private TextView wifiInputHint, settingOver, mPairTipTextView;
     private TextView hintFirst, hintSecond, hintThird, hintFouth;
-    private LinearLayout mLinearLayoutSecond, mLinearLayoutFinalStep;
-    private ProgressBar mNetProgressBar;
+    private LinearLayout mLinearLayoutShowIsXiaoleExist ,mLinearLayoutScanXiaole ,mLinearLayoutSecond, mLinearLayoutFinalStep;
+    private ProgressBar mNetProgressBar, mScanProgressBar;
     private final long shortTime = 1000;
     private final long longTime = 5000;
+    private BoxUDPBroadcaster udpBroadcaster = new BoxUDPBroadcaster();
+    public static Handler mScanXiaoLeHandler;
+    private boolean isXiaoLeExist = false; // 搜索小乐是否存在
 
     private Handler timerHandler = new Handler();
 
@@ -128,9 +132,51 @@ public class DeviceControlFragment extends BaseFragment {
     public View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         mDeviceControlFragmentView = inflater.inflate(R.layout.fragment_device_control,container,false);
-        initDeviceView();
-        showAddBoxFullStepActivity(getActivity());
-        mWifiName.setText(AddBoxStatus.getInstance().uploadWiFiName);
+        initScanView();
+        startScanXiaoLe();
+
+        mScanXiaoLeHandler = new Handler(){
+
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                String scanMessage = (String)msg.obj;
+                mShowIsXiaoleExist.setVisibility(View.VISIBLE);
+                mPairTipTextView.setVisibility(View.INVISIBLE);
+                mScanProgressBar.setVisibility(View.INVISIBLE);
+                if (scanMessage.length() > 1){
+                    //搜索到设备，直接进入到设备
+                    Log.d("TIEJIANG", "DeviceControlFragment---mScanXiaoLeHandler" + " scanMessage= " + scanMessage);
+                    try{
+                        JSONObject parseH3json = new JSONObject(scanMessage);
+                        String state = parseH3json.getString("state");
+                        final String hostip = parseH3json.getString("hostip");
+                        String name = parseH3json.getString("name");
+                        String show = parseH3json.getString("show");
+                        Log.d("TIEJIANG", "DeviceControlFragment---mScanXiaoLeHandler" + " state= " + state + ", hostip= " + hostip + ", name= " + name + ", show= " + show);
+
+                        if (state.equals("disconnect") && name.equals("HBL") && hostip != null) {
+                            isXiaoLeExist = true;
+                            mShowIsXiaoleExist.setText("xiaole robot: " + hostip);
+                        }else{
+                            mShowIsXiaoleExist.setText("尚未发现设备,请进入联网模式,寻找小乐吧！");
+                            isXiaoLeExist = false;
+                        }
+                    }catch (JSONException e){
+                        e.printStackTrace();
+                    }
+                }else {
+                    //没有搜索到设备，需要联网配对
+                    mShowIsXiaoleExist.setText("尚未发现设备,请进入联网模式,寻找小乐吧！");
+                    isXiaoLeExist = false;
+                }
+            }
+        };
+
+
+//        initDeviceView();
+//        showAddBoxFullStepActivity(getActivity());
+//        mWifiName.setText(AddBoxStatus.getInstance().uploadWiFiName);
 
         return mDeviceControlFragmentView;
     }
@@ -140,26 +186,99 @@ public class DeviceControlFragment extends BaseFragment {
 
     }
 
-    public void initDeviceView(){
+    public void initScanView(){
+
         mImageView = (ImageView)mDeviceControlFragmentView.findViewById(R.id.progress_img_fist);
+        mImageView.setVisibility(View.INVISIBLE);
         nextStep = (Button)mDeviceControlFragmentView.findViewById(next_step);
+        nextStep.setVisibility(View.INVISIBLE);
+
         mWifiName = (EditText)mDeviceControlFragmentView.findViewById(R.id.wifi_user);
         mWifiPwd = (EditText)mDeviceControlFragmentView.findViewById(R.id.wifi_pwd);
         wifiInputHint = (TextView)mDeviceControlFragmentView.findViewById(R.id.wifi_input_hint);
+        mWifiName.setVisibility(View.INVISIBLE);
+        mWifiPwd.setVisibility(View.INVISIBLE);
+        wifiInputHint.setVisibility(View.INVISIBLE);
+
         mLinearLayoutSecond = (LinearLayout)mDeviceControlFragmentView.findViewById(R.id.linearLayout_second_step);
         hintFirst = (TextView)mDeviceControlFragmentView.findViewById(R.id.hint_first);
         hintSecond = (TextView)mDeviceControlFragmentView.findViewById(R.id.hint_second);
         hintThird = (TextView)mDeviceControlFragmentView.findViewById(R.id.hint_third);
         hintFouth = (TextView)mDeviceControlFragmentView.findViewById(R.id.hint_fouth);
         mLinearLayoutSecond.setVisibility(View.GONE);
+
         settingOver = (TextView)mDeviceControlFragmentView.findViewById(R.id.setting_over);
         settingOver.setVisibility(View.GONE);
+
         mLinearLayoutFinalStep = (LinearLayout)mDeviceControlFragmentView.findViewById(R.id.linearLayout_final_step);
         mButtonEnter = (Button)mDeviceControlFragmentView.findViewById(R.id.button_enter);
         mButtonShare = (Button)mDeviceControlFragmentView.findViewById(R.id.button_share);
         mLinearLayoutFinalStep.setVisibility(View.GONE);
         mNetProgressBar = (ProgressBar)mDeviceControlFragmentView.findViewById(R.id.net_progressBar);
         mNetProgressBar.setVisibility(View.INVISIBLE);
+
+
+
+
+
+        mLinearLayoutScanXiaole = (LinearLayout)mDeviceControlFragmentView.findViewById(R.id.linearLayout_scan_xiaole);
+        mScanProgressBar = (ProgressBar)mDeviceControlFragmentView.findViewById(R.id.pairProgressBar);
+        mPairTipTextView = (TextView)mDeviceControlFragmentView.findViewById(pairTipTextView);
+//        mLinearLayoutShowIsXiaoleExist = (LinearLayout)mDeviceControlFragmentView.findViewById(R.id.linearLayout_show_is_xiaole_exist);
+
+        mShowIsXiaoleExist = (Button)mDeviceControlFragmentView.findViewById(R.id.show_is_xiaole_exist);
+        mShowIsXiaoleExist.setVisibility(View.INVISIBLE);
+
+        mShowIsXiaoleExist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mScanProgressBar.setVisibility(View.INVISIBLE);
+                if(isXiaoLeExist){
+                    settingOK();
+                }else{
+                    //没有扫描到设备，进入连接和配对模式
+                    initDeviceView();
+                    showAddBoxFullStepActivity(getActivity());
+                    mWifiName.setText(AddBoxStatus.getInstance().uploadWiFiName);
+                    mShowIsXiaoleExist.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+    }
+
+    public void startScanXiaoLe(){
+        udpBroadcaster.startBroadcastSearchBox();
+    }
+
+    public void initDeviceView(){
+
+        mImageView.setVisibility(View.VISIBLE);
+        nextStep.setVisibility(View.VISIBLE);
+        mWifiName.setVisibility(View.VISIBLE);
+        mWifiPwd.setVisibility(View.VISIBLE);
+        wifiInputHint.setVisibility(View.VISIBLE);
+
+
+//        mImageView = (ImageView)mDeviceControlFragmentView.findViewById(R.id.progress_img_fist);
+//        nextStep = (Button)mDeviceControlFragmentView.findViewById(next_step);
+//        mWifiName = (EditText)mDeviceControlFragmentView.findViewById(R.id.wifi_user);
+//        mWifiPwd = (EditText)mDeviceControlFragmentView.findViewById(R.id.wifi_pwd);
+//        wifiInputHint = (TextView)mDeviceControlFragmentView.findViewById(R.id.wifi_input_hint);
+
+//        mLinearLayoutSecond = (LinearLayout)mDeviceControlFragmentView.findViewById(R.id.linearLayout_second_step);
+//        hintFirst = (TextView)mDeviceControlFragmentView.findViewById(R.id.hint_first);
+//        hintSecond = (TextView)mDeviceControlFragmentView.findViewById(R.id.hint_second);
+//        hintThird = (TextView)mDeviceControlFragmentView.findViewById(R.id.hint_third);
+//        hintFouth = (TextView)mDeviceControlFragmentView.findViewById(R.id.hint_fouth);
+//        mLinearLayoutSecond.setVisibility(View.GONE);
+//        settingOver = (TextView)mDeviceControlFragmentView.findViewById(R.id.setting_over);
+//        settingOver.setVisibility(View.GONE);
+//        mLinearLayoutFinalStep = (LinearLayout)mDeviceControlFragmentView.findViewById(R.id.linearLayout_final_step);
+//        mButtonEnter = (Button)mDeviceControlFragmentView.findViewById(R.id.button_enter);
+//        mButtonShare = (Button)mDeviceControlFragmentView.findViewById(R.id.button_share);
+//        mLinearLayoutFinalStep.setVisibility(View.GONE);
+//        mNetProgressBar = (ProgressBar)mDeviceControlFragmentView.findViewById(R.id.net_progressBar);
+//        mNetProgressBar.setVisibility(View.INVISIBLE);
 
         // 联网配对步骤
         nextStep.setOnClickListener(new View.OnClickListener() {
@@ -231,11 +350,12 @@ public class DeviceControlFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 //完成设置跳转到视频界面
-                Message mMessage = new Message();
-                mMessage.what = 0;
-                mMessage.obj = "setting_ok";
-                MainActivity.mTabhostSkipHandler.sendMessage(mMessage);
-                HomeFragment.mStateChangeHandler.sendEmptyMessage(0);
+                settingOK();
+//                Message mMessage = new Message();
+//                mMessage.what = 0;
+//                mMessage.obj = "setting_ok";
+//                MainActivity.mTabhostSkipHandler.sendMessage(mMessage);
+//                HomeFragment.mStateChangeHandler.sendEmptyMessage(0);
 
             }
         });
@@ -249,6 +369,14 @@ public class DeviceControlFragment extends BaseFragment {
     }
     public void refData(){
 
+    }
+
+    private void settingOK(){
+        Message mMessage = new Message();
+        mMessage.what = 0;
+        mMessage.obj = "setting_ok";
+        MainActivity.mTabhostSkipHandler.sendMessage(mMessage);
+        HomeFragment.mStateChangeHandler.sendEmptyMessage(0);
     }
 
     // 添加音箱完整流程，当音箱未连接Wi-Fi时使用
