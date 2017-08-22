@@ -88,10 +88,15 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
         float[] mScreenData = getRect();
         screenW = mScreenData[0];
         screenH = mScreenData[1];
+        // 画surfaceView背景
+//        canvas = sfh.lockCanvas();
+//        canvas.drawColor(Color.BLUE);
+//        sfh.unlockCanvasAndPost(canvas);
 
         Log.d("TIEJIANG", "surfaceCreated " + "screenW= " + screenW + ", screenH= " + screenH);
 
 //        MenuActivity.handleSendTextMessage(Constant.BEGING_SEND); //发送指令到H3请求开始发送运动控制指令
+
         //启动绘图线程
         beginDrawing = true;
 //        th.start();
@@ -203,9 +208,6 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
                 return 0;
             }
 //        }
-
-
-
     }
 
     /*备注2：切记，在自定SurfaceView中定义的myDraw方法，自定义View（继承自View的子类）中的onDraw方法

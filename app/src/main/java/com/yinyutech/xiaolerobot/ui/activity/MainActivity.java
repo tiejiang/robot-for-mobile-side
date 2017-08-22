@@ -59,6 +59,7 @@ public class MainActivity extends BaseActivity {
 //        startService(new Intent(this, UDPServerService.class));
 
         initTab();
+
         Handler mHandler = new Handler(){
 
             @Override

@@ -258,28 +258,6 @@ public class DeviceControlFragment extends BaseFragment {
         mWifiPwd.setVisibility(View.VISIBLE);
         wifiInputHint.setVisibility(View.VISIBLE);
 
-
-//        mImageView = (ImageView)mDeviceControlFragmentView.findViewById(R.id.progress_img_fist);
-//        nextStep = (Button)mDeviceControlFragmentView.findViewById(next_step);
-//        mWifiName = (EditText)mDeviceControlFragmentView.findViewById(R.id.wifi_user);
-//        mWifiPwd = (EditText)mDeviceControlFragmentView.findViewById(R.id.wifi_pwd);
-//        wifiInputHint = (TextView)mDeviceControlFragmentView.findViewById(R.id.wifi_input_hint);
-
-//        mLinearLayoutSecond = (LinearLayout)mDeviceControlFragmentView.findViewById(R.id.linearLayout_second_step);
-//        hintFirst = (TextView)mDeviceControlFragmentView.findViewById(R.id.hint_first);
-//        hintSecond = (TextView)mDeviceControlFragmentView.findViewById(R.id.hint_second);
-//        hintThird = (TextView)mDeviceControlFragmentView.findViewById(R.id.hint_third);
-//        hintFouth = (TextView)mDeviceControlFragmentView.findViewById(R.id.hint_fouth);
-//        mLinearLayoutSecond.setVisibility(View.GONE);
-//        settingOver = (TextView)mDeviceControlFragmentView.findViewById(R.id.setting_over);
-//        settingOver.setVisibility(View.GONE);
-//        mLinearLayoutFinalStep = (LinearLayout)mDeviceControlFragmentView.findViewById(R.id.linearLayout_final_step);
-//        mButtonEnter = (Button)mDeviceControlFragmentView.findViewById(R.id.button_enter);
-//        mButtonShare = (Button)mDeviceControlFragmentView.findViewById(R.id.button_share);
-//        mLinearLayoutFinalStep.setVisibility(View.GONE);
-//        mNetProgressBar = (ProgressBar)mDeviceControlFragmentView.findViewById(R.id.net_progressBar);
-//        mNetProgressBar.setVisibility(View.INVISIBLE);
-
         // 联网配对步骤
         nextStep.setOnClickListener(new View.OnClickListener() {
             @Override
