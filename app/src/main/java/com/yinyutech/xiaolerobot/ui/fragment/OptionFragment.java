@@ -1,6 +1,8 @@
 package com.yinyutech.xiaolerobot.ui.fragment;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -30,6 +32,9 @@ public class OptionFragment extends BaseFragment {
     private View mOptionFragmentView;
     private ImageView mOptionUser, mOptionAlbum, mOptionVersion, mOptionSetting;
     private Context mOptionFragmentInstance;
+    /*获取当前系统的android版本号*/
+    int currentapiVersion=android.os.Build.VERSION.SDK_INT;
+    private static String phoneMessage = "手机型号: " + android.os.Build.MODEL + "\n系统版本:" + android.os.Build.VERSION.RELEASE;
 
     @Override
     public View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,12 +53,60 @@ public class OptionFragment extends BaseFragment {
         mOptionVersion = (ImageView)mOptionFragmentView.findViewById(R.id.option_version);
         mOptionSetting = (ImageView)mOptionFragmentView.findViewById(R.id.option_setting);
 
-        mOptionUser.setOnClickListener(mOptionFragmentInstance);
+        mOptionUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+            }
+        });
+
+        mOptionAlbum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+            }
+        });
+
+        mOptionVersion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showVersionData();
+
+            }
+        });
+
+        mOptionSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+            }
+        });
     }
 
     private void initSourceView(){
-        mOptionUser = (ImageView)mOptionFragmentView.findView
+//        mOptionUser = (ImageView)mOptionFragmentView.findView
     }
+
+    public void showVersionData(){
+
+        AlertDialog.Builder mVersionDialog = new AlertDialog.Builder(mOptionFragmentInstance);
+
+        mVersionDialog.setTitle("版本信息");
+        mVersionDialog.setMessage(phoneMessage + "\n" + "小乐版本: " + getAppVersionName(mOptionFragmentInstance));
+        mVersionDialog.setIcon(R.drawable.ic_launcher);
+        mVersionDialog.setNegativeButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+
+            }
+        }).create();
+        mVersionDialog.show();
+    }
+
     /**
      * 返回当前程序版本名
      */
@@ -88,8 +141,7 @@ public class OptionFragment extends BaseFragment {
         return version;
     }
 
-    /*获取当前系统的android版本号*/
-    int currentapiVersion=android.os.Build.VERSION.SDK_INT;
+
 }
 
 

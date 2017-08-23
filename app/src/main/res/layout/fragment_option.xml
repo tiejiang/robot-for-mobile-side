@@ -63,7 +63,8 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_alignParentRight="true"
-        android:background="@drawable/option_album"/>
+        android:background="@drawable/option_album"
+        />
 
 
     <View
@@ -76,7 +77,8 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_alignParentRight="true"
-        android:background="@drawable/option_version"/>
+        android:background="@drawable/option_version"
+        />
 
 
     <View
@@ -90,7 +92,8 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_alignParentRight="true"
-        android:background="@drawable/option_setting"/>
+        android:background="@drawable/option_setting"
+        />
 
     <View
         android:layout_width="match_parent"
