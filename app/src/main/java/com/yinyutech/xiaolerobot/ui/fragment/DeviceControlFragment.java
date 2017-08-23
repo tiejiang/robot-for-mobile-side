@@ -231,6 +231,7 @@ public class DeviceControlFragment extends BaseFragment {
                         }else{
                             mShowIsXiaoleExist.setText("未发现设备,请进入联网模式");
                             isXiaoLeExist = false;
+                            mLinearLayoutFinalStep.setVisibility(View.INVISIBLE);
                         }
                     }catch (JSONException e){
                         e.printStackTrace();
@@ -239,6 +240,7 @@ public class DeviceControlFragment extends BaseFragment {
                     //没有搜索到设备，需要联网配对
                     mShowIsXiaoleExist.setText("未发现设备,请进入联网模式");
                     isXiaoLeExist = false;
+                    mLinearLayoutFinalStep.setVisibility(View.INVISIBLE);
                 }
             }
         };
@@ -311,6 +313,9 @@ public class DeviceControlFragment extends BaseFragment {
         mWifiName.setVisibility(View.INVISIBLE);
         mWifiPwd.setVisibility(View.INVISIBLE);
         wifiInputHint.setVisibility(View.INVISIBLE);
+        settingOver.setVisibility(View.INVISIBLE);
+//        mLinearLayoutFinalStep.setVisibility(View.INVISIBLE);
+
     }
 
     public void initDeviceView(){
@@ -372,15 +377,15 @@ public class DeviceControlFragment extends BaseFragment {
 
 //                        mImageView.setBackgroundResource(R.drawable.net_progress_bar_fifth);
 
-                        mStepFlag = 3;
+                        mStepFlag = 1;
                         Log.d(TAG, "mStepFlag= " + mStepFlag);
 
                         break;
-                    case 3:
-
-                        mStepFlag = 4;
-                        Log.d(TAG, "mStepFlag= " + mStepFlag);
-                        break;
+//                    case 3:
+//
+//                        mStepFlag = 4;
+//                        Log.d(TAG, "mStepFlag= " + mStepFlag);
+//                        break;
                 }
 
                 //test code
@@ -394,11 +399,6 @@ public class DeviceControlFragment extends BaseFragment {
             public void onClick(View v) {
                 //完成设置跳转到视频界面
                 settingOK();
-//                Message mMessage = new Message();
-//                mMessage.what = 0;
-//                mMessage.obj = "setting_ok";
-//                MainActivity.mTabhostSkipHandler.sendMessage(mMessage);
-//                HomeFragment.mStateChangeHandler.sendEmptyMessage(0);
 
             }
         });
@@ -528,8 +528,6 @@ public class DeviceControlFragment extends BaseFragment {
             hintSecond.setTextColor(getResources().getColor(R.color.Black_60));
             hintThird.setTextColor(getResources().getColor(R.color.Black_60));
             hintFouth.setTextColor(getResources().getColor(R.color.Black_60));
-
-//            progressBar.setVisibility(View.INVISIBLE);
         }
     }
 
