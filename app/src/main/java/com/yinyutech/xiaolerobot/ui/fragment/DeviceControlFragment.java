@@ -31,6 +31,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+import static com.yinyutech.xiaolerobot.R.id.linearLayout_second_step;
 import static com.yinyutech.xiaolerobot.R.id.next_step;
 import static com.yinyutech.xiaolerobot.R.id.pairTipTextView;
 
@@ -134,6 +135,71 @@ public class DeviceControlFragment extends BaseFragment {
         mDeviceControlFragmentView = inflater.inflate(R.layout.fragment_device_control,container,false);
         initScanView();
         startScanXiaoLe();
+        analysis();
+
+//        mScanXiaoLeHandler = new Handler(){
+//
+//            @Override
+//            public void handleMessage(Message msg) {
+//                super.handleMessage(msg);
+//                String scanMessage = (String)msg.obj;
+//                mShowIsXiaoleExist.setVisibility(View.VISIBLE);
+//                mPairTipTextView.setVisibility(View.INVISIBLE);
+//                mScanProgressBar.setVisibility(View.INVISIBLE);
+//                if (scanMessage.length() > 1){
+//                    //搜索到设备，直接进入到设备
+//                    Log.d("TIEJIANG", "DeviceControlFragment---mScanXiaoLeHandler" + " scanMessage= " + scanMessage);
+//                    try{
+//                        JSONObject parseH3json = new JSONObject(scanMessage);
+//                        String state = parseH3json.getString("state");
+//                        final String hostip = parseH3json.getString("hostip");
+//                        String name = parseH3json.getString("name");
+//                        String show = parseH3json.getString("show");
+//                        Log.d("TIEJIANG", "DeviceControlFragment---mScanXiaoLeHandler" + " state= " + state + ", hostip= " + hostip + ", name= " + name + ", show= " + show);
+//
+//                        if (state.equals("disconnect") && name.equals("HBL") && hostip != null) {
+//                            isXiaoLeExist = true;
+//                            mShowIsXiaoleExist.setText("xiaole robot: " + hostip);
+//                        }else{
+//                            mShowIsXiaoleExist.setText("未发现设备,请进入联网模式");
+//                            isXiaoLeExist = false;
+//                        }
+//                    }catch (JSONException e){
+//                        e.printStackTrace();
+//                    }
+//                }else {
+//                    //没有搜索到设备，需要联网配对
+//                    mShowIsXiaoleExist.setText("未发现设备,请进入联网模式");
+//                    isXiaoLeExist = false;
+//                }
+//            }
+//        };
+
+
+//        initDeviceView();
+//        showAddBoxFullStepActivity(getActivity());
+//        mWifiName.setText(AddBoxStatus.getInstance().uploadWiFiName);
+
+        return mDeviceControlFragmentView;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        Log.d("TIEJIANG", "DeviceControlFragment---hidden= " + hidden);
+        if (!hidden){
+            startScanXiaoLe();
+            analysis();
+        }
+
+    }
+
+    @Override
+    public void init() {
+
+    }
+
+    public void analysis(){
 
         mScanXiaoLeHandler = new Handler(){
 
@@ -144,6 +210,9 @@ public class DeviceControlFragment extends BaseFragment {
                 mShowIsXiaoleExist.setVisibility(View.VISIBLE);
                 mPairTipTextView.setVisibility(View.INVISIBLE);
                 mScanProgressBar.setVisibility(View.INVISIBLE);
+                //重新切换到DeviceControlFragment的时候会重新搜索设备，如果搜索到则要隐藏联网ＵＩ
+                //未搜索到的情况则会通过按键进入到联网部分
+                invisibleNetUI();
                 if (scanMessage.length() > 1){
                     //搜索到设备，直接进入到设备
                     Log.d("TIEJIANG", "DeviceControlFragment---mScanXiaoLeHandler" + " scanMessage= " + scanMessage);
@@ -158,6 +227,7 @@ public class DeviceControlFragment extends BaseFragment {
                         if (state.equals("disconnect") && name.equals("HBL") && hostip != null) {
                             isXiaoLeExist = true;
                             mShowIsXiaoleExist.setText("xiaole robot: " + hostip);
+
                         }else{
                             mShowIsXiaoleExist.setText("未发现设备,请进入联网模式");
                             isXiaoLeExist = false;
@@ -172,24 +242,6 @@ public class DeviceControlFragment extends BaseFragment {
                 }
             }
         };
-
-
-//        initDeviceView();
-//        showAddBoxFullStepActivity(getActivity());
-//        mWifiName.setText(AddBoxStatus.getInstance().uploadWiFiName);
-
-        return mDeviceControlFragmentView;
-    }
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-
-    }
-
-    @Override
-    public void init() {
-
     }
 
     public void initScanView(){
@@ -206,7 +258,7 @@ public class DeviceControlFragment extends BaseFragment {
         mWifiPwd.setVisibility(View.INVISIBLE);
         wifiInputHint.setVisibility(View.INVISIBLE);
 
-        mLinearLayoutSecond = (LinearLayout)mDeviceControlFragmentView.findViewById(R.id.linearLayout_second_step);
+        mLinearLayoutSecond = (LinearLayout)mDeviceControlFragmentView.findViewById(linearLayout_second_step);
         hintFirst = (TextView)mDeviceControlFragmentView.findViewById(R.id.hint_first);
         hintSecond = (TextView)mDeviceControlFragmentView.findViewById(R.id.hint_second);
         hintThird = (TextView)mDeviceControlFragmentView.findViewById(R.id.hint_third);
@@ -250,6 +302,15 @@ public class DeviceControlFragment extends BaseFragment {
 
     public void startScanXiaoLe(){
         udpBroadcaster.startBroadcastSearchBox();
+    }
+
+    private void invisibleNetUI(){
+
+        mImageView.setVisibility(View.INVISIBLE);
+        nextStep.setVisibility(View.INVISIBLE);
+        mWifiName.setVisibility(View.INVISIBLE);
+        mWifiPwd.setVisibility(View.INVISIBLE);
+        wifiInputHint.setVisibility(View.INVISIBLE);
     }
 
     public void initDeviceView(){
@@ -303,10 +364,12 @@ public class DeviceControlFragment extends BaseFragment {
                     case 2:
                         //绑定---设置云通讯ID
                         //设置完成
-//                        mLinearLayoutSecond.setVisibility(View.GONE);
+
+                        mLinearLayoutSecond.setVisibility(View.GONE);
                         nextStep.setVisibility(View.GONE);
                         settingOver.setVisibility(View.VISIBLE);
                         mLinearLayoutFinalStep.setVisibility(View.VISIBLE);
+
 //                        mImageView.setBackgroundResource(R.drawable.net_progress_bar_fifth);
 
                         mStepFlag = 3;

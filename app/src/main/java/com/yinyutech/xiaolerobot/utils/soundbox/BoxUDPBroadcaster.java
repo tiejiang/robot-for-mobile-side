@@ -125,7 +125,10 @@ public class BoxUDPBroadcaster {
         } catch (JSONException e){
             e.printStackTrace();
         }finally {
-            ds.close();
+            if (ds != null){
+                ds.close();
+            }
+
         }
         return str_receive;
     }
