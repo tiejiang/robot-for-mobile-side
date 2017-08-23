@@ -186,11 +186,12 @@ public class DeviceControlFragment extends BaseFragment {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        Log.d("TIEJIANG", "DeviceControlFragment---hidden= " + hidden);
-        if (!hidden){
-            startScanXiaoLe();
-            analysis();
-        }
+        Log.d("TIEJIANG", "DeviceControlFragment---hidden= " + hidden + " isXiaoLeExist= " + isXiaoLeExist);
+        //小乐已经确认不存在了，则不用再启动ＵＤＰ去搜索:isXiaoLeExist = false
+//        if (!hidden && isXiaoLeExist){
+//            startScanXiaoLe();
+//            analysis();
+//        }
 
     }
 
@@ -230,6 +231,7 @@ public class DeviceControlFragment extends BaseFragment {
 
                         }else{
                             mShowIsXiaoleExist.setText("未发现设备,请进入联网模式");
+                            udpBroadcaster.stopBroadcastSearchBox(); //开始联网步骤之后就停止Ｈ３设备的扫描
                             isXiaoLeExist = false;
                             mLinearLayoutFinalStep.setVisibility(View.INVISIBLE);
                         }
@@ -239,6 +241,7 @@ public class DeviceControlFragment extends BaseFragment {
                 }else {
                     //没有搜索到设备，需要联网配对
                     mShowIsXiaoleExist.setText("未发现设备,请进入联网模式");
+                    udpBroadcaster.stopBroadcastSearchBox(); //开始联网步骤之后就停止Ｈ３设备的扫描
                     isXiaoLeExist = false;
                     mLinearLayoutFinalStep.setVisibility(View.INVISIBLE);
                 }
@@ -338,6 +341,7 @@ public class DeviceControlFragment extends BaseFragment {
 //                mEditor.putString(Constant.WIFI_NAME, wifiName);
 //                mEditor.putString(Constant.WIFI_PWD, wifiPwd);
 //                mEditor.commit();
+
                 switch (mStepFlag){
                     case 1:
                         //获得WIFI密码
@@ -374,6 +378,8 @@ public class DeviceControlFragment extends BaseFragment {
                         nextStep.setVisibility(View.GONE);
                         settingOver.setVisibility(View.VISIBLE);
                         mLinearLayoutFinalStep.setVisibility(View.VISIBLE);
+                        isXiaoLeExist = true;
+                        udpBroadcaster.startBroadcastSearchBox(); //结束联网步骤之后就开始Ｈ３设备的扫描
 
 //                        mImageView.setBackgroundResource(R.drawable.net_progress_bar_fifth);
 

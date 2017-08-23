@@ -1,5 +1,6 @@
 package com.yinyutech.xiaolerobot.utils.soundbox;
 
+import android.os.Handler;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -23,12 +24,12 @@ public class BoxUDPBroadcaster {
     private static final int TIMEOUT = 5000;  //设置接收数据的超时时间
     private static final int MAXNUM = 2;      //设置重发数据的最多次数
     public void startBroadcastSearchBox() {
-//        handler.post(broadcaster);
-        new Thread(new ScanXiaoLeRunnable()).start();
+        handler.post(broadcaster);
+//        new Thread(new ScanXiaoLeRunnable()).start();
     }
 
     public void stopBroadcastSearchBox() {
-//        handler.removeCallbacks(broadcaster);
+        handler.removeCallbacks(broadcaster);
     }
 
     private String sendUDPDatagram(){
@@ -134,32 +135,37 @@ public class BoxUDPBroadcaster {
     }
 
 
-//    private Handler handler = new Handler();
-    class ScanXiaoLeRunnable implements Runnable{
 
-        @Override
-        public void run() {
-            String mes = sendUDPDatagram();
-            if (mes != null){
-                mScanXiaoLeHandler.obtainMessage(0, mes).sendToTarget();
-            }
-
-        }
-    }
-//         Runnable broadcaster = new Runnable() {
+//    class ScanXiaoLeRunnable implements Runnable{
+//
 //        @Override
 //        public void run() {
-//            // 必须在线程里发送UDP广播
-//            new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    sendUDPDatagram();
+//            String mes = sendUDPDatagram();
+//            if (mes != null){
+//                mScanXiaoLeHandler.obtainMessage(0, mes).sendToTarget();
+//            }
 //
-////                    handler.postDelayed(broadcaster, 2000);
-//                }
-//            })
 //        }
-//    };
+//    }
+    private Handler handler = new Handler();
+    Runnable broadcaster = new Runnable() {
+        @Override
+        public void run() {
+            // 必须在线程里发送UDP广播
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+//                    sendUDPDatagram();
+                    String mes = sendUDPDatagram();
+                    if (mes != null){
+                        mScanXiaoLeHandler.obtainMessage(0, mes).sendToTarget();
+                    }
+
+                    handler.postDelayed(broadcaster, 2000);
+                }
+            }).start();
+        }
+    };
 
     public static final int broadcastPort = 21238;
 }
