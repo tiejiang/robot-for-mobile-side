@@ -1,6 +1,7 @@
 package com.yinyutech.xiaolerobot.ui.activity;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -48,6 +49,8 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
     private Bitmap mBitmap, backgroundBitmap;
     private boolean beginDrawing = false;
     private String isBeginSendControlCommand = "";
+    private Context mMySurfaceViewControlerContext;
+    private String[] ytxID = new String[2];
 
     public MySurfaceViewControler(Context context){
         super(context);
@@ -56,6 +59,7 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
 
     public MySurfaceViewControler(Context context, AttributeSet attrs){
         super(context, attrs);
+        this.mMySurfaceViewControlerContext = context;
          /*备注1：在此处获取屏幕高、宽值为0，以为此时view还未被创建，
              * 在接口Callback的surfaceCreated方法中view才被创建
              */
@@ -86,6 +90,8 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
 
+        //获得云通讯ｉｄ
+        ytxID = getYTXID();
         float[] mScreenData = getRect();
         screenW = mScreenData[0];
         screenH = mScreenData[1];
@@ -190,19 +196,19 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
             // 注意去掉等号部分,等号部分在原点--初始位置
             if (equationOne > 0 && equationTwo > 0){  //"前进区域"
 
-                MenuActivity.handleSendTextMessage(Constant.MOBILE_FORWARD);
+                handleSendTextMessage(Constant.MOBILE_FORWARD);
                 Log.d("TIEJIANG", "forward");
                 return 1 ;
             } else if (equationOne < 0 && equationTwo < 0){  // "后退区域"
-                MenuActivity.handleSendTextMessage(Constant.MOBILE_BACK);
+                handleSendTextMessage(Constant.MOBILE_BACK);
                 Log.d("TIEJIANG", "back");
                 return 2;
             } else if(equationOne < 0 && equationTwo > 0){    //"左转区域"
-                MenuActivity.handleSendTextMessage(Constant.MOBILE_TURN_LEFT);
+                handleSendTextMessage(Constant.MOBILE_TURN_LEFT);
                 Log.d("TIEJIANG", "turn left");
                 return 3;
             } else if (equationOne > 0 && equationTwo < 0){    //"右转区域"
-                MenuActivity.handleSendTextMessage(Constant.MOBILE_TURN_RIGHTT);
+                handleSendTextMessage(Constant.MOBILE_TURN_RIGHTT);
                 Log.d("TIEJIANG", "turn right");
                 return 4;
             } else{
@@ -293,11 +299,11 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
                 break;
         }
 
-            /*
-             * 备注1：次处一定要将return super.onTouchEvent(event)修改为return true，原因是：
-             * 1）父类的onTouchEvent(event)方法可能没有做任何处理，但是返回了false。
-             * 2)一旦返回false，在该方法中再也不会收到MotionEvent.ACTION_MOVE及MotionEvent.ACTION_UP事件。
-             */
+        /*
+         * 备注1：此处一定要将return super.onTouchEvent(event)修改为return true，原因是：
+         * 1）父类的onTouchEvent(event)方法可能没有做任何处理，但是返回了false。
+         * 2)一旦返回false，在该方法中再也不会收到MotionEvent.ACTION_MOVE及MotionEvent.ACTION_UP事件。
+         */
         //return super.onTouchEvent(event);
         return true;
     }
@@ -311,7 +317,7 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
     @Override
     public void onPushMessage(String sessionId, List<ECMessage> msgs) {
         int msgsSize = msgs.size();
-        String message = " ";
+        String message = "　";
         for (int i = 0; i < msgsSize; i++){
             message = ((ECTextMessageBody) msgs.get(i).getBody()).getMessage();
             Log.d("TIEJIANG", "[MainActivity-onPushMessage]" + "i :" + i + ", message = " + message);// add by tiejiang
@@ -321,5 +327,82 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
         //mReceiveEditText.setText(message);
         // test code
 //        MenuActivity.handleSendTextMessage(message + "callback");
+    }
+
+    public String[] getYTXID(){
+
+        String[] YTXID = new String[2];
+        SharedPreferences sp = mMySurfaceViewControlerContext.getSharedPreferences(Constant.USER_MESSAGE, Context.MODE_PRIVATE);
+        String mobileXiaoLe = sp.getString(Constant.XIAOLE_YTX_MOBILE, "0");
+        String H3XiaoLe = sp.getString(Constant.XIAOLE_YTX_H3, "1");
+        YTXID[0] = mobileXiaoLe;
+        YTXID[1] = H3XiaoLe;
+
+        return YTXID;
+    }
+
+    /**
+     * 处理文本发送方法事件通知
+     * @param text
+     */
+    public void handleSendTextMessage(CharSequence text) {
+        if(text == null) {
+            return ;
+        }
+        if(text.toString().trim().length() <= 0) {
+            //canotSendEmptyMessage();
+            return ;
+        }
+        // 组建一个待发送的ECMessage
+        ECMessage msg = ECMessage.createECMessage(ECMessage.Type.TXT);
+        // 设置消息接收者
+        //msg.setTo(mRecipients);
+        msg.setTo(ytxID[1]); // attenionthis number is not the login number! / modified by tiejiang
+        ECTextMessageBody msgBody=null;
+        Boolean isBQMMMessage=false;
+        String emojiNames = null;
+        //if(text.toString().contains(CCPChattingFooter2.TXT_MSGTYPE)&& text.toString().contains(CCPChattingFooter2.MSG_DATA)){
+        //try {
+        //JSONObject jsonObject = new JSONObject(text.toString());
+        //String emojiType=jsonObject.getString(CCPChattingFooter2.TXT_MSGTYPE);
+        //if(emojiType.equals(CCPChattingFooter2.EMOJITYPE) || emojiType.equals(CCPChattingFooter2.FACETYPE)){//说明是含有BQMM的表情
+        //isBQMMMessage=true;
+        //emojiNames=jsonObject.getString(CCPChattingFooter2.EMOJI_TEXT);
+        //}
+        //} catch (JSONException e) {
+        //e.printStackTrace();
+        //}
+        //}
+        if (isBQMMMessage) {
+            msgBody = new ECTextMessageBody(emojiNames);
+            msg.setBody(msgBody);
+            msg.setUserData(text.toString());
+        } else {
+            // 创建一个文本消息体，并添加到消息对象中
+            msgBody = new ECTextMessageBody(text.toString());
+            msg.setBody(msgBody);
+            Log.d("TIEJIANG", "[MenuActivity]-handleSendTextMessage" + ", txt = " + text);// add by tiejiang
+        }
+
+        //String[] at = mChattingFooter.getAtSomeBody();
+        //msgBody.setAtMembers(at);
+        //mChattingFooter.clearSomeBody();
+        try {
+            // 发送消息，该函数见上
+            long rowId = -1;
+            //if(mCustomerService) {
+            //rowId = CustomerServiceHelper.sendMCMessage(msg);
+            //} else {
+            Log.d("TIEJIANG", "[MenuActivity]-SendECMessage");// add by tiejiang
+            rowId = IMChattingHelper.sendECMessage(msg);
+
+            //}
+            // 通知列表刷新
+            //msg.setId(rowId);
+            //notifyIMessageListView(msg);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("TIEJIANG", "[MenuActivity]-send failed");// add by tiejiang
+        }
     }
 }

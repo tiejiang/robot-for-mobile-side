@@ -96,11 +96,24 @@ public class MenuActivity extends Activity implements IMChattingHelper.OnMessage
 //        handleSendTextMessage(message + "callback");
     }
 
+    //获得云通讯ＩＤ
+//    public String[] getYTXID(){
+//
+//        String[] YTXID = new String[2];
+//        SharedPreferences sp = getSharedPreferences(Constant.USER_MESSAGE, Context.MODE_PRIVATE);
+//        String mobileXiaoLe = sp.getString(Constant.XIAOLE_YTX_MOBILE, "0");
+//        String H3XiaoLe = sp.getString(Constant.XIAOLE_YTX_H3, "1");
+//        YTXID[0] = mobileXiaoLe;
+//        YTXID[1] = H3XiaoLe;
+//
+//        return YTXID;
+//    }
+
     /**
      * 处理文本发送方法事件通知
      * @param text
      */
-    public static void handleSendTextMessage(CharSequence text) {
+    public void handleSendTextMessage(CharSequence text) {
         if(text == null) {
             return ;
         }

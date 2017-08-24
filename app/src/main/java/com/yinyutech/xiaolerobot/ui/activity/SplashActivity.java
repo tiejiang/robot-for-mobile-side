@@ -14,14 +14,31 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.yinyutech.xiaolerobot.R;
+import com.yinyutech.xiaolerobot.bean.ClientUser;
+import com.yinyutech.xiaolerobot.common.CCPAppManager;
+import com.yinyutech.xiaolerobot.helper.IMChattingHelper;
+import com.yinyutech.xiaolerobot.helper.SDKCoreHelper;
 import com.yinyutech.xiaolerobot.utils.Constant;
+import com.yinyutech.xiaolerobot.utils.DemoUtils;
+import com.yuntongxun.ecsdk.ECError;
+import com.yuntongxun.ecsdk.ECInitParams;
+import com.yuntongxun.ecsdk.ECMessage;
 
-public class SplashActivity extends BaseActivity {
+import java.util.List;
+
+import static com.yinyutech.xiaolerobot.utils.DemoUtils.generateMixString;
+
+public class SplashActivity extends BaseActivity implements IMChattingHelper.OnMessageReportCallback{
 
 	public static final String TAG = SplashActivity.class.getSimpleName();
 
 	private ImageView mSplashItem_iv = null;
 	private Button login, register;
+	private SharedPreferences mYTXIDSharedPreference;
+
+	String mobile = "71707102";
+	String pass = "";
+	ECInitParams.LoginAuthType mLoginAuthType = ECInitParams.LoginAuthType.NORMAL_AUTH;
 
 
 
@@ -39,7 +56,9 @@ public class SplashActivity extends BaseActivity {
 //
 //		mHandler = new Handler(getMainLooper());
 
-
+		saveYunTXID();
+		String[] ytxID = getYTXID();
+		initYTX(ytxID[0]);
 		findViewById();
 		initView();
 
@@ -60,6 +79,55 @@ public class SplashActivity extends BaseActivity {
 				openActivity(RegistActivity.class);
 			}
 		});
+	}
+
+	public void initYTX(String mobile){
+
+		//save app key/ID and contact number etc. and init rong-lian-yun SDK
+		ClientUser clientUser = new ClientUser(mobile);
+		clientUser.setAppKey(Constant.appKey);
+		clientUser.setAppToken(Constant.token);
+		clientUser.setLoginAuthType(mLoginAuthType);
+		clientUser.setPassword(pass);
+		CCPAppManager.setClientUser(clientUser);
+		SDKCoreHelper.init(SplashActivity.this, ECInitParams.LoginMode.FORCE_LOGIN);
+		IMChattingHelper.setOnMessageReportCallback(SplashActivity.this);
+		Log.d("TIEJIANG", "SplashActivity---initYTX" + " mobile= " + mobile);
+	}
+
+	public String[] getYTXID(){
+
+		String[] YTXID = new String[2];
+		SharedPreferences sp = getSharedPreferences(Constant.USER_MESSAGE, Context.MODE_PRIVATE);
+		String mobileXiaoLe = sp.getString(Constant.XIAOLE_YTX_MOBILE, "0");
+		String H3XiaoLe = sp.getString(Constant.XIAOLE_YTX_H3, "1");
+		YTXID[0] = mobileXiaoLe;
+		YTXID[1] = H3XiaoLe;
+
+		return YTXID;
+	}
+
+	private void saveYunTXID(){
+
+		//先寻找是否存在ＩＤ，没有则调用方法生成ＩＤ，然后存储
+		SharedPreferences sp = getSharedPreferences(Constant.USER_MESSAGE, Context.MODE_PRIVATE);
+		String mobileXiaoLe = sp.getString(Constant.XIAOLE_YTX_MOBILE, "0");
+		String H3XiaoLe = sp.getString(Constant.XIAOLE_YTX_H3, "1");
+		Log.d("TIEJIANG", "SplashActivity---mobileXiaoLe= " + mobileXiaoLe + " H3XiaoLe= " + H3XiaoLe);
+
+		if (mobileXiaoLe.equals("0") && H3XiaoLe.equals("1")){
+			String randomNumber = DemoUtils.getRandomNumber(5);
+			String randomChar = generateMixString(5);
+			String mobileID = randomNumber + randomChar + "xiaolemobile";
+			String H3ID = randomNumber + randomChar + "xiaoleH3";
+			//保存注册用户信息
+			mYTXIDSharedPreference = getSharedPreferences(Constant.USER_MESSAGE, Context.MODE_PRIVATE);
+			SharedPreferences.Editor mEditor = mYTXIDSharedPreference.edit();
+			mEditor.putString(Constant.XIAOLE_YTX_MOBILE, mobileID);
+			mEditor.putString(Constant.XIAOLE_YTX_H3, H3ID);
+			mEditor.commit();
+		}
+
 	}
 
 	//查询本地用户信息，匹配则进入主界面，如果没有则进入注册界面
@@ -131,7 +199,13 @@ public class SplashActivity extends BaseActivity {
 	}
 
 
+    @Override
+    public void onMessageReport(ECError error, ECMessage message) {
 
+    }
 
+    @Override
+    public void onPushMessage(String sessionId, List<ECMessage> msgs) {
 
+    }
 }

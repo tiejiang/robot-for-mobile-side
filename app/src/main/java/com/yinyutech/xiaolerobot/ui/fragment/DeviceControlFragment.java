@@ -25,6 +25,7 @@ import com.yinyutech.xiaolerobot.model.AddBoxStatus;
 import com.yinyutech.xiaolerobot.ui.activity.MainActivity;
 import com.yinyutech.xiaolerobot.utils.soundbox.BoxUDPBroadcaster;
 import com.yinyutech.xiaolerobot.utils.soundbox.SoundBoxManager;
+import com.yinyutech.xiaolerobot.utils.soundbox.XiaoLeUDP;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -54,7 +55,8 @@ public class DeviceControlFragment extends BaseFragment {
     private ProgressBar mNetProgressBar, mScanProgressBar;
     private final long shortTime = 1000;
     private final long longTime = 5000;
-    private BoxUDPBroadcaster udpBroadcaster = new BoxUDPBroadcaster();
+    private BoxUDPBroadcaster udpBroadcaster;  //调用BoxUDPBroadcaster有context构造函数，方便获取preference存储的值
+    private XiaoLeUDP mXiaoLeUDP;
     public static Handler mScanXiaoLeHandler;
     private boolean isXiaoLeExist = false; // 搜索小乐是否存在
 
@@ -102,6 +104,7 @@ public class DeviceControlFragment extends BaseFragment {
 
             SoundBoxManager manager = SoundBoxManager.getInstance();
             String ssid = manager.currentSSIDName();
+            String[] ytxID = new String[2];
 //            Logger.v("detectWiFi SSID: %s", ssid);
             Log.d("TIEJIANG", "detectWiFi SSID: "  + ssid);
             Log.d("TIEJIANG", "AddBoxStatus.getInstance().uploadWiFiName= " + AddBoxStatus.getInstance().uploadWiFiName);
@@ -112,8 +115,10 @@ public class DeviceControlFragment extends BaseFragment {
             mImageView.setBackgroundResource(R.drawable.net_progress_bar_fourth);
 
             if (AddBoxStatus.getInstance().uploadWiFiName.equals(ssid) && manager.isWiFiConnected()) {
+                //（基于Ｈ３上面广佳的部分配置完毕）云通讯尚未配置ＯＫ
                 setCurrentStep(4);
                 mImageView.setBackgroundResource(R.drawable.net_progress_bar_fifth);
+
                 //设置按键可用
                 nextStep.setEnabled(true);
                 //Progress 可见
@@ -133,6 +138,9 @@ public class DeviceControlFragment extends BaseFragment {
     public View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         mDeviceControlFragmentView = inflater.inflate(R.layout.fragment_device_control,container,false);
+        //在此生命周期方法内初始化才能够得到activity的实例
+        udpBroadcaster = new BoxUDPBroadcaster(getActivity());  //调用BoxUDPBroadcaster有context构造函数，方便获取preference存储的值
+        mXiaoLeUDP = new XiaoLeUDP(getActivity());
         initScanView();
         startScanXiaoLe();
         analysis();
@@ -208,40 +216,42 @@ public class DeviceControlFragment extends BaseFragment {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 String scanMessage = (String)msg.obj;
+                Log.d("TIEJIANG", "DeviceControlFragment---mScanXiaoLeHandler" + " scanMessage= " + scanMessage);
                 mShowIsXiaoleExist.setVisibility(View.VISIBLE);
                 mPairTipTextView.setVisibility(View.INVISIBLE);
                 mScanProgressBar.setVisibility(View.INVISIBLE);
                 //重新切换到DeviceControlFragment的时候会重新搜索设备，如果搜索到则要隐藏联网ＵＩ
                 //未搜索到的情况则会通过按键进入到联网部分
                 invisibleNetUI();
+
+
+
                 if (scanMessage.length() > 1){
                     //搜索到设备，直接进入到设备
-                    Log.d("TIEJIANG", "DeviceControlFragment---mScanXiaoLeHandler" + " scanMessage= " + scanMessage);
+
                     try{
                         JSONObject parseH3json = new JSONObject(scanMessage);
                         String state = parseH3json.getString("state");
                         final String hostip = parseH3json.getString("hostip");
                         String name = parseH3json.getString("name");
-                        String show = parseH3json.getString("show");
-                        Log.d("TIEJIANG", "DeviceControlFragment---mScanXiaoLeHandler" + " state= " + state + ", hostip= " + hostip + ", name= " + name + ", show= " + show);
+                        Log.d("TIEJIANG", "DeviceControlFragment---mScanXiaoLeHandler" + " state= " + state + ", hostip= " + hostip + ", name= " + name);
 
-                        if (state.equals("disconnect") && name.equals("HBL") && hostip != null) {
+                        if (state.equals("handed") && name.equals("XiaoleServer") && hostip != null) {
+//                            isXiaoLeExist = true;
+//                            mShowIsXiaoleExist.setText("xiaole robot: " + hostip);
+                            Log.d("TIEJIANG", "DeviceControlFragment---analysis" + " udp handed");
+
+                        }else if (state.equals("IDSetted") && name.equals("XiaoleServer") && hostip != null){
                             isXiaoLeExist = true;
                             mShowIsXiaoleExist.setText("xiaole robot: " + hostip);
-
-                        }else{
-                            mShowIsXiaoleExist.setText("未发现设备,请进入联网模式");
-                            udpBroadcaster.stopBroadcastSearchBox(); //开始联网步骤之后就停止Ｈ３设备的扫描
-                            isXiaoLeExist = false;
-                            mLinearLayoutFinalStep.setVisibility(View.INVISIBLE);
+//                            udpBroadcaster.startBroadcastSearchBox(); //结束联网步骤之后就开始Ｈ３设备的扫描
+                            Log.d("TIEJIANG", "DeviceControlFragment---analysis" + " IDset handed");
                         }
                     }catch (JSONException e){
                         e.printStackTrace();
                     }
-                }else {
-                    //没有搜索到设备，需要联网配对
+                }else{
                     mShowIsXiaoleExist.setText("未发现设备,请进入联网模式");
-                    udpBroadcaster.stopBroadcastSearchBox(); //开始联网步骤之后就停止Ｈ３设备的扫描
                     isXiaoLeExist = false;
                     mLinearLayoutFinalStep.setVisibility(View.INVISIBLE);
                 }
@@ -296,6 +306,7 @@ public class DeviceControlFragment extends BaseFragment {
                     settingOK();
                 }else{
                     //没有扫描到设备，进入连接和配对模式
+                    udpBroadcaster.stopBroadcastSearchBox(); //开始联网步骤之后就停止Ｈ３设备的扫描
                     initDeviceView();
                     showAddBoxFullStepActivity(getActivity());
                     mWifiName.setText(AddBoxStatus.getInstance().uploadWiFiName);
@@ -372,6 +383,7 @@ public class DeviceControlFragment extends BaseFragment {
                         break;
                     case 2:
                         //绑定---设置云通讯ID
+
                         //设置完成
 
                         mLinearLayoutSecond.setVisibility(View.GONE);
@@ -379,7 +391,8 @@ public class DeviceControlFragment extends BaseFragment {
                         settingOver.setVisibility(View.VISIBLE);
                         mLinearLayoutFinalStep.setVisibility(View.VISIBLE);
                         isXiaoLeExist = true;
-                        udpBroadcaster.startBroadcastSearchBox(); //结束联网步骤之后就开始Ｈ３设备的扫描
+                        //开始发送云通讯ＩＤ到Ｈ３
+                        mXiaoLeUDP.startXiaoLeUDP();
 
 //                        mImageView.setBackgroundResource(R.drawable.net_progress_bar_fifth);
 
