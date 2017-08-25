@@ -177,7 +177,7 @@ public class BoxUDPBroadcaster {
         return str_receive;
     }
 
-    private Handler handler = new Handler();
+    private static Handler handler = new Handler();
     Runnable broadcaster = new Runnable() {
         @Override
         public void run() {

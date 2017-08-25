@@ -59,6 +59,7 @@ public class DeviceControlFragment extends BaseFragment {
     private XiaoLeUDP mXiaoLeUDP;
     public static Handler mScanXiaoLeHandler;
     private boolean isXiaoLeExist = false; // 搜索小乐是否存在
+    private boolean isLocalNetControl;  //是否开启局域网的控制
 
     private Handler timerHandler = new Handler();
 
@@ -197,9 +198,10 @@ public class DeviceControlFragment extends BaseFragment {
         Log.d("TIEJIANG", "DeviceControlFragment---hidden= " + hidden + " isXiaoLeExist= " + isXiaoLeExist);
         //小乐已经确认不存在了，则不用再启动ＵＤＰ去搜索:isXiaoLeExist = false
 //        if (!hidden && isXiaoLeExist){
-//            startScanXiaoLe();
-//            analysis();
-//        }
+        if (!hidden){
+                startScanXiaoLe();
+                analysis();
+        }
 
     }
 
@@ -244,6 +246,7 @@ public class DeviceControlFragment extends BaseFragment {
                         }else if (state.equals("IDSetted") && name.equals("XiaoleServer") && hostip != null){
                             isXiaoLeExist = true;
                             mShowIsXiaoleExist.setText("xiaole robot: " + hostip);
+                            isLocalNetControl = true;  //开启局域网控制模式
 //                            udpBroadcaster.startBroadcastSearchBox(); //结束联网步骤之后就开始Ｈ３设备的扫描
                             Log.d("TIEJIANG", "DeviceControlFragment---analysis" + " IDset handed");
                         }
@@ -393,7 +396,7 @@ public class DeviceControlFragment extends BaseFragment {
                         isXiaoLeExist = true;
                         //开始发送云通讯ＩＤ到Ｈ３
                         mXiaoLeUDP.startXiaoLeUDP();
-
+                        startScanXiaoLe();
 //                        mImageView.setBackgroundResource(R.drawable.net_progress_bar_fifth);
 
                         mStepFlag = 1;

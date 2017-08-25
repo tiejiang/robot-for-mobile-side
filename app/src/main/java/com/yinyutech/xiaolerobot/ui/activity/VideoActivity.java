@@ -100,7 +100,6 @@ public class VideoActivity extends ECVoIPBaseActivity
 
         initResourceRefs();
 
-
         setCaptureView(mCaptureView);
         attachGlView();
         if (!mIncomingCall) {
