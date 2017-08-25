@@ -247,6 +247,7 @@ public class DeviceControlFragment extends BaseFragment {
                             isXiaoLeExist = true;
                             mShowIsXiaoleExist.setText("xiaole robot: " + hostip);
                             isLocalNetControl = true;  //开启局域网控制模式
+
 //                            udpBroadcaster.startBroadcastSearchBox(); //结束联网步骤之后就开始Ｈ３设备的扫描
                             Log.d("TIEJIANG", "DeviceControlFragment---analysis" + " IDset handed");
                         }
@@ -257,10 +258,17 @@ public class DeviceControlFragment extends BaseFragment {
                     mShowIsXiaoleExist.setText("未发现设备,请进入联网模式");
                     isXiaoLeExist = false;
                     mLinearLayoutFinalStep.setVisibility(View.INVISIBLE);
+                    isLocalNetControl = true;  //关闭局域网控制模式
                 }
             }
         };
     }
+
+//    public void changeControleModel(ControlModelChanged controlModelChanged){
+//
+//        controlModelChanged.isLocalNetControl(true);
+//    }
+
 
     public void initScanView(){
 

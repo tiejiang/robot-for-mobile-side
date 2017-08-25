@@ -54,12 +54,13 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
 
     public MySurfaceViewControler(Context context){
         super(context);
-
+        Log.d("TIEJIANG", "MySurfaceViewControler---MySurfaceViewControler( )");
     }
 
     public MySurfaceViewControler(Context context, AttributeSet attrs){
         super(context, attrs);
         this.mMySurfaceViewControlerContext = context;
+        Log.d("TIEJIANG", "MySurfaceViewControler---MySurfaceViewControler( , )");
          /*备注1：在此处获取屏幕高、宽值为0，以为此时view还未被创建，
              * 在接口Callback的surfaceCreated方法中view才被创建
              */
@@ -85,6 +86,24 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
         //设置画笔颜色
         paint.setColor(paintColor);
 
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        Log.d("TIEJIANG", "MySurfaceViewControler---onAttachedToWindow");
+    }
+
+    @Override
+    protected void onWindowVisibilityChanged(int visibility) {
+        super.onWindowVisibilityChanged(visibility);
+        Log.d("TIEJIANG", "MySurfaceViewControler---onWindowVisibilityChanged");
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        Log.d("TIEJIANG", "MySurfaceViewControler---onDetachedFromWindow");
     }
 
     @Override
@@ -235,7 +254,7 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
 
             canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);//绘制透明色
             canvas.drawBitmap(mBitmap, cx, cy, paint);
-            Log.d("TIEJIANG", "THREAD ALWAYS RUN");
+//            Log.d("TIEJIANG", "THREAD ALWAYS RUN");
             directionControl(cx, cy);
             //修正圆点坐标
             revise();
