@@ -8,9 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.yinyutech.xiaolerobot.R;
 import com.yinyutech.xiaolerobot.common.CCPAppManager;
+import com.yinyutech.xiaolerobot.fractory.ActivityInstance;
 import com.yinyutech.xiaolerobot.ui.activity.MySurfaceViewControler;
 import com.yuntongxun.ecsdk.ECVoIPCallManager;
 
@@ -39,12 +41,18 @@ public class HomeFragment extends BaseFragment{
 //        mFramelayoutControlView = (FrameLayout)mHomeFragmenView.findViewById(R.id.framelayout_control_view);
         mMySurfaceViewControler.setVisibility(View.INVISIBLE);
 //        mFramelayoutControlView.setVisibility(View.INVISIBLE);
-
+        final String id = getYTXContactID();
+        Log.d("TIEJIANG", "HomeFragment---createView" + "YTX ID= " + id);
         mVideoOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CCPAppManager.callVoIPAction(getActivity(), ECVoIPCallManager.CallType.VIDEO,
-                        "20170717", "20170717",false);
+                if (id.equals("0")){
+                    Toast.makeText(getActivity(), "id错误", Toast.LENGTH_LONG).show();
+                }else{
+                    CCPAppManager.callVoIPAction(getActivity(), ECVoIPCallManager.CallType.VIDEO,
+                            id, id,false);
+                }
+
             }
         });
         mVideoOpen.setVisibility(View.GONE);
@@ -128,6 +136,15 @@ public class HomeFragment extends BaseFragment{
 
         }
 
+    }
+
+    public String getYTXContactID(){
+
+        String[] id = ActivityInstance.mSplashActivityInstance.getYTXID();
+        if (!id[1].equals("1") && id[1] != null){
+            return id[1];
+        }
+        return "0";
     }
 
 

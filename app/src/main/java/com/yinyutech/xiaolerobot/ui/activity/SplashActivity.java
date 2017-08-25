@@ -11,11 +11,13 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.yinyutech.xiaolerobot.R;
 import com.yinyutech.xiaolerobot.bean.ClientUser;
 import com.yinyutech.xiaolerobot.common.CCPAppManager;
+import com.yinyutech.xiaolerobot.fractory.ActivityInstance;
 import com.yinyutech.xiaolerobot.helper.IMChattingHelper;
 import com.yinyutech.xiaolerobot.helper.SDKCoreHelper;
 import com.yinyutech.xiaolerobot.utils.Constant;
@@ -35,6 +37,7 @@ public class SplashActivity extends BaseActivity implements IMChattingHelper.OnM
 	private ImageView mSplashItem_iv = null;
 	private Button login, register;
 	private SharedPreferences mYTXIDSharedPreference;
+	private RelativeLayout mAnimRelativeLayout1;
 
 	String mobile = "71707102";
 	String pass = "";
@@ -48,6 +51,7 @@ public class SplashActivity extends BaseActivity implements IMChattingHelper.OnM
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash);
 
+		ActivityInstance.mSplashActivityInstance = this;
 		DisplayMetrics metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
 //		Constants.SCREEN_DENSITY = metrics.density;
@@ -151,6 +155,7 @@ public class SplashActivity extends BaseActivity implements IMChattingHelper.OnM
 	 */
 	protected void findViewById() {
 		// TODO Auto-generated method stub
+		mAnimRelativeLayout1 = (RelativeLayout)findViewById(R.id.relativeLayout1);
 		mSplashItem_iv = (ImageView) findViewById(R.id.splash_loading_item);
 		login = (Button)findViewById(R.id.login);
 		register = (Button)findViewById(R.id.regist);
@@ -173,19 +178,22 @@ public class SplashActivity extends BaseActivity implements IMChattingHelper.OnM
 			@Override
 			public void onAnimationStart(Animation animation) {
 				// TODO Auto-generated method stub
+				Log.d("TIEJIANG", "SplashActivity---onAnimationStart");
 
 			}
 
 			@Override
 			public void onAnimationRepeat(Animation animation) {
 				// TODO Auto-generated method stub
+				Log.d("TIEJIANG", "SplashActivity---onAnimationRepeat");
 
 			}
 
 			@Override
 			public void onAnimationEnd(Animation animation) {
 				// TODO Auto-generated method stub
-
+				Log.d("TIEJIANG", "SplashActivity---onAnimationEnd");
+				mAnimRelativeLayout1.setVisibility(View.GONE);
 				//判断登录信息进入到不同界面（登录注册/主界面）
 				login.setVisibility(View.VISIBLE);
 				register.setVisibility(View.VISIBLE);
