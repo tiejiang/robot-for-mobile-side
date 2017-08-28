@@ -39,6 +39,7 @@ public class XiaoLeApplication extends Application {
 
         mInstance = this;
         CCPAppManager.setContext(mInstance);
+        //不要在ａｐｐｌｉｃａｔｉｏｎ的ｏｎＣｒｅａｔｅ当中初始化云通讯
 //        //save app key/ID and contact number etc. and init rong-lian-yun SDK
 //        ClientUser clientUser = new ClientUser(mobile);
 //        clientUser.setAppKey(appKey);

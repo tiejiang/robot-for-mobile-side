@@ -20,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.yinyutech.xiaolerobot.R;
+import com.yinyutech.xiaolerobot.entrance.ControlModelChanged;
 import com.yinyutech.xiaolerobot.logger.Logger;
 import com.yinyutech.xiaolerobot.model.AddBoxStatus;
 import com.yinyutech.xiaolerobot.ui.activity.MainActivity;
@@ -35,6 +36,7 @@ import java.util.List;
 import static com.yinyutech.xiaolerobot.R.id.linearLayout_second_step;
 import static com.yinyutech.xiaolerobot.R.id.next_step;
 import static com.yinyutech.xiaolerobot.R.id.pairTipTextView;
+import static com.yinyutech.xiaolerobot.ui.fragment.HomeFragment.mStateChangeHandler;
 
 public class DeviceControlFragment extends BaseFragment {
 
@@ -59,7 +61,7 @@ public class DeviceControlFragment extends BaseFragment {
     private XiaoLeUDP mXiaoLeUDP;
     public static Handler mScanXiaoLeHandler;
     private boolean isXiaoLeExist = false; // 搜索小乐是否存在
-    private boolean isLocalNetControl;  //是否开启局域网的控制
+
 
     private Handler timerHandler = new Handler();
 
@@ -227,10 +229,8 @@ public class DeviceControlFragment extends BaseFragment {
                 invisibleNetUI();
 
 
-
                 if (scanMessage.length() > 1){
                     //搜索到设备，直接进入到设备
-
                     try{
                         JSONObject parseH3json = new JSONObject(scanMessage);
                         String state = parseH3json.getString("state");
@@ -246,9 +246,10 @@ public class DeviceControlFragment extends BaseFragment {
                         }else if (state.equals("IDSetted") && name.equals("XiaoleServer") && hostip != null){
                             isXiaoLeExist = true;
                             mShowIsXiaoleExist.setText("xiaole robot: " + hostip);
-                            isLocalNetControl = true;  //开启局域网控制模式
 
-//                            udpBroadcaster.startBroadcastSearchBox(); //结束联网步骤之后就开始Ｈ３设备的扫描
+                            //开启局域网控制模式
+                            mStateChangeHandler.sendEmptyMessage(1);
+
                             Log.d("TIEJIANG", "DeviceControlFragment---analysis" + " IDset handed");
                         }
                     }catch (JSONException e){
@@ -258,16 +259,15 @@ public class DeviceControlFragment extends BaseFragment {
                     mShowIsXiaoleExist.setText("未发现设备,请进入联网模式");
                     isXiaoLeExist = false;
                     mLinearLayoutFinalStep.setVisibility(View.INVISIBLE);
-                    isLocalNetControl = true;  //关闭局域网控制模式
+
+                    mStateChangeHandler.sendEmptyMessage(2);  //关闭局域网控制模式
                 }
             }
         };
     }
 
-//    public void changeControleModel(ControlModelChanged controlModelChanged){
-//
-//        controlModelChanged.isLocalNetControl(true);
-//    }
+
+
 
 
     public void initScanView(){
@@ -449,7 +449,7 @@ public class DeviceControlFragment extends BaseFragment {
         mMessage.what = 0;
         mMessage.obj = "setting_ok";
         MainActivity.mTabhostSkipHandler.sendMessage(mMessage);
-        HomeFragment.mStateChangeHandler.sendEmptyMessage(0);
+        mStateChangeHandler.sendEmptyMessage(0);
     }
 
     // 添加音箱完整流程，当音箱未连接Wi-Fi时使用

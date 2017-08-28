@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.yinyutech.xiaolerobot.R;
 import com.yinyutech.xiaolerobot.bean.Tab;
 import com.yinyutech.xiaolerobot.bean.UserInfo;
+import com.yinyutech.xiaolerobot.fractory.ActivityInstance;
 import com.yinyutech.xiaolerobot.ui.fragment.DeviceControlFragment;
 import com.yinyutech.xiaolerobot.ui.fragment.HomeFragment;
 import com.yinyutech.xiaolerobot.ui.fragment.OptionFragment;
@@ -44,6 +45,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ActivityInstance.mMainActivityInstance = this; //传递MainActivity实例到工厂类
 //        mMySurfaceViewControler = (MySurfaceViewControler)findViewById(R.id.control_view);
 //        mMySurfaceViewControler.setVisibility(View.GONE);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
@@ -60,26 +62,26 @@ public class MainActivity extends BaseActivity {
 
         initTab();
 
-        Handler mHandler = new Handler(){
-
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-
-                if(mHomeFragment == null){
-                    //test code
-                    String tabStr = mTabhost.getCurrentTabTag();
-                    Fragment fragment =  getSupportFragmentManager().findFragmentByTag(tabStr);
-                    if(fragment ==null){
-                        mHomeFragment= (HomeFragment) fragment;
-                    }
-                }
-                Bundle mBundle = new Bundle();
-                mBundle.putString("DEVICE", "device_off");
-//        mHomeFragment = new HomeFragment();
-                mHomeFragment.setArguments(mBundle);
-            }
-        };
+//        Handler mHandler = new Handler(){
+//
+//            @Override
+//            public void handleMessage(Message msg) {
+//                super.handleMessage(msg);
+//
+//                if(mHomeFragment == null){
+//                    //test code
+//                    String tabStr = mTabhost.getCurrentTabTag();
+//                    Fragment fragment =  getSupportFragmentManager().findFragmentByTag(tabStr);
+//                    if(fragment ==null){
+//                        mHomeFragment= (HomeFragment) fragment;
+//                    }
+//                }
+//                Bundle mBundle = new Bundle();
+//                mBundle.putString("DEVICE", "device_off");
+////        mHomeFragment = new HomeFragment();
+//                mHomeFragment.setArguments(mBundle);
+//            }
+//        };
 
 
         mTabhostSkipHandler = new Handler(){
@@ -113,6 +115,13 @@ public class MainActivity extends BaseActivity {
         };
     }
 
+    @Override
+    public void onAttachFragment(Fragment fragment) {
+        super.onAttachFragment(fragment);
+        Log.d("TIEJIANG", "MainActivity---onAttachFragment");
+
+    }
+
     private void initTab() {
 
         tab_home = new Tab(HomeFragment.class,R.string.xiaole,R.drawable.bottom_xiaole);
@@ -144,7 +153,7 @@ public class MainActivity extends BaseActivity {
                     Log.d("TIEJIANG", "fragment change---device_control");
 //                    mMySurfaceViewControler.setVisibility(View.GONE);
 
-                    refData();
+//                    refData();
                 }else if (tabId==getString(R.string.xiaole)){
                     Log.d("TIEJIANG", "fragment change---xiaole");
 //                    mMySurfaceViewControler.setVisibility(View.VISIBLE);
@@ -160,18 +169,51 @@ public class MainActivity extends BaseActivity {
         mTabhost.setCurrentTab(0);
     }
 
-    private void refData(){
+    public DeviceControlFragment refData(){
 
         if(deviceControlFragment == null){
             Fragment fragment =  getSupportFragmentManager().findFragmentByTag(getString(R.string.device_control));
-            if(fragment !=null){
-                deviceControlFragment= (DeviceControlFragment) fragment;
-                deviceControlFragment.refData();
+            Log.d("TIEJIANG", "MainAcitivity---refData" + " fragment= " + fragment);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Fragment fragment =  getSupportFragmentManager().findFragmentByTag(getString(R.string.device_control));
+                    if(fragment !=null){
+                        deviceControlFragment= (DeviceControlFragment) fragment;
+//                        deviceControlFragment.refData();
+                    }
+                    Log.d("TIEJIANG", "MainAcitivity---refData delay50s " + " deviceControlFragment= " + deviceControlFragment);
+                }
+            }, 50);
+
+        }
+//        else{
+//            deviceControlFragment.refData();
+//        }
+        return deviceControlFragment;
+    }
+
+    public HomeFragment getHomeFragmentInstance(){
+
+        if(mHomeFragment == null){
+            Fragment fragment =  getSupportFragmentManager().findFragmentByTag(getString(R.string.xiaole));
+            Log.d("TIEJIANG", "MainAcitivity---refData" + " fragment= " + fragment);
+            if (fragment != null){
+                mHomeFragment = (HomeFragment)fragment;
+            }else {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Fragment fragment =  getSupportFragmentManager().findFragmentByTag(getString(R.string.xiaole));
+                        if(fragment !=null){
+                            mHomeFragment= (HomeFragment) fragment;
+                        }
+                        Log.d("TIEJIANG", "MainAcitivity---refData delay50s " + " HomeFragment= " + mHomeFragment);
+                    }
+                }, 50);
             }
         }
-        else{
-            deviceControlFragment.refData();
-        }
+        return mHomeFragment;
     }
 
     private View buildIndicator(Tab tab){

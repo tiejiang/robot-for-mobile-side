@@ -12,13 +12,14 @@ import android.widget.Toast;
 
 import com.yinyutech.xiaolerobot.R;
 import com.yinyutech.xiaolerobot.common.CCPAppManager;
+import com.yinyutech.xiaolerobot.entrance.ControlModelChanged;
 import com.yinyutech.xiaolerobot.fractory.ActivityInstance;
 import com.yinyutech.xiaolerobot.ui.activity.MySurfaceViewControler;
 import com.yuntongxun.ecsdk.ECVoIPCallManager;
 
 
 /**
- *
+ * author　tiejiang
  * 20170810
  * */
 public class HomeFragment extends BaseFragment{
@@ -30,6 +31,7 @@ public class HomeFragment extends BaseFragment{
     public static Handler mStateChangeHandler;
     public MySurfaceViewControler mMySurfaceViewControler;
     private boolean isDeviceFind = false;  //通过DeviceControlFragment发现了设备
+    private ControlModelChanged mControlModelChanged;
 
 
     @Override
@@ -64,19 +66,25 @@ public class HomeFragment extends BaseFragment{
                 super.handleMessage(msg);
                 switch (msg.what){
                     case 0:
-
-//                        mFramelayoutControlView.setVisibility(View.VISIBLE);
                         mMySurfaceViewControler.setVisibility(View.VISIBLE);
                         mVideoOpen.setVisibility(View.VISIBLE);
                         isDeviceFind = true;
 
-                        Log.d("TIEJIANG", "state_change");
+//                        Log.d("TIEJIANG", "state_change");
 
                         break;
                     case 1:
-
+                        //控制模式改变－－－（局域网/外网）
+                        //第一次联网成功时候SurfaceView还未创建，因此mControlModelChanged还未在其中实例化
+                        if (mControlModelChanged != null){
+                            mControlModelChanged.isLocalNetControl(true);
+                        }
                         break;
                     case 2:
+                        //局域网控制模式被关闭
+                        if (mControlModelChanged != null){
+                            mControlModelChanged.isLocalNetControl(false);
+                        }
 
                         break;
                 }
@@ -85,6 +93,7 @@ public class HomeFragment extends BaseFragment{
 
         return mHomeFragmenView;
     }
+
 
     @Override
     public void init() {
@@ -135,6 +144,14 @@ public class HomeFragment extends BaseFragment{
         }else {
 
         }
+
+    }
+
+    public void changeControleModel(ControlModelChanged controlModelChanged){
+        this.mControlModelChanged = controlModelChanged;
+
+//        controlModelChanged.isLocalNetControl(is_local_control_model);
+
 
     }
 

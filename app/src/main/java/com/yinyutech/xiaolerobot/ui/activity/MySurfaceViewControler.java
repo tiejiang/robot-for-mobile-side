@@ -17,8 +17,12 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.yinyutech.xiaolerobot.R;
+import com.yinyutech.xiaolerobot.entrance.ControlModelChanged;
+import com.yinyutech.xiaolerobot.fractory.ActivityInstance;
 import com.yinyutech.xiaolerobot.helper.IMChattingHelper;
+import com.yinyutech.xiaolerobot.ui.fragment.HomeFragment;
 import com.yinyutech.xiaolerobot.utils.Constant;
+import com.yinyutech.xiaolerobot.utils.soundbox.XiaoLeLocalSendingCommand;
 import com.yuntongxun.ecsdk.ECError;
 import com.yuntongxun.ecsdk.ECMessage;
 import com.yuntongxun.ecsdk.im.ECTextMessageBody;
@@ -51,6 +55,9 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
     private String isBeginSendControlCommand = "";
     private Context mMySurfaceViewControlerContext;
     private String[] ytxID = new String[2];
+    private boolean isLocalNetControl = false;  //是否开启局域网的控制
+    private XiaoLeLocalSendingCommand mXiaoLeLocalSendingCommand;
+
 
     public MySurfaceViewControler(Context context){
         super(context);
@@ -62,10 +69,10 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
         this.mMySurfaceViewControlerContext = context;
         Log.d("TIEJIANG", "MySurfaceViewControler---MySurfaceViewControler( , )");
          /*备注1：在此处获取屏幕高、宽值为0，以为此时view还未被创建，
-             * 在接口Callback的surfaceCreated方法中view才被创建
-             */
-            /*screenW = getWidth();
-            screenH = getHeight();*/
+         * 在接口Callback的surfaceCreated方法中view才被创建
+         */
+        /*screenW = getWidth();
+        screenH = getHeight();*/
 
         //注释以下三句,保留surfaceview黑框背景
         setBackgroundResource(R.drawable.hand_control_base);
@@ -114,6 +121,24 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
         float[] mScreenData = getRect();
         screenW = mScreenData[0];
         screenH = mScreenData[1];
+        mXiaoLeLocalSendingCommand = new XiaoLeLocalSendingCommand();
+        //获得DeviceControlFragment 实例　（程序开始时候，此处还不能够获得ＤeviceControlFragment实例）
+        HomeFragment mHomeFragment = ActivityInstance.mMainActivityInstance.getHomeFragmentInstance();
+        mHomeFragment.changeControleModel(new ControlModelChanged() {
+            @Override
+            public void isLocalNetControl(boolean is_local_net_control) {
+                Log.d("TIEJIANG", "MySurfaceViewControler---surfaceCreated" + " is_local_net_control= "+is_local_net_control);
+
+                if (is_local_net_control){
+                    isLocalNetControl = true;
+                }else {
+                    isLocalNetControl = false;
+                }
+
+            }
+        });
+
+
         // 画surfaceView背景
 //        canvas = sfh.lockCanvas();
 //        canvas.drawColor(Color.BLUE);
@@ -214,8 +239,11 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
 
             // 注意去掉等号部分,等号部分在原点--初始位置
             if (equationOne > 0 && equationTwo > 0){  //"前进区域"
-
-                handleSendTextMessage(Constant.MOBILE_FORWARD);
+                if (isLocalNetControl){
+                    mXiaoLeLocalSendingCommand.startLocalSending(Constant.LOCAL_NET_MOBILE_FORWARD);
+                }else {
+                    handleSendTextMessage(Constant.MOBILE_FORWARD);
+                }
                 Log.d("TIEJIANG", "forward");
                 return 1 ;
             } else if (equationOne < 0 && equationTwo < 0){  // "后退区域"

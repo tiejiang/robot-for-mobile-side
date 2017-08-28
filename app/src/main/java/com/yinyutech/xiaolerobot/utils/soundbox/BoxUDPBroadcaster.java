@@ -191,7 +191,7 @@ public class BoxUDPBroadcaster {
                         mScanXiaoLeHandler.obtainMessage(0, mes).sendToTarget();
                     }
 
-                    handler.postDelayed(broadcaster, 5000);
+                    handler.postDelayed(broadcaster, 2000);
                 }
             }).start();
         }

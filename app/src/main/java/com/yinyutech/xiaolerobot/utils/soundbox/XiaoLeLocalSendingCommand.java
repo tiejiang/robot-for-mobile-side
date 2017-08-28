@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.yinyutech.xiaolerobot.utils.Constant;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -17,52 +15,58 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
-import static com.yinyutech.xiaolerobot.ui.fragment.DeviceControlFragment.mScanXiaoLeHandler;
-
 /**
- * Created by yinyu-tiejiang on 17-8-24.
+ * Created by yinyu-tiejiang on 17-8-28.
  */
 
-public class XiaoLeUDP {
+public class XiaoLeLocalSendingCommand {
 
     private static final int TIMEOUT = 5000;  //设置接收数据的超时时间
     private static final int MAXNUM = 2;      //设置重发数据的最多次数
     private SharedPreferences mGetYTXIDsp;
-    private Context activityContextForXiaoLeUDP;
+    private Context activityContextForLocalSendingUDP;
 
-    public XiaoLeUDP(Context context){
-        this.activityContextForXiaoLeUDP = context;
+    int count = 0;
+
+    public XiaoLeLocalSendingCommand(Context context){
+        this.activityContextForLocalSendingUDP = context;
     }
 
-    public XiaoLeUDP(){
+    public XiaoLeLocalSendingCommand(){
 
     }
 
-    public void startXiaoLeUDP(){
-        new Thread(new ScanXiaoLeRunnable()).start();
+    public void startLocalSending(String command){
+        //计数，连续收到５次指令后才启动线程发送消息(根据实际情况调整此参数)
+        count += 1;
+
+        if (count >= 5){
+            Log.d("TIEJIANG", "XiaoLeLocalSendingCommand---startLocalSending " + "count= " + count);
+            new Thread(new CommandSendingRunnable(command)).start();
+            count = 0;
+        }
+
     }
 
-    public String[] getYTXID(){
-
-        String[] ytxID = new String [2];
-        SharedPreferences mGetYTXIDsp = activityContextForXiaoLeUDP.getSharedPreferences(Constant.USER_MESSAGE, Context.MODE_PRIVATE);
-        ytxID[0] = mGetYTXIDsp.getString(Constant.XIAOLE_YTX_MOBILE, "0");
-        ytxID[1] = mGetYTXIDsp.getString(Constant.XIAOLE_YTX_H3, "1");
-
-        return ytxID;
-    }
+//    public String[] getYTXID(){
+//
+//        String[] ytxID = new String [2];
+//        SharedPreferences mGetYTXIDsp = activityContextForLocalSendingUDP.getSharedPreferences(Constant.USER_MESSAGE, Context.MODE_PRIVATE);
+//        ytxID[0] = mGetYTXIDsp.getString(Constant.XIAOLE_YTX_MOBILE, "0");
+//        ytxID[1] = mGetYTXIDsp.getString(Constant.XIAOLE_YTX_H3, "1");
+//
+//        return ytxID;
+//    }
 
     // 调用此函数是为了联网模式的配对阶段－－－传输云通讯ＩＤ
-    private String sendYTXUDPData(){
-//        private static final int MAX_UDP_DATAGRAM_LEN = 1000;
-//        Log.d("TIEJIANG", "XiaoLeUDP---sendYTXUDPData");
+    private String sendUDPCommand(String command){
         DatagramSocket ds = null;
         String str_receive = "";
-        String[] id = getYTXID();
+//        String[] id = getYTXID();
         byte[] data = new byte[128];
         byte[] jsonData = new byte[128];
         String ip = SoundBoxManager.getInstance().currentIP();
-        Log.d("TIEJIANG", "XiaoLeUDP---sendYTXUDPData" + " currentIP= " + ip);
+        Log.d("TIEJIANG", "XiaoLeLocalSendingCommand---sendYTXUDPData" + " currentIP= " + ip);
         if (ip == null){
             return "0";
         }
@@ -71,9 +75,8 @@ public class XiaoLeUDP {
             JSONObject json = new JSONObject();
             json.put("name", "XiaoleClient");
             json.put("Clientip", ip);
-            json.put("ClientContent", id[0]+","+id[1]);
-            json.put("wanted", "sendYTXID");
-
+            json.put("ClientContent", command);
+            json.put("wanted", "sendLocalControlCommand");
             String jsonString = json.toString();
             jsonData = jsonString.getBytes();
 
@@ -99,19 +102,19 @@ public class XiaoLeUDP {
                 //发送数据
                 ds.send(dp_send);
                 try{
-                    Log.d("TIEJIANG", "XiaoLeUDP---sendYTXUDPData" + "UDPClient---received data");
+                    Log.d("TIEJIANG", "XiaoLeLocalSendingCommand---sendYTXUDPData" + "UDPClient---received data");
                     //接收从服务端发送回来的数据
                     ds.receive(dp_receive);
                     receivedResponse = true;
                 }catch(InterruptedIOException e){
                     //如果接收数据时阻塞超时，重发并减少一次重发的次数
                     tries += 1;
-                    Log.d("TIEJIANG", "XiaoLeUDP---sendYTXUDPData" + "Time out," + (MAXNUM - tries) + " more tries..." );
+                    Log.d("TIEJIANG", "XiaoLeLocalSendingCommand---sendYTXUDPData" + "Time out," + (MAXNUM - tries) + " more tries..." );
                 }
             }
             if(receivedResponse) {
                 //如果收到数据，则打印出来
-//                Log.d("TIEJIANG", "XiaoLeUDP---sendYTXUDPData" + " client received data from server：");
+//                Log.d("TIEJIANG", "XiaoLeLocalSendingCommand---sendYTXUDPData" + " client received data from server：");
 //                String str_receive = new String(dp_receive.getData(), 0, dp_receive.getLength()) +
 //                        " from " + dp_receive.getAddress().getHostAddress() + ":" + dp_receive.getPort();
                 str_receive = new String(dp_receive.getData(), 0, dp_receive.getLength());
@@ -121,7 +124,7 @@ public class XiaoLeUDP {
                 //所以这里要将dp_receive的内部消息长度重新置为128
                 dp_receive.setLength(128);
             }else{
-                Log.d("TIEJIANG", "XiaoLeUDP---sendYTXUDPData"  + " No response -- give up.");
+                Log.d("TIEJIANG", "XiaoLeLocalSendingCommand---sendYTXUDPData"  + " No response -- give up.");
                 str_receive = "0";
 
             }
@@ -141,14 +144,19 @@ public class XiaoLeUDP {
         return str_receive;
     }
 
-    class ScanXiaoLeRunnable implements Runnable{
+    class CommandSendingRunnable implements Runnable{
 
+        String commandString;
+        public CommandSendingRunnable(String command){
+            this.commandString = command;
+        }
         @Override
         public void run() {
-            String mes = sendYTXUDPData();
-            if (mes != null){
-                mScanXiaoLeHandler.obtainMessage(0, mes).sendToTarget();
-            }
+            String mes = sendUDPCommand(commandString);
+
+//            if (mes != null){
+//                mScanXiaoLeHandler.obtainMessage(0, mes).sendToTarget();
+//            }
         }
     }
 

@@ -1,5 +1,6 @@
 package com.yinyutech.xiaolerobot.fractory;
 
+import com.yinyutech.xiaolerobot.ui.activity.MainActivity;
 import com.yinyutech.xiaolerobot.ui.activity.SplashActivity;
 
 /**
@@ -9,6 +10,7 @@ import com.yinyutech.xiaolerobot.ui.activity.SplashActivity;
 public class ActivityInstance {
 
     public static SplashActivity mSplashActivityInstance;
+    public static MainActivity mMainActivityInstance;
 
 
 }
