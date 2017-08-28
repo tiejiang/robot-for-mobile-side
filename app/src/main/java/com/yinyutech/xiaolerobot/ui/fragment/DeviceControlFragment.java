@@ -198,11 +198,10 @@ public class DeviceControlFragment extends BaseFragment {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         Log.d("TIEJIANG", "DeviceControlFragment---hidden= " + hidden + " isXiaoLeExist= " + isXiaoLeExist);
-        //小乐已经确认不存在了，则不用再启动ＵＤＰ去搜索:isXiaoLeExist = false
 //        if (!hidden && isXiaoLeExist){
         if (!hidden){
                 startScanXiaoLe();
-                analysis();
+//                analysis();
         }
 
     }
@@ -219,6 +218,7 @@ public class DeviceControlFragment extends BaseFragment {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
+
                 String scanMessage = (String)msg.obj;
                 Log.d("TIEJIANG", "DeviceControlFragment---mScanXiaoLeHandler" + " scanMessage= " + scanMessage);
                 mShowIsXiaoleExist.setVisibility(View.VISIBLE);
@@ -241,6 +241,11 @@ public class DeviceControlFragment extends BaseFragment {
                         if (state.equals("handed") && name.equals("XiaoleServer") && hostip != null) {
 //                            isXiaoLeExist = true;
 //                            mShowIsXiaoleExist.setText("xiaole robot: " + hostip);
+                            isXiaoLeExist = true;
+                            mShowIsXiaoleExist.setText("xiaole robot: " + hostip);
+
+                            //开启局域网控制模式
+                            mStateChangeHandler.sendEmptyMessage(1);
                             Log.d("TIEJIANG", "DeviceControlFragment---analysis" + " udp handed");
 
                         }else if (state.equals("IDSetted") && name.equals("XiaoleServer") && hostip != null){
@@ -405,7 +410,6 @@ public class DeviceControlFragment extends BaseFragment {
                         //开始发送云通讯ＩＤ到Ｈ３
                         mXiaoLeUDP.startXiaoLeUDP();
                         startScanXiaoLe();
-//                        mImageView.setBackgroundResource(R.drawable.net_progress_bar_fifth);
 
                         mStepFlag = 1;
                         Log.d(TAG, "mStepFlag= " + mStepFlag);

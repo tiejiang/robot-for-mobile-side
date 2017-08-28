@@ -18,19 +18,16 @@ import com.yinyutech.xiaolerobot.R;
 import com.yinyutech.xiaolerobot.bean.ClientUser;
 import com.yinyutech.xiaolerobot.common.CCPAppManager;
 import com.yinyutech.xiaolerobot.fractory.ActivityInstance;
-import com.yinyutech.xiaolerobot.helper.IMChattingHelper;
 import com.yinyutech.xiaolerobot.helper.SDKCoreHelper;
 import com.yinyutech.xiaolerobot.utils.Constant;
 import com.yinyutech.xiaolerobot.utils.DemoUtils;
-import com.yuntongxun.ecsdk.ECError;
 import com.yuntongxun.ecsdk.ECInitParams;
-import com.yuntongxun.ecsdk.ECMessage;
-
-import java.util.List;
 
 import static com.yinyutech.xiaolerobot.utils.DemoUtils.generateMixString;
 
-public class SplashActivity extends BaseActivity implements IMChattingHelper.OnMessageReportCallback{
+public class SplashActivity extends BaseActivity
+//		implements IMChattingHelper.OnMessageReportCallback
+{
 
 	public static final String TAG = SplashActivity.class.getSimpleName();
 
@@ -95,7 +92,7 @@ public class SplashActivity extends BaseActivity implements IMChattingHelper.OnM
 		clientUser.setPassword(pass);
 		CCPAppManager.setClientUser(clientUser);
 		SDKCoreHelper.init(SplashActivity.this, ECInitParams.LoginMode.FORCE_LOGIN);
-		IMChattingHelper.setOnMessageReportCallback(SplashActivity.this);
+//		IMChattingHelper.setOnMessageReportCallback(SplashActivity.this);
 		Log.d("TIEJIANG", "SplashActivity---initYTX" + " mobile= " + mobile);
 	}
 
@@ -207,13 +204,13 @@ public class SplashActivity extends BaseActivity implements IMChattingHelper.OnM
 	}
 
 
-    @Override
-    public void onMessageReport(ECError error, ECMessage message) {
-
-    }
-
-    @Override
-    public void onPushMessage(String sessionId, List<ECMessage> msgs) {
-
-    }
+//    @Override
+//    public void onMessageReport(ECError error, ECMessage message) {
+//
+//    }
+//
+//    @Override
+//    public void onPushMessage(String sessionId, List<ECMessage> msgs) {
+//
+//    }
 }

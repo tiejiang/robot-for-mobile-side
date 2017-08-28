@@ -64,6 +64,10 @@ public class HomeFragment extends BaseFragment{
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
+
+                //检查云通讯的通讯状态－－－暂留作接口
+//                boolean is_wlan_ok = mMySurfaceViewControler.isWLANOK;
+
                 switch (msg.what){
                     case 0:
                         mMySurfaceViewControler.setVisibility(View.VISIBLE);
@@ -148,11 +152,8 @@ public class HomeFragment extends BaseFragment{
     }
 
     public void changeControleModel(ControlModelChanged controlModelChanged){
+
         this.mControlModelChanged = controlModelChanged;
-
-//        controlModelChanged.isLocalNetControl(is_local_control_model);
-
-
     }
 
     public String getYTXContactID(){

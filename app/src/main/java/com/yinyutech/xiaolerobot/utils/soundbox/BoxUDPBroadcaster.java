@@ -25,7 +25,7 @@ import static com.yinyutech.xiaolerobot.ui.fragment.DeviceControlFragment.mScanX
  */
 public class BoxUDPBroadcaster {
 
-    private static final int TIMEOUT = 5000;  //设置接收数据的超时时间
+    private static final int TIMEOUT = 1000;  //设置接收数据的超时时间
     private static final int MAXNUM = 2;      //设置重发数据的最多次数
     private SharedPreferences mGetYTXIDsp;
     private Context activityContext;
@@ -51,6 +51,8 @@ public class BoxUDPBroadcaster {
 
     public void startBroadcastSearchBox() {
         handler.post(broadcaster);
+        Log.d("TIEJIANG", "BoxUDPBroadcaster---startBroadcastSearchBox "+"handler= " + handler);
+        Log.d("TIEJIANG", "BoxUDPBroadcaster---startBroadcastSearchBox "+"broadcaster= " + broadcaster);
     }
 
     public void stopBroadcastSearchBox() {
@@ -109,7 +111,7 @@ public class BoxUDPBroadcaster {
             DatagramPacket dp_receive = new DatagramPacket(data, 128);
             //数据发向本地3000端口
             ds.setSoTimeout(TIMEOUT);              //设置接收数据时阻塞的最长时间
-            int tries = 0;                         //重发数据的次数
+//            int tries = 0;                         //重发数据的次数
             boolean receivedResponse = false;     //是否接收到数据的标志位
 //            Log.d("TIEJIANG", "BoxUDPBroadcaster---sendUDPDatagram" + " receiver.address= " + receAddress);
 
@@ -127,9 +129,10 @@ public class BoxUDPBroadcaster {
                     //如果接收到数据。则将receivedResponse标志位改为true，从而退出循环
                     receivedResponse = true;
                 }catch(InterruptedIOException e){
+                    e.printStackTrace();
                     //如果接收数据时阻塞超时，重发并减少一次重发的次数
-                    tries += 1;
-                    Log.d("TIEJIANG", "BoxUDPBroadcaster---sendUDPDatagram" + "Time out," + (MAXNUM - tries) + " more tries..." );
+//                    tries += 1;
+//                    Log.d("TIEJIANG", "BoxUDPBroadcaster---sendUDPDatagram" + "Time out," + (MAXNUM - tries) + " more tries..." );
                 }
 //            }
             if(receivedResponse) {
@@ -187,15 +190,14 @@ public class BoxUDPBroadcaster {
                 public void run() {
 //                    sendUDPDatagram();
                     String mes = sendUDPDatagram();
+                    Log.d("TIEJIANG", "BoxUDPBroadcaster---broadcaster " + "mes= " + mes);
                     if (mes != null){
                         mScanXiaoLeHandler.obtainMessage(0, mes).sendToTarget();
                     }
 
-                    handler.postDelayed(broadcaster, 2000);
+                    handler.postDelayed(broadcaster, 3000);
                 }
             }).start();
         }
     };
-
-    public static final int broadcastPort = 21238;
 }

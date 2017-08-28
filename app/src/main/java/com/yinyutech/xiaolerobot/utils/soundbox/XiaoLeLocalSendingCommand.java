@@ -40,7 +40,7 @@ public class XiaoLeLocalSendingCommand {
         //计数，连续收到５次指令后才启动线程发送消息(根据实际情况调整此参数)
         count += 1;
 
-        if (count >= 5){
+        if (count >= 1){
             Log.d("TIEJIANG", "XiaoLeLocalSendingCommand---startLocalSending " + "count= " + count);
             new Thread(new CommandSendingRunnable(command)).start();
             count = 0;

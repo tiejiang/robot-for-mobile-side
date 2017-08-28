@@ -56,6 +56,7 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
     private Context mMySurfaceViewControlerContext;
     private String[] ytxID = new String[2];
     private boolean isLocalNetControl = false;  //是否开启局域网的控制
+    public boolean isWLANOK = false;    //通过外网是否能够和小乐通信－－－即外网状态＋云通讯状态
     private XiaoLeLocalSendingCommand mXiaoLeLocalSendingCommand;
 
 
@@ -121,6 +122,8 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
         float[] mScreenData = getRect();
         screenW = mScreenData[0];
         screenH = mScreenData[1];
+
+        IMChattingHelper.setOnMessageReportCallback(this);
         mXiaoLeLocalSendingCommand = new XiaoLeLocalSendingCommand();
         //获得DeviceControlFragment 实例　（程序开始时候，此处还不能够获得ＤeviceControlFragment实例）
         HomeFragment mHomeFragment = ActivityInstance.mMainActivityInstance.getHomeFragmentInstance();
@@ -153,6 +156,8 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
 //        th.start();
         // 避免线程
         new Thread(new DrawViewRunnable()).start();
+        //启动网络监听线程
+        new Thread(new YTXHandshakeRunnabel()).start();
 
     }
 
@@ -192,6 +197,23 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
         }
     }
 
+    class YTXHandshakeRunnabel implements Runnable{
+
+        @Override
+        public void run() {
+            //beginDrawing---surfaceView开始绘制的时候即开始判断网络情况
+            while (beginDrawing){
+                try {
+                    handleSendTextMessage(Constant.HAND_SHAKE);
+                    Thread.sleep(2000);
+                    Log.d("TIEJIANG", "MySurfaceViewControler---YTXHandshakeRunnabel YTXHandshake");
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                }
+
+            }
+        }
+    }
 
 //    @Override
 //    public void run() {
@@ -219,7 +241,7 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
     /**
      * return 1:forward; 2 back; 3 turn left; 4 turn right; 0 origin point
      * */
-    public int directionControl(float x, float y){
+    public void directionControl(float x, float y){
 
         float circlePointX = screenW/2 - radius;
         float circlePointY = screenH/2 - radius;
@@ -235,42 +257,40 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
         equationTwo = (-circlePointY)*x + (circlePointX-screenW+radius)*y + (screenW-radius)*circlePointY;
 //        Log.d("TIEJIANG", "equationOne= " + equationOne + ", equationTwo= " + equationTwo);
 
-//        if (isBeginSendControlCommand.equals(Constant.BEGING_CONFIRM)){   //
+        // test code begin
+        isWLANOK = true;
+        isLocalNetControl = false;
+        // test code end
 
-            // 注意去掉等号部分,等号部分在原点--初始位置
-            if (equationOne > 0 && equationTwo > 0){  //"前进区域"
-                if (isLocalNetControl){
-                    mXiaoLeLocalSendingCommand.startLocalSending(Constant.LOCAL_NET_MOBILE_FORWARD);
-                }else {
-                    handleSendTextMessage(Constant.MOBILE_FORWARD);
-                }
-                Log.d("TIEJIANG", "forward");
-                return 1 ;
-            } else if (equationOne < 0 && equationTwo < 0){  // "后退区域"
-                handleSendTextMessage(Constant.MOBILE_BACK);
-                Log.d("TIEJIANG", "back");
-                return 2;
-            } else if(equationOne < 0 && equationTwo > 0){    //"左转区域"
-                handleSendTextMessage(Constant.MOBILE_TURN_LEFT);
-                Log.d("TIEJIANG", "turn left");
-                return 3;
-            } else if (equationOne > 0 && equationTwo < 0){    //"右转区域"
-                handleSendTextMessage(Constant.MOBILE_TURN_RIGHTT);
-                Log.d("TIEJIANG", "turn right");
-                return 4;
-            } else{
-//                Log.d("TIEJIANG", "origin point");
-                return 0;
-            }
-//        }
+        String sendCommand = "";
+        // 注意去掉等号部分,等号部分在原点--初始位置
+        if (equationOne > 0 && equationTwo > 0){  //"前进区域"
+            sendCommand = Constant.MOBILE_FORWARD;
+            Log.d("TIEJIANG", "forward");
+        } else if (equationOne < 0 && equationTwo < 0){  // "后退区域"
+            sendCommand = Constant.MOBILE_BACK;
+            Log.d("TIEJIANG", "back");
+        } else if(equationOne < 0 && equationTwo > 0){    //"左转区域"
+            sendCommand = Constant.MOBILE_TURN_LEFT;
+            Log.d("TIEJIANG", "turn left");
+        } else if (equationOne > 0 && equationTwo < 0){    //"右转区域"
+            sendCommand = Constant.MOBILE_TURN_RIGHTT;
+            Log.d("TIEJIANG", "turn right");
+        }
+        //组装指令－－＞发送
+        if (isLocalNetControl){
+            mXiaoLeLocalSendingCommand.startLocalSending(sendCommand);
+        }else if (isWLANOK){
+            handleSendTextMessage(sendCommand);
+        }
     }
 
     /*备注2：切记，在自定SurfaceView中定义的myDraw方法，自定义View（继承自View的子类）中的onDraw方法
-         * 完全是两码事：
-         * 1）自定义View（继承自View的子类）中的onDraw方法是重写父类的onDraw方法，在调用postInvalidate后会自动回调该onDraw()方法。
-         * 2）此处的myDraw方法需要手动调用，所以此处故意将方法命名为myDraw，突出为该方法是自己写的，非重写父类的方法 。
-         *
-         */
+     * 完全是两码事：
+     * 1）自定义View（继承自View的子类）中的onDraw方法是重写父类的onDraw方法，在调用postInvalidate后会自动回调该onDraw()方法。
+     * 2）此处的myDraw方法需要手动调用，所以此处故意将方法命名为myDraw，突出为该方法是自己写的，非重写父类的方法 。
+     *
+     */
     //重写onDraw方法实现绘图操作
     protected void myDraw() {
 
@@ -364,16 +384,25 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
     @Override
     public void onPushMessage(String sessionId, List<ECMessage> msgs) {
         int msgsSize = msgs.size();
-        String message = "　";
+        String message = "";
         for (int i = 0; i < msgsSize; i++){
             message = ((ECTextMessageBody) msgs.get(i).getBody()).getMessage();
-            Log.d("TIEJIANG", "[MainActivity-onPushMessage]" + "i :" + i + ", message = " + message);// add by tiejiang
+            Log.d("TIEJIANG", "MySurfaceViewControler---onPushMessage" + "i :" + i + ", message = " + message);
         }
 
-        Log.d("TIEJIANG", "[MainActivity-onPushMessage]" + ",sessionId :" + sessionId);// add by tiejiang
-        //mReceiveEditText.setText(message);
-        // test code
-//        MenuActivity.handleSendTextMessage(message + "callback");
+        Log.d("TIEJIANG", "MySurfaceViewControler---onPushMessage" + ",sessionId :" + sessionId);
+        analysisYTX(message);
+    }
+
+    //解析Ｈ３平台发送过来的ＩＭ信息
+    private void analysisYTX(String message){
+
+        Log.d("TIEJIANG", "MySurfaceViewControler---analysisYTX"+" message= " + message);
+        if (message.equals(Constant.HAND_OK)){
+            isWLANOK = true;
+        }else {
+            isWLANOK = false;
+        }
     }
 
     public String[] getYTXID(){
@@ -428,7 +457,7 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
             // 创建一个文本消息体，并添加到消息对象中
             msgBody = new ECTextMessageBody(text.toString());
             msg.setBody(msgBody);
-            Log.d("TIEJIANG", "[MenuActivity]-handleSendTextMessage" + ", txt = " + text);// add by tiejiang
+            Log.d("TIEJIANG", "MySurfaceViewControler---handleSendTextMessage" + ", txt = " + text);// add by tiejiang
         }
 
         //String[] at = mChattingFooter.getAtSomeBody();
@@ -440,7 +469,7 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
             //if(mCustomerService) {
             //rowId = CustomerServiceHelper.sendMCMessage(msg);
             //} else {
-            Log.d("TIEJIANG", "[MenuActivity]-SendECMessage");// add by tiejiang
+            Log.d("TIEJIANG", "MySurfaceViewControler---handleSendTextMessage");// add by tiejiang
             rowId = IMChattingHelper.sendECMessage(msg);
 
             //}
@@ -449,7 +478,7 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
             //notifyIMessageListView(msg);
         } catch (Exception e) {
             e.printStackTrace();
-            Log.d("TIEJIANG", "[MenuActivity]-send failed");// add by tiejiang
+            Log.d("TIEJIANG", "MySurfaceViewControler---handleSendTextMessage-send failed");// add by tiejiang
         }
     }
 }

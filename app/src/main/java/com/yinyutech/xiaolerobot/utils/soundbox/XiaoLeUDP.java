@@ -21,6 +21,7 @@ import static com.yinyutech.xiaolerobot.ui.fragment.DeviceControlFragment.mScanX
 
 /**
  * Created by yinyu-tiejiang on 17-8-24.
+ * XiaoLeUDP:负责联网步骤时候发送和配对云通讯ＩＤ
  */
 
 public class XiaoLeUDP {
@@ -146,11 +147,10 @@ public class XiaoLeUDP {
         @Override
         public void run() {
             String mes = sendYTXUDPData();
+            Log.d("TIEJIANG", "XiaoLeUDP---ScanXiaoLeRunnable " + "mes= " + mes);
             if (mes != null){
                 mScanXiaoLeHandler.obtainMessage(0, mes).sendToTarget();
             }
         }
     }
-
-    public static final int broadcastPort = 21238;
 }

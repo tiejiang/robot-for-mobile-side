@@ -31,6 +31,11 @@ public class Constant {
     public static final String WIFI_MESSAGE = "user_data";
     public static final String WIFI_NAME = "wifi_name";
     public static final String WIFI_PWD = "wifi_pwd";
+
+    //通过云通讯发送到Ｈ３的握手信号
+    public static final String HAND_SHAKE = "YTXHandshake";
+    //收到Ｈ３的握手反馈信号
+    public static final String HAND_OK = "handed";
     
     public static Vector<String> mNotEncryptionApp;
 
@@ -44,10 +49,10 @@ public class Constant {
     public static final String MOBILE_TURN_RIGHTT = "mobile_turn_right";
 
     //移动端通过局域网和小乐进行通讯指令
-    public static final String LOCAL_NET_MOBILE_FORWARD = "local_net_mobile_forward";
-    public static final String LOCAL_NET_MOBILE_BACK = "local_net_mobile_back";
-    public static final String LOCAL_NET_MOBILE_TURN_LEFT = "local_net_mobile_turn_left";
-    public static final String LOCAL_NET_MOBILE_TURN_RIGHTT = "local_net_mobile_turn_right";
+//    public static final String LOCAL_NET_MOBILE_FORWARD = "local_net_mobile_forward";
+//    public static final String LOCAL_NET_MOBILE_BACK = "local_net_mobile_back";
+//    public static final String LOCAL_NET_MOBILE_TURN_LEFT = "local_net_mobile_turn_left";
+//    public static final String LOCAL_NET_MOBILE_TURN_RIGHTT = "local_net_mobile_turn_right";
 
 
     public static void filter(){
