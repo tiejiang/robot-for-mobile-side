@@ -62,13 +62,13 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
 
     public MySurfaceViewControler(Context context){
         super(context);
-        Log.d("TIEJIANG", "MySurfaceViewControler---MySurfaceViewControler( )");
+//        Log.d("TIEJIANG", "MySurfaceViewControler---MySurfaceViewControler( )");
     }
 
     public MySurfaceViewControler(Context context, AttributeSet attrs){
         super(context, attrs);
         this.mMySurfaceViewControlerContext = context;
-        Log.d("TIEJIANG", "MySurfaceViewControler---MySurfaceViewControler( , )");
+//        Log.d("TIEJIANG", "MySurfaceViewControler---MySurfaceViewControler( , )");
          /*备注1：在此处获取屏幕高、宽值为0，以为此时view还未被创建，
          * 在接口Callback的surfaceCreated方法中view才被创建
          */
@@ -99,19 +99,19 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        Log.d("TIEJIANG", "MySurfaceViewControler---onAttachedToWindow");
+//        Log.d("TIEJIANG", "MySurfaceViewControler---onAttachedToWindow");
     }
 
     @Override
     protected void onWindowVisibilityChanged(int visibility) {
         super.onWindowVisibilityChanged(visibility);
-        Log.d("TIEJIANG", "MySurfaceViewControler---onWindowVisibilityChanged");
+//        Log.d("TIEJIANG", "MySurfaceViewControler---onWindowVisibilityChanged");
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        Log.d("TIEJIANG", "MySurfaceViewControler---onDetachedFromWindow");
+//        Log.d("TIEJIANG", "MySurfaceViewControler---onDetachedFromWindow");
     }
 
     @Override
@@ -130,7 +130,7 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
         mHomeFragment.changeControleModel(new ControlModelChanged() {
             @Override
             public void isLocalNetControl(boolean is_local_net_control) {
-                Log.d("TIEJIANG", "MySurfaceViewControler---surfaceCreated" + " is_local_net_control= "+is_local_net_control);
+//                Log.d("TIEJIANG", "MySurfaceViewControler---surfaceCreated" + " is_local_net_control= "+is_local_net_control);
 
                 if (is_local_net_control){
                     isLocalNetControl = true;
@@ -147,7 +147,7 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
 //        canvas.drawColor(Color.BLUE);
 //        sfh.unlockCanvasAndPost(canvas);
 
-        Log.d("TIEJIANG", "surfaceCreated " + "screenW= " + screenW + ", screenH= " + screenH);
+//        Log.d("TIEJIANG", "surfaceCreated " + "screenW= " + screenW + ", screenH= " + screenH);
 
 //        MenuActivity.handleSendTextMessage(Constant.BEGING_SEND); //发送指令到H3请求开始发送运动控制指令
 
@@ -205,8 +205,8 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
             while (beginDrawing){
                 try {
                     handleSendTextMessage(Constant.HAND_SHAKE);
-                    Thread.sleep(2000);
-                    Log.d("TIEJIANG", "MySurfaceViewControler---YTXHandshakeRunnabel YTXHandshake");
+                    Thread.sleep(3000);
+//                    Log.d("TIEJIANG", "MySurfaceViewControler---YTXHandshakeRunnabel YTXHandshake");
                 }catch (InterruptedException e){
                     e.printStackTrace();
                 }
@@ -258,31 +258,36 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
 //        Log.d("TIEJIANG", "equationOne= " + equationOne + ", equationTwo= " + equationTwo);
 
         // test code begin
-        isWLANOK = true;
-        isLocalNetControl = false;
+//        isWLANOK = true;
+//        isLocalNetControl = false;
         // test code end
 
         String sendCommand = "";
         // 注意去掉等号部分,等号部分在原点--初始位置
         if (equationOne > 0 && equationTwo > 0){  //"前进区域"
             sendCommand = Constant.MOBILE_FORWARD;
-            Log.d("TIEJIANG", "forward");
+//            Log.d("TIEJIANG", "forward");
         } else if (equationOne < 0 && equationTwo < 0){  // "后退区域"
             sendCommand = Constant.MOBILE_BACK;
-            Log.d("TIEJIANG", "back");
+//            Log.d("TIEJIANG", "back");
         } else if(equationOne < 0 && equationTwo > 0){    //"左转区域"
             sendCommand = Constant.MOBILE_TURN_LEFT;
-            Log.d("TIEJIANG", "turn left");
+//            Log.d("TIEJIANG", "turn left");
         } else if (equationOne > 0 && equationTwo < 0){    //"右转区域"
             sendCommand = Constant.MOBILE_TURN_RIGHTT;
-            Log.d("TIEJIANG", "turn right");
+//            Log.d("TIEJIANG", "turn right");
         }
-        //组装指令－－＞发送
-        if (isLocalNetControl){
-            mXiaoLeLocalSendingCommand.startLocalSending(sendCommand);
-        }else if (isWLANOK){
-            handleSendTextMessage(sendCommand);
+        if (!sendCommand.equals("")){
+            //组装指令－－＞发送
+            if (isLocalNetControl){
+                mXiaoLeLocalSendingCommand.startLocalSending(sendCommand);
+                Log.d("TIEJIANG", "MySurfaceViewControler---directionControl local sending");
+            }else if (isWLANOK){
+                handleSendTextMessage(sendCommand);
+                Log.d("TIEJIANG", "MySurfaceViewControler---directionControl YTX sending");
+            }
         }
+
     }
 
     /*备注2：切记，在自定SurfaceView中定义的myDraw方法，自定义View（继承自View的子类）中的onDraw方法

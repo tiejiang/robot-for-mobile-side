@@ -20,7 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.yinyutech.xiaolerobot.R;
-import com.yinyutech.xiaolerobot.entrance.ControlModelChanged;
+import com.yinyutech.xiaolerobot.fractory.ActivityInstance;
 import com.yinyutech.xiaolerobot.logger.Logger;
 import com.yinyutech.xiaolerobot.model.AddBoxStatus;
 import com.yinyutech.xiaolerobot.ui.activity.MainActivity;
@@ -61,6 +61,8 @@ public class DeviceControlFragment extends BaseFragment {
     private XiaoLeUDP mXiaoLeUDP;
     public static Handler mScanXiaoLeHandler;
     private boolean isXiaoLeExist = false; // 搜索小乐是否存在
+    //获得DeviceControlFragment 实例　（程序开始时候，此处还不能够获得ＤeviceControlFragment实例）
+    private HomeFragment mHomeFragment = ActivityInstance.mMainActivityInstance.getHomeFragmentInstance();
 
 
     private Handler timerHandler = new Handler();
@@ -198,6 +200,7 @@ public class DeviceControlFragment extends BaseFragment {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         Log.d("TIEJIANG", "DeviceControlFragment---hidden= " + hidden + " isXiaoLeExist= " + isXiaoLeExist);
+
 //        if (!hidden && isXiaoLeExist){
         if (!hidden){
                 startScanXiaoLe();
@@ -261,11 +264,14 @@ public class DeviceControlFragment extends BaseFragment {
                         e.printStackTrace();
                     }
                 }else{
-                    mShowIsXiaoleExist.setText("未发现设备,请进入联网模式");
-                    isXiaoLeExist = false;
-                    mLinearLayoutFinalStep.setVisibility(View.INVISIBLE);
-
+                    //同时外网也不通，则判断设备掉线
+                    if (!mHomeFragment.mMySurfaceViewControler.isWLANOK){
+                        mShowIsXiaoleExist.setText("未发现设备,请进入联网模式");
+                        isXiaoLeExist = false;
+                        mLinearLayoutFinalStep.setVisibility(View.INVISIBLE);
+                    }
                     mStateChangeHandler.sendEmptyMessage(2);  //关闭局域网控制模式
+
                 }
             }
         };
