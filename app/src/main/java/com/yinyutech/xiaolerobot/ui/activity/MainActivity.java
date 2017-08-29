@@ -31,7 +31,7 @@ public class MainActivity extends BaseActivity {
 
     private LayoutInflater mInflater;
     private static FragmentTabHost mTabhost;
-    private DeviceControlFragment deviceControlFragment;
+    private DeviceControlFragment mDeviceControlFragment;
     private HomeFragment mHomeFragment;
     private List<Tab> mTabs = new ArrayList<>(3);
     public static Handler mTabhostSkipHandler;
@@ -171,7 +171,7 @@ public class MainActivity extends BaseActivity {
 
     public DeviceControlFragment refData(){
 
-        if(deviceControlFragment == null){
+        if(mDeviceControlFragment == null){
             Fragment fragment =  getSupportFragmentManager().findFragmentByTag(getString(R.string.device_control));
             Log.d("TIEJIANG", "MainAcitivity---refData" + " fragment= " + fragment);
             new Handler().postDelayed(new Runnable() {
@@ -179,10 +179,10 @@ public class MainActivity extends BaseActivity {
                 public void run() {
                     Fragment fragment =  getSupportFragmentManager().findFragmentByTag(getString(R.string.device_control));
                     if(fragment !=null){
-                        deviceControlFragment= (DeviceControlFragment) fragment;
+                        mDeviceControlFragment= (DeviceControlFragment) fragment;
 //                        deviceControlFragment.refData();
                     }
-                    Log.d("TIEJIANG", "MainAcitivity---refData delay50s " + " deviceControlFragment= " + deviceControlFragment);
+                    Log.d("TIEJIANG", "MainAcitivity---refData delay50s " + " mDeviceControlFragment= " + mDeviceControlFragment);
                 }
             }, 50);
 
@@ -190,7 +190,7 @@ public class MainActivity extends BaseActivity {
 //        else{
 //            deviceControlFragment.refData();
 //        }
-        return deviceControlFragment;
+        return mDeviceControlFragment;
     }
 
     public HomeFragment getHomeFragmentInstance(){
@@ -214,6 +214,29 @@ public class MainActivity extends BaseActivity {
             }
         }
         return mHomeFragment;
+    }
+
+    public DeviceControlFragment getDeviceControlFragmentInstance(){
+
+        if(mDeviceControlFragment == null){
+            Fragment fragment =  getSupportFragmentManager().findFragmentByTag(getString(R.string.device_control));
+            Log.d("TIEJIANG", "MainAcitivity---refData" + " fragment= " + fragment);
+            if (fragment != null){
+                mDeviceControlFragment = (DeviceControlFragment) fragment;
+            }else {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Fragment fragment =  getSupportFragmentManager().findFragmentByTag(getString(R.string.device_control));
+                        if(fragment !=null){
+                            mDeviceControlFragment= (DeviceControlFragment) fragment;
+                        }
+                        Log.d("TIEJIANG", "MainAcitivity---refData delay50s " + " mDeviceControlFragment= " + mDeviceControlFragment);
+                    }
+                }, 50);
+            }
+        }
+        return mDeviceControlFragment;
     }
 
     private View buildIndicator(Tab tab){

@@ -32,6 +32,7 @@ public class HomeFragment extends BaseFragment{
     public MySurfaceViewControler mMySurfaceViewControler;
     private boolean isDeviceFind = false;  //通过DeviceControlFragment发现了设备
     private ControlModelChanged mControlModelChanged;
+//    private boolean isStartYTXHandshake = false;
 
 
     @Override
@@ -77,15 +78,15 @@ public class HomeFragment extends BaseFragment{
 //                        Log.d("TIEJIANG", "state_change");
 
                         break;
-                    case 1:
-                        //控制模式改变－－－（局域网/外网）
+                    case 1: //控制模式改变（局域网/外网）,设置为局域网控制
+
                         //第一次联网成功时候SurfaceView还未创建，因此mControlModelChanged还未在其中实例化
                         if (mControlModelChanged != null){
                             mControlModelChanged.isLocalNetControl(true);
                         }
                         break;
-                    case 2:
-                        //局域网控制模式被关闭
+                    case 2:  //局域网控制模式被关闭，外网是否开启由握手信号决定（在MySurfaceViewControler）
+
                         if (mControlModelChanged != null){
                             mControlModelChanged.isLocalNetControl(false);
                         }
@@ -95,6 +96,9 @@ public class HomeFragment extends BaseFragment{
             }
         };
 
+        //启动网络监听线程
+//        isStartYTXHandshake = true;
+//        new Thread(new YTXHandshakeRunnabel()).start();
         return mHomeFragmenView;
     }
 
@@ -121,6 +125,7 @@ public class HomeFragment extends BaseFragment{
     public void onDestroy() {
         super.onDestroy();
         Log.d("TIEJIANG", "HomeFragment---onDestroy");
+//        isStartYTXHandshake = false;
     }
 
     @Override
@@ -150,6 +155,24 @@ public class HomeFragment extends BaseFragment{
         }
 
     }
+
+//    class YTXHandshakeRunnabel implements Runnable{
+//
+//        @Override
+//        public void run() {
+//            //beginDrawing---surfaceView开始绘制的时候即开始判断网络情况
+//            while (isStartYTXHandshake){
+//                try {
+//                    mMySurfaceViewControler.handleSendTextMessage(Constant.HAND_SHAKE);
+//                    Thread.sleep(3000);
+////                    Log.d("TIEJIANG", "MySurfaceViewControler---YTXHandshakeRunnabel YTXHandshake");
+//                }catch (InterruptedException e){
+//                    e.printStackTrace();
+//                }
+//
+//            }
+//        }
+//    }
 
     public void changeControleModel(ControlModelChanged controlModelChanged){
 

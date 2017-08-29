@@ -24,6 +24,7 @@ import com.yinyutech.xiaolerobot.fractory.ActivityInstance;
 import com.yinyutech.xiaolerobot.logger.Logger;
 import com.yinyutech.xiaolerobot.model.AddBoxStatus;
 import com.yinyutech.xiaolerobot.ui.activity.MainActivity;
+import com.yinyutech.xiaolerobot.ui.activity.MySurfaceViewControler;
 import com.yinyutech.xiaolerobot.utils.soundbox.BoxUDPBroadcaster;
 import com.yinyutech.xiaolerobot.utils.soundbox.SoundBoxManager;
 import com.yinyutech.xiaolerobot.utils.soundbox.XiaoLeUDP;
@@ -63,6 +64,7 @@ public class DeviceControlFragment extends BaseFragment {
     private boolean isXiaoLeExist = false; // 搜索小乐是否存在
     //获得DeviceControlFragment 实例　（程序开始时候，此处还不能够获得ＤeviceControlFragment实例）
     private HomeFragment mHomeFragment = ActivityInstance.mMainActivityInstance.getHomeFragmentInstance();
+    private DeviceControlFragment mDeviceControlFragment = ActivityInstance.mMainActivityInstance.getDeviceControlFragmentInstance();
 
 
     private Handler timerHandler = new Handler();
@@ -147,51 +149,9 @@ public class DeviceControlFragment extends BaseFragment {
         udpBroadcaster = new BoxUDPBroadcaster(getActivity());  //调用BoxUDPBroadcaster有context构造函数，方便获取preference存储的值
         mXiaoLeUDP = new XiaoLeUDP(getActivity());
         initScanView();
+        mHomeFragment.mMySurfaceViewControler.FirstStartYTXHandshake();
         startScanXiaoLe();
         analysis();
-
-//        mScanXiaoLeHandler = new Handler(){
-//
-//            @Override
-//            public void handleMessage(Message msg) {
-//                super.handleMessage(msg);
-//                String scanMessage = (String)msg.obj;
-//                mShowIsXiaoleExist.setVisibility(View.VISIBLE);
-//                mPairTipTextView.setVisibility(View.INVISIBLE);
-//                mScanProgressBar.setVisibility(View.INVISIBLE);
-//                if (scanMessage.length() > 1){
-//                    //搜索到设备，直接进入到设备
-//                    Log.d("TIEJIANG", "DeviceControlFragment---mScanXiaoLeHandler" + " scanMessage= " + scanMessage);
-//                    try{
-//                        JSONObject parseH3json = new JSONObject(scanMessage);
-//                        String state = parseH3json.getString("state");
-//                        final String hostip = parseH3json.getString("hostip");
-//                        String name = parseH3json.getString("name");
-//                        String show = parseH3json.getString("show");
-//                        Log.d("TIEJIANG", "DeviceControlFragment---mScanXiaoLeHandler" + " state= " + state + ", hostip= " + hostip + ", name= " + name + ", show= " + show);
-//
-//                        if (state.equals("disconnect") && name.equals("HBL") && hostip != null) {
-//                            isXiaoLeExist = true;
-//                            mShowIsXiaoleExist.setText("xiaole robot: " + hostip);
-//                        }else{
-//                            mShowIsXiaoleExist.setText("未发现设备,请进入联网模式");
-//                            isXiaoLeExist = false;
-//                        }
-//                    }catch (JSONException e){
-//                        e.printStackTrace();
-//                    }
-//                }else {
-//                    //没有搜索到设备，需要联网配对
-//                    mShowIsXiaoleExist.setText("未发现设备,请进入联网模式");
-//                    isXiaoLeExist = false;
-//                }
-//            }
-//        };
-
-
-//        initDeviceView();
-//        showAddBoxFullStepActivity(getActivity());
-//        mWifiName.setText(AddBoxStatus.getInstance().uploadWiFiName);
 
         return mDeviceControlFragmentView;
     }
@@ -263,6 +223,11 @@ public class DeviceControlFragment extends BaseFragment {
                     }catch (JSONException e){
                         e.printStackTrace();
                     }
+                }else if (mHomeFragment.mMySurfaceViewControler.isWLANOK){  //外网ＯＫ且云通讯ＯＫ
+                    //手机在远程情况下启动ＡＰＰ，并且首次进入到ＡＰＰ的时候搜索小乐
+                    isXiaoLeExist = true;
+                    mShowIsXiaoleExist.setText("xiaole robot");
+                    mStateChangeHandler.sendEmptyMessage(2);  //关闭局域网控制模式
                 }else{
                     //同时外网也不通，则判断设备掉线
                     if (!mHomeFragment.mMySurfaceViewControler.isWLANOK){

@@ -57,6 +57,7 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
     private String[] ytxID = new String[2];
     private boolean isLocalNetControl = false;  //是否开启局域网的控制
     public boolean isWLANOK = false;    //通过外网是否能够和小乐通信－－－即外网状态＋云通讯状态
+    private boolean isStartYTXHandshake = false;  //是否开启云通讯的"握手"线程
     private XiaoLeLocalSendingCommand mXiaoLeLocalSendingCommand;
 
 
@@ -84,7 +85,8 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
         initPaint();
         sfh = getHolder();
         sfh.addCallback(this);
-//        th = new Thread(new DrawViewRunnable());
+
+        IMChattingHelper.setOnMessageReportCallback(this);
     }
 
     private void initPaint(){
@@ -100,6 +102,9 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
 //        Log.d("TIEJIANG", "MySurfaceViewControler---onAttachedToWindow");
+        //获得云通讯ｉｄ
+        ytxID = getYTXID();
+        isStartYTXHandshake = true;
     }
 
     @Override
@@ -111,19 +116,19 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+        isStartYTXHandshake = false;
 //        Log.d("TIEJIANG", "MySurfaceViewControler---onDetachedFromWindow");
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
 
-        //获得云通讯ｉｄ
-        ytxID = getYTXID();
+
         float[] mScreenData = getRect();
         screenW = mScreenData[0];
         screenH = mScreenData[1];
 
-        IMChattingHelper.setOnMessageReportCallback(this);
+
         mXiaoLeLocalSendingCommand = new XiaoLeLocalSendingCommand();
         //获得DeviceControlFragment 实例　（程序开始时候，此处还不能够获得ＤeviceControlFragment实例）
         HomeFragment mHomeFragment = ActivityInstance.mMainActivityInstance.getHomeFragmentInstance();
@@ -153,7 +158,6 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
 
         //启动绘图线程
         beginDrawing = true;
-//        th.start();
         // 避免线程
         new Thread(new DrawViewRunnable()).start();
         //启动网络监听线程
@@ -197,12 +201,24 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
         }
     }
 
-    class YTXHandshakeRunnabel implements Runnable{
+    /**
+     * 在DeviceControlFragment 初次启动的时候，class: YTXHandshakeRunnabel尚未启动
+     * 因此，单独使用此方法供DeviceControlFragment首次启动的时候检测网络状况使用
+     */
+    public void FirstStartYTXHandshake(){
+        int i = 0;
+        while (i<3){
+            handleSendTextMessage(Constant.HAND_SHAKE);
+            i++;
+        }
+    }
+
+    public class YTXHandshakeRunnabel implements Runnable{
 
         @Override
         public void run() {
             //beginDrawing---surfaceView开始绘制的时候即开始判断网络情况
-            while (beginDrawing){
+            while (isStartYTXHandshake){
                 try {
                     handleSendTextMessage(Constant.HAND_SHAKE);
                     Thread.sleep(3000);
