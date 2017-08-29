@@ -1,7 +1,9 @@
 package com.yinyutech.xiaolerobot.ui.fragment;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
@@ -24,7 +26,6 @@ import com.yinyutech.xiaolerobot.fractory.ActivityInstance;
 import com.yinyutech.xiaolerobot.logger.Logger;
 import com.yinyutech.xiaolerobot.model.AddBoxStatus;
 import com.yinyutech.xiaolerobot.ui.activity.MainActivity;
-import com.yinyutech.xiaolerobot.ui.activity.MySurfaceViewControler;
 import com.yinyutech.xiaolerobot.utils.soundbox.BoxUDPBroadcaster;
 import com.yinyutech.xiaolerobot.utils.soundbox.SoundBoxManager;
 import com.yinyutech.xiaolerobot.utils.soundbox.XiaoLeUDP;
@@ -191,7 +192,6 @@ public class DeviceControlFragment extends BaseFragment {
                 //未搜索到的情况则会通过按键进入到联网部分
                 invisibleNetUI();
 
-
                 if (scanMessage.length() > 1){
                     //搜索到设备，直接进入到设备
                     try{
@@ -292,15 +292,34 @@ public class DeviceControlFragment extends BaseFragment {
                 if(isXiaoLeExist){
                     settingOK();
                 }else{
-                    //没有扫描到设备，进入连接和配对模式
-                    udpBroadcaster.stopBroadcastSearchBox(); //开始联网步骤之后就停止Ｈ３设备的扫描
-                    initDeviceView();
-                    showAddBoxFullStepActivity(getActivity());
-                    mWifiName.setText(AddBoxStatus.getInstance().uploadWiFiName);
-                    mShowIsXiaoleExist.setVisibility(View.INVISIBLE);
+                    //点击"确认"前，先触摸小乐进入联网模式
+                    showEnterNetConnectModel();
+
                 }
             }
         });
+    }
+
+    public void showEnterNetConnectModel(){
+
+        AlertDialog.Builder mVersionDialog = new AlertDialog.Builder(getActivity());
+
+        mVersionDialog.setTitle("提示");
+        mVersionDialog.setMessage("点击\"确认\"按钮前，请先确认小乐已经进入联网模式");
+        mVersionDialog.setNegativeButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                //没有扫描到设备，进入连接和配对模式
+                udpBroadcaster.stopBroadcastSearchBox(); //开始联网步骤之后就停止Ｈ３设备的扫描
+                initDeviceView();
+                showAddBoxFullStepActivity(getActivity());
+                mWifiName.setText(AddBoxStatus.getInstance().uploadWiFiName);
+                mShowIsXiaoleExist.setVisibility(View.INVISIBLE);
+
+            }
+        }).create();
+        mVersionDialog.show();
     }
 
     public void startScanXiaoLe(){
