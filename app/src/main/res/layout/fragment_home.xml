@@ -45,6 +45,21 @@
             />
     </FrameLayout>
 
+    <FrameLayout
+        android:id="@+id/framelayout_control_view＿head"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/open_video"
+        android:layout_alignParentEnd="true">
+
+        <com.yinyutech.xiaolerobot.ui.activity.MySurfaceViewHeadControler
+            android:id="@+id/control_view_head"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            />
+    </FrameLayout>
+
     <Button
         android:id="@+id/open_video"
         android:layout_width="wrap_content"

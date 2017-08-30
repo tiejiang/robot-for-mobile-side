@@ -40,13 +40,18 @@ public class Constant {
     public static Vector<String> mNotEncryptionApp;
 
 
-    //移动端和小乐通过ＩＭ通信指令
+    //移动端和小乐通过ＩＭ通信指令－底盘控制
     public static final String BEGING_CONFIRM = "begin_confirm";  //移动端收到H3回发的确认开始发送指令
     public static final String BEGING_SEND = "query_begin";  //移动端请求开始发送运动控制指令
     public static final String MOBILE_FORWARD = "mobile_forward";
     public static final String MOBILE_BACK = "mobile_back";
     public static final String MOBILE_TURN_LEFT = "mobile_turn_left";
     public static final String MOBILE_TURN_RIGHTT = "mobile_turn_right";
+    //移动端和小乐通过ＩＭ通信指令－头部控制
+    public static final String MOBILE_TURN_HEAD_UP = "mobile_turn_up";
+    public static final String MOBILE_TURN_HEAD_DOWN = "mobile_turn_down";
+    public static final String MOBILE_TURN_HEAD_LEFT = "mobile_turn_head_left";
+    public static final String MOBILE_TURN_HEAD_RIGHT = "mobile_turn_head_right";
 
     //移动端通过局域网和小乐进行通讯指令
 //    public static final String LOCAL_NET_MOBILE_FORWARD = "local_net_mobile_forward";

@@ -15,6 +15,7 @@ import com.yinyutech.xiaolerobot.common.CCPAppManager;
 import com.yinyutech.xiaolerobot.entrance.ControlModelChanged;
 import com.yinyutech.xiaolerobot.fractory.ActivityInstance;
 import com.yinyutech.xiaolerobot.ui.activity.MySurfaceViewControler;
+import com.yinyutech.xiaolerobot.ui.activity.MySurfaceViewHeadControler;
 import com.yuntongxun.ecsdk.ECVoIPCallManager;
 
 
@@ -30,6 +31,7 @@ public class HomeFragment extends BaseFragment{
 //    private FrameLayout mFramelayoutControlView;
     public static Handler mStateChangeHandler;
     public MySurfaceViewControler mMySurfaceViewControler;
+    public MySurfaceViewHeadControler mMySurfaceViewHeadControler;
     private boolean isDeviceFind = false;  //通过DeviceControlFragment发现了设备
     private ControlModelChanged mControlModelChanged;
 //    private boolean isStartYTXHandshake = false;
@@ -41,8 +43,10 @@ public class HomeFragment extends BaseFragment{
         mHomeFragmenView =  inflater.inflate(R.layout.fragment_home,container,false);
         mVideoOpen = (Button)mHomeFragmenView.findViewById(R.id.open_video);
         mMySurfaceViewControler = (MySurfaceViewControler)mHomeFragmenView.findViewById(R.id.control_view);
+        mMySurfaceViewHeadControler = (MySurfaceViewHeadControler)mHomeFragmenView.findViewById(R.id.control_view_head);
 //        mFramelayoutControlView = (FrameLayout)mHomeFragmenView.findViewById(R.id.framelayout_control_view);
         mMySurfaceViewControler.setVisibility(View.INVISIBLE);
+        mMySurfaceViewHeadControler.setVisibility(View.INVISIBLE);
 //        mFramelayoutControlView.setVisibility(View.INVISIBLE);
         final String id = getYTXContactID();
         Log.d("TIEJIANG", "HomeFragment---createView" + "YTX ID= " + id);
@@ -72,6 +76,7 @@ public class HomeFragment extends BaseFragment{
                 switch (msg.what){
                     case 0:
                         mMySurfaceViewControler.setVisibility(View.VISIBLE);
+                        mMySurfaceViewHeadControler.setVisibility(View.VISIBLE);
                         mVideoOpen.setVisibility(View.VISIBLE);
                         isDeviceFind = true;
 
@@ -134,9 +139,11 @@ public class HomeFragment extends BaseFragment{
 
         if (hidden){
             mMySurfaceViewControler.setVisibility(View.INVISIBLE);
+            mMySurfaceViewHeadControler.setVisibility(View.INVISIBLE);
             Log.d("TIEJIANG", "HomeFragment---onHiddenChanged" + " hidden= " + hidden);
         }else if (isDeviceFind){
             mMySurfaceViewControler.setVisibility(View.VISIBLE);
+            mMySurfaceViewHeadControler.setVisibility(View.VISIBLE);
         }
 
 //        isHomeFragmentHidden = hidden;
@@ -173,6 +180,14 @@ public class HomeFragment extends BaseFragment{
 //            }
 //        }
 //    }
+
+    public MySurfaceViewControler getMySurfaceViewControlerInstance(){
+
+        if (mMySurfaceViewControler != null){
+            return mMySurfaceViewControler;
+        }
+        return null;
+    }
 
     public void changeControleModel(ControlModelChanged controlModelChanged){
 

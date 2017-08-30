@@ -25,6 +25,7 @@ public class XiaoLeLocalSendingCommand {
     private static final int MAXNUM = 2;      //设置重发数据的最多次数
     private SharedPreferences mGetYTXIDsp;
     private Context activityContextForLocalSendingUDP;
+    public static XiaoLeLocalSendingCommand xiaoLeLocalSendingCommandInstance = null;
 
     int count = 0;
 
@@ -33,6 +34,15 @@ public class XiaoLeLocalSendingCommand {
     }
 
     public XiaoLeLocalSendingCommand(){
+
+    }
+
+    public static XiaoLeLocalSendingCommand getInstance(){
+
+        if (xiaoLeLocalSendingCommandInstance == null){
+            xiaoLeLocalSendingCommandInstance = new XiaoLeLocalSendingCommand();
+        }
+        return xiaoLeLocalSendingCommandInstance;
 
     }
 
@@ -47,6 +57,8 @@ public class XiaoLeLocalSendingCommand {
         }
 
     }
+
+
 
 //    public String[] getYTXID(){
 //
