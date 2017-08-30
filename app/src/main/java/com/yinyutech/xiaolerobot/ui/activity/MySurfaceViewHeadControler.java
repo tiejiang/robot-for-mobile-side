@@ -226,6 +226,7 @@ public class MySurfaceViewHeadControler extends SurfaceView implements SurfaceHo
                 mXiaoLeLocalSendingCommand.startLocalSending(sendCommand);
                 Log.d("TIEJIANG", "MySurfaceViewControler---directionControl local sending");
             }else{
+                //先通过HomeFragment得到MySurfaceViewControler的实例，在调用其方法
                 mHomeFragment.getMySurfaceViewControlerInstance().handleSendTextMessage(sendCommand);
                 Log.d("TIEJIANG", "MySurfaceViewControler---directionControl YTX sending");
             }
