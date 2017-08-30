@@ -22,7 +22,6 @@
             android:background="@drawable/net_progress_bar_first"
             />
 
-
     </LinearLayout>
     <LinearLayout
         android:id="@+id/linearLayout_show_is_xiaole_exist"

@@ -391,7 +391,6 @@ public class DeviceControlFragment extends BaseFragment {
                         //绑定---设置云通讯ID
 
                         //设置完成
-
                         mLinearLayoutSecond.setVisibility(View.GONE);
                         nextStep.setVisibility(View.GONE);
                         settingOver.setVisibility(View.VISIBLE);

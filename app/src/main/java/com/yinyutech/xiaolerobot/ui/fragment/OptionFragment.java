@@ -96,7 +96,7 @@ public class OptionFragment extends BaseFragment {
 
         mVersionDialog.setTitle("版本信息");
         mVersionDialog.setMessage(phoneMessage + "\n" + "小乐版本: " + getAppVersionName(mOptionFragmentInstance));
-        mVersionDialog.setIcon(R.drawable.ic_launcher);
+        mVersionDialog.setIcon(R.drawable.version_icon);
         mVersionDialog.setNegativeButton("确认", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

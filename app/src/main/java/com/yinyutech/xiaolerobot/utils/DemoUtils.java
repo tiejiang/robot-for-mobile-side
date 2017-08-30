@@ -58,7 +58,6 @@ public class DemoUtils {
 
 
 	//获取5位随机数字和５位随机字母（作为荣联云通讯ＩＤ）
-
 	public static String getRandomNumber(int len){
 
 		String a = "";
