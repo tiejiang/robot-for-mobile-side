@@ -51,6 +51,7 @@
         <activity
             android:name="com.yinyutech.xiaolerobot.ui.activity.RemoteControlCommandActivity">
         </activity>
+
         <activity
             android:name="com.yinyutech.xiaolerobot.ui.activity.VoIPCallActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -62,6 +63,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
         <activity
             android:name="com.yinyutech.xiaolerobot.ui.activity.VideoActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -73,6 +75,11 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.activity.AlbumActivity">
+        </activity>
+
         // SDK核心服务配置
         <service android:name="com.yuntongxun.ecsdk.ECClientService"
             android:enabled="true" android:process=":push" />

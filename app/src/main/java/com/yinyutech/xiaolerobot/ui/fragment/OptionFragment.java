@@ -3,6 +3,7 @@ package com.yinyutech.xiaolerobot.ui.fragment;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -13,6 +14,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.yinyutech.xiaolerobot.R;
+import com.yinyutech.xiaolerobot.fractory.ActivityInstance;
+import com.yinyutech.xiaolerobot.ui.activity.AlbumActivity;
+import com.yinyutech.xiaolerobot.ui.activity.SplashActivity;
 
 import static com.yinyutech.xiaolerobot.common.CCPAppManager.getPackageName;
 
@@ -35,13 +39,15 @@ public class OptionFragment extends BaseFragment {
     /*获取当前系统的android版本号*/
     int currentapiVersion=android.os.Build.VERSION.SDK_INT;
     private static String phoneMessage = "手机型号: " + android.os.Build.MODEL + "\n系统版本:" + android.os.Build.VERSION.RELEASE;
+    private SplashActivity mSplashActivity = ActivityInstance.mSplashActivityInstance;
+    private String userID = mSplashActivity.getUserID();
 
     @Override
     public View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mOptionFragmentInstance = getActivity();
         mOptionFragmentView = inflater.inflate(R.layout.fragment_option,container,false);
         initSourceView();
-
+        Log.d("TIEJIANG", "OptionFragment---createView"+" userID= "+userID);
         return mOptionFragmentView;
 
     }
@@ -56,8 +62,9 @@ public class OptionFragment extends BaseFragment {
         mOptionUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
+                String userStr = "当前用户: ";
+                String user_id = "当前用户: " + userID;
+                showVersionData(userStr, user_id);
             }
         });
 
@@ -65,6 +72,8 @@ public class OptionFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
 
+                Intent mIntent  = new Intent(mOptionFragmentInstance, AlbumActivity.class);
+                startActivity(mIntent);
 
             }
         });
@@ -72,7 +81,10 @@ public class OptionFragment extends BaseFragment {
         mOptionVersion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showVersionData();
+                String versionStr = "版本信息";
+                String message =  phoneMessage + "\n" + "小乐版本: " + getAppVersionName(mOptionFragmentInstance);
+
+                showVersionData(versionStr, message);
 
             }
         });
@@ -90,12 +102,12 @@ public class OptionFragment extends BaseFragment {
 //        mOptionUser = (ImageView)mOptionFragmentView.findView
     }
 
-    public void showVersionData(){
+    public void showVersionData(String title_meg, String message){
 
         AlertDialog.Builder mVersionDialog = new AlertDialog.Builder(mOptionFragmentInstance);
 
-        mVersionDialog.setTitle("版本信息");
-        mVersionDialog.setMessage(phoneMessage + "\n" + "小乐版本: " + getAppVersionName(mOptionFragmentInstance));
+        mVersionDialog.setTitle(title_meg);
+        mVersionDialog.setMessage(message);
         mVersionDialog.setIcon(R.drawable.version_icon);
         mVersionDialog.setNegativeButton("确认", new DialogInterface.OnClickListener() {
             @Override

@@ -53,15 +53,11 @@ public class MainActivity extends BaseActivity {
         SoundBoxServiceAction.getInstance().setupContext(getApplicationContext());
         SoundBoxManager.getInstance().setupContext(getApplicationContext());
         UserInfo.sharedUserInfo().setupSharedUserInfo(getApplicationContext());
-
         // 第三步：注册事件监听
 //        EventBus.getDefault().register(this);
-
         // 第四步：启动音箱发现服务 (21239端口被打开做监听数据)
 //        startService(new Intent(this, UDPServerService.class));
-
         initTab();
-
 //        Handler mHandler = new Handler(){
 //
 //            @Override
@@ -83,7 +79,7 @@ public class MainActivity extends BaseActivity {
 //            }
 //        };
 
-
+        //when xiaole net connect model setted(in the deviceControlFragment)
         mTabhostSkipHandler = new Handler(){
 
             @Override

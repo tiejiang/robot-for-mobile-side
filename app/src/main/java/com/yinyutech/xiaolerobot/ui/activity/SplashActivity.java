@@ -108,6 +108,17 @@ public class SplashActivity extends BaseActivity
 		return YTXID;
 	}
 
+	public String getUserID(){
+
+//		test code to get sharedPreference value
+		SharedPreferences sp = getSharedPreferences(Constant.USER_MESSAGE, Context.MODE_PRIVATE);
+		String number = sp.getString(Constant.USER_NUMBER, "0");
+		String security = sp.getString(Constant.USER_SERCURITY, "1");
+		Log.d("TIEJIANG", "SplashActivity---NUMBER= " + number + " SECURITY= " + security);
+
+		return number;
+	}
+
 	private void saveYunTXID(){
 
 		//先寻找是否存在ＩＤ，没有则调用方法生成ＩＤ，然后存储

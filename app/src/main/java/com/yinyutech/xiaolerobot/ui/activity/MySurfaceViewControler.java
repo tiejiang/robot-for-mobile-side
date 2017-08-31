@@ -127,7 +127,6 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
         float[] mScreenData = getRect();
         screenW = mScreenData[0];
         screenH = mScreenData[1];
-
 //        mXiaoLeLocalSendingCommand = new XiaoLeLocalSendingCommand();
         mXiaoLeLocalSendingCommand = XiaoLeLocalSendingCommand.getInstance();
         //获得DeviceControlFragment 实例　（程序开始时候，此处还不能够获得ＤeviceControlFragment实例）
@@ -146,23 +145,18 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
             }
         });
 
-
         // 画surfaceView背景
 //        canvas = sfh.lockCanvas();
 //        canvas.drawColor(Color.BLUE);
 //        sfh.unlockCanvasAndPost(canvas);
-
 //        Log.d("TIEJIANG", "surfaceCreated " + "screenW= " + screenW + ", screenH= " + screenH);
-
 //        MenuActivity.handleSendTextMessage(Constant.BEGING_SEND); //发送指令到H3请求开始发送运动控制指令
-
         //启动绘图线程
         beginDrawing = true;
         // 避免线程
         new Thread(new DrawViewRunnable()).start();
         //启动网络监听线程
         new Thread(new YTXHandshakeRunnabel()).start();
-
     }
 
     @Override

@@ -17,6 +17,7 @@ import java.net.UnknownHostException;
 
 /**
  * Created by yinyu-tiejiang on 17-8-28.
+ * this class is used for sending local command only
  */
 
 public class XiaoLeLocalSendingCommand {
@@ -26,7 +27,6 @@ public class XiaoLeLocalSendingCommand {
     private SharedPreferences mGetYTXIDsp;
     private Context activityContextForLocalSendingUDP;
     public static XiaoLeLocalSendingCommand xiaoLeLocalSendingCommandInstance = null;
-
     int count = 0;
 
     public XiaoLeLocalSendingCommand(Context context){
@@ -43,32 +43,18 @@ public class XiaoLeLocalSendingCommand {
             xiaoLeLocalSendingCommandInstance = new XiaoLeLocalSendingCommand();
         }
         return xiaoLeLocalSendingCommandInstance;
-
     }
 
     public void startLocalSending(String command){
+
         //计数，连续收到５次指令后才启动线程发送消息(根据实际情况调整此参数)
         count += 1;
-
         if (count >= 1){
             Log.d("TIEJIANG", "XiaoLeLocalSendingCommand---startLocalSending " + "count= " + count);
             new Thread(new CommandSendingRunnable(command)).start();
             count = 0;
         }
-
     }
-
-
-
-//    public String[] getYTXID(){
-//
-//        String[] ytxID = new String [2];
-//        SharedPreferences mGetYTXIDsp = activityContextForLocalSendingUDP.getSharedPreferences(Constant.USER_MESSAGE, Context.MODE_PRIVATE);
-//        ytxID[0] = mGetYTXIDsp.getString(Constant.XIAOLE_YTX_MOBILE, "0");
-//        ytxID[1] = mGetYTXIDsp.getString(Constant.XIAOLE_YTX_H3, "1");
-//
-//        return ytxID;
-//    }
 
     // 调用此函数是为了联网模式的配对阶段－－－传输云通讯ＩＤ
     private String sendUDPCommand(String command){
@@ -98,7 +84,6 @@ public class XiaoLeLocalSendingCommand {
         }
 
         try {
-
             ds = BoxUDPBroadcaster.getSocketPort();
             InetAddress loc = InetAddress.getByName("255.255.255.255"); //广播出去，局域网内任何设备均收到
             //定义用来发送数据的DatagramPacket实例
@@ -125,13 +110,8 @@ public class XiaoLeLocalSendingCommand {
                 }
             }
             if(receivedResponse) {
-                //如果收到数据，则打印出来
-//                Log.d("TIEJIANG", "XiaoLeLocalSendingCommand---sendYTXUDPData" + " client received data from server：");
-//                String str_receive = new String(dp_receive.getData(), 0, dp_receive.getLength()) +
-//                        " from " + dp_receive.getAddress().getHostAddress() + ":" + dp_receive.getPort();
                 str_receive = new String(dp_receive.getData(), 0, dp_receive.getLength());
                 Log.d("TIEJIANG", "BoxUDPBroadcaster---sendYTXUDPData" + " str_receive= " + str_receive);
-
                 //由于dp_receive在接收了数据之后，其内部消息长度值会变为实际接收的消息的字节数，
                 //所以这里要将dp_receive的内部消息长度重新置为128
                 dp_receive.setLength(128);
@@ -151,7 +131,6 @@ public class XiaoLeLocalSendingCommand {
 //            if (ds != null){
 //                ds.close();
 //            }
-
         }
         return str_receive;
     }
@@ -165,12 +144,9 @@ public class XiaoLeLocalSendingCommand {
         @Override
         public void run() {
             String mes = sendUDPCommand(commandString);
-
 //            if (mes != null){
 //                mScanXiaoLeHandler.obtainMessage(0, mes).sendToTarget();
 //            }
         }
     }
-
-    public static final int broadcastPort = 21238;
 }

@@ -51,13 +51,13 @@ public class BoxUDPBroadcaster {
 
     public void startBroadcastSearchBox() {
         handler.post(broadcaster);
-        Log.d("TIEJIANG", "BoxUDPBroadcaster---startBroadcastSearchBox "+"handler= " + handler);
-        Log.d("TIEJIANG", "BoxUDPBroadcaster---startBroadcastSearchBox "+"broadcaster= " + broadcaster);
+//        Log.d("TIEJIANG", "BoxUDPBroadcaster---startBroadcastSearchBox "+"handler= " + handler);
+//        Log.d("TIEJIANG", "BoxUDPBroadcaster---startBroadcastSearchBox "+"broadcaster= " + broadcaster);
     }
 
     public void stopBroadcastSearchBox() {
         handler.removeCallbacks(broadcaster);
-        Log.d("TIEJIANG", "BoxUDPBroadcaster---stopBroadcastSearchBox");
+//        Log.d("TIEJIANG", "BoxUDPBroadcaster---stopBroadcastSearchBox");
     }
 
     public static DatagramSocket getSocketPort(){
@@ -85,7 +85,7 @@ public class BoxUDPBroadcaster {
         if (ip == null){
             return "0";
         }
-        // 调用此函数是与Ｈ３平台周期握手
+        // 调用此函数与Ｈ３平台周期握手
         try{
             JSONObject json = new JSONObject();
             json.put("name", "XiaoleClient");

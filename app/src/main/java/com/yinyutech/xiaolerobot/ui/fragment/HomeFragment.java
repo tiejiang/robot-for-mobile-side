@@ -79,12 +79,9 @@ public class HomeFragment extends BaseFragment{
                         mMySurfaceViewHeadControler.setVisibility(View.VISIBLE);
                         mVideoOpen.setVisibility(View.VISIBLE);
                         isDeviceFind = true;
-
 //                        Log.d("TIEJIANG", "state_change");
-
                         break;
                     case 1: //控制模式改变（局域网/外网）,设置为局域网控制
-
                         //第一次联网成功时候SurfaceView还未创建，因此mControlModelChanged还未在其中实例化
                         if (mControlModelChanged != null){
                             mControlModelChanged.isLocalNetControl(true);
@@ -95,7 +92,6 @@ public class HomeFragment extends BaseFragment{
                         if (mControlModelChanged != null){
                             mControlModelChanged.isLocalNetControl(false);
                         }
-
                         break;
                 }
             }
@@ -189,6 +185,10 @@ public class HomeFragment extends BaseFragment{
         return null;
     }
 
+    /**
+     * function: tansmit interface instance to this.
+     * call back method from MySurfaceViewControler.java
+     * */
     public void changeControleModel(ControlModelChanged controlModelChanged){
 
         this.mControlModelChanged = controlModelChanged;
@@ -202,8 +202,6 @@ public class HomeFragment extends BaseFragment{
         }
         return "0";
     }
-
-
 
 //    @Override
 //    public void onAttach(Context context) {

@@ -242,10 +242,6 @@ public class DeviceControlFragment extends BaseFragment {
         };
     }
 
-
-
-
-
     public void initScanView(){
 
         mImageView = (ImageView)mDeviceControlFragmentView.findViewById(R.id.progress_img_fist);
@@ -418,11 +414,11 @@ public class DeviceControlFragment extends BaseFragment {
         });
 
         mButtonEnter.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 //完成设置跳转到视频界面
                 settingOK();
-
             }
         });
         mButtonShare.setOnClickListener(new View.OnClickListener() {
@@ -553,5 +549,4 @@ public class DeviceControlFragment extends BaseFragment {
             hintFouth.setTextColor(getResources().getColor(R.color.Black_60));
         }
     }
-
 }
