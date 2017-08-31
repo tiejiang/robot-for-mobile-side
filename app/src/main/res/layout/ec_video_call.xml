@@ -98,13 +98,7 @@
             android:textColor="@android:color/white"
             android:textSize="16.0sp" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|left"
-            android:layout_marginBottom="6.0dip"
-            android:layout_marginLeft="6.0dip"
-            android:background="@drawable/hand_control_base"/>
+
     </FrameLayout>
 
     <ImageView
@@ -123,6 +117,37 @@
         android:layout_marginLeft="5.0dip"
         android:layout_marginRight="5.0dip"
         android:visibility="gone" />
+
+
+    <FrameLayout
+        android:id="@+id/framelayout_control_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/video_botton_ly"
+        android:layout_alignParentStart="true">
+
+        <com.yinyutech.xiaolerobot.ui.activity.MySurfaceViewControler
+            android:id="@+id/control_view"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/framelayout_control_view＿head"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/video_botton_ly"
+        android:layout_alignParentEnd="true">
+
+        <com.yinyutech.xiaolerobot.ui.activity.MySurfaceViewHeadControler
+            android:id="@+id/control_view_head"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            />
+    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/video_botton_ly"
