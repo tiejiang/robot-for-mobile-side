@@ -55,7 +55,7 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
     private String isBeginSendControlCommand = "";
     private Context mMySurfaceViewControlerContext;
     private String[] ytxID = new String[2];
-    private boolean isLocalNetControl = false;  //是否开启局域网的控制
+    public boolean isLocalNetControl = false;  //是否开启局域网的控制
     public boolean isWLANOK = false;    //通过外网是否能够和小乐通信－－－即外网状态＋云通讯状态
     private boolean isStartYTXHandshake = false;  //是否开启云通讯的"握手"线程
     private XiaoLeLocalSendingCommand mXiaoLeLocalSendingCommand;
@@ -127,7 +127,6 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
         float[] mScreenData = getRect();
         screenW = mScreenData[0];
         screenH = mScreenData[1];
-
 
 //        mXiaoLeLocalSendingCommand = new XiaoLeLocalSendingCommand();
         mXiaoLeLocalSendingCommand = XiaoLeLocalSendingCommand.getInstance();
@@ -304,7 +303,6 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
                 Log.d("TIEJIANG", "MySurfaceViewControler---directionControl YTX sending");
             }
         }
-
     }
 
     /*备注2：切记，在自定SurfaceView中定义的myDraw方法，自定义View（继承自View的子类）中的onDraw方法

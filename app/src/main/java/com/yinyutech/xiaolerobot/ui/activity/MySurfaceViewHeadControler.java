@@ -16,7 +16,6 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.yinyutech.xiaolerobot.R;
-import com.yinyutech.xiaolerobot.entrance.ControlModelChanged;
 import com.yinyutech.xiaolerobot.fractory.ActivityInstance;
 import com.yinyutech.xiaolerobot.ui.fragment.HomeFragment;
 import com.yinyutech.xiaolerobot.utils.Constant;
@@ -110,23 +109,24 @@ public class MySurfaceViewHeadControler extends SurfaceView implements SurfaceHo
         float[] mScreenData = getRect();
         screenW = mScreenData[0];
         screenH = mScreenData[1];
-
-        mXiaoLeLocalSendingCommand = XiaoLeLocalSendingCommand.getInstance();
         //mHomeFragment 实例　（程序开始时候，此处还不能够获得ＤeviceControlFragment实例）
         mHomeFragment = ActivityInstance.mMainActivityInstance.getHomeFragmentInstance();
-        mHomeFragment.changeControleModel(new ControlModelChanged() {
-            @Override
-            public void isLocalNetControl(boolean is_local_net_control) {
-//                Log.d("TIEJIANG", "MySurfaceViewControler---surfaceCreated" + " is_local_net_control= "+is_local_net_control);
-
-                if (is_local_net_control){
-                    isLocalNetControl = true;
-                }else {
-                    isLocalNetControl = false;
-                }
-
-            }
-        });
+        //获得SurfaceViewControler实例
+        mySurfaceViewControler =  mHomeFragment.getMySurfaceViewControlerInstance();
+        mXiaoLeLocalSendingCommand = XiaoLeLocalSendingCommand.getInstance();
+//        mHomeFragment.changeControleModel(new ControlModelChanged() {
+//            @Override
+//            public void isLocalNetControl(boolean is_local_net_control) {
+////                Log.d("TIEJIANG", "MySurfaceViewControler---surfaceCreated" + " is_local_net_control= "+is_local_net_control);
+//
+//                if (is_local_net_control){
+//                    isLocalNetControl = true;
+//                }else {
+//                    isLocalNetControl = false;
+//                }
+//
+//            }
+//        });
 
         //启动绘图线程
         beginDrawing = true;
@@ -222,13 +222,13 @@ public class MySurfaceViewHeadControler extends SurfaceView implements SurfaceHo
         }
         if (!sendCommand.equals("")){
             //组装指令－－＞发送
-            if (isLocalNetControl){
+            if (mySurfaceViewControler.isLocalNetControl){
                 mXiaoLeLocalSendingCommand.startLocalSending(sendCommand);
-                Log.d("TIEJIANG", "MySurfaceViewControler---directionControl local sending");
-            }else{
+                Log.d("TIEJIANG", "MySurfaceViewHeadControler---directionControl local sending");
+            }else if (mySurfaceViewControler.isWLANOK){
                 //先通过HomeFragment得到MySurfaceViewControler的实例，在调用其方法
-                mHomeFragment.getMySurfaceViewControlerInstance().handleSendTextMessage(sendCommand);
-                Log.d("TIEJIANG", "MySurfaceViewControler---directionControl YTX sending");
+                mySurfaceViewControler.handleSendTextMessage(sendCommand);
+                Log.d("TIEJIANG", "MySurfaceViewHeadControler---directionControl YTX sending");
             }
         }
     }
