@@ -35,7 +35,7 @@ public class Constant {
     //通过云通讯发送到Ｈ３的握手信号
     public static final String HAND_SHAKE = "YTXHandshake";
     //收到Ｈ３的握手反馈信号
-    public static final String HAND_OK = "handed";
+    public static final String HAND_OK = "YTXHanded";
     
     public static Vector<String> mNotEncryptionApp;
 

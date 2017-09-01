@@ -59,6 +59,7 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
     public boolean isWLANOK = false;    //通过外网是否能够和小乐通信－－－即外网状态＋云通讯状态
     private boolean isStartYTXHandshake = false;  //是否开启云通讯的"握手"线程
     private XiaoLeLocalSendingCommand mXiaoLeLocalSendingCommand;
+    private String YTXReceiveMessage = "";
 
 
     public MySurfaceViewControler(Context context){
@@ -203,6 +204,9 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
         int i = 0;
         while (i<3){
             handleSendTextMessage(Constant.HAND_SHAKE);
+            //如果Ｈ３已经掉线，则不会回调此类的onPushMessage方法，故此处要手动设置isWLANOK为false
+            //如果有进入回调方法，则会自动改变isWLANOK的值．
+            isWLANOK = false;
             i++;
         }
     }
@@ -215,6 +219,9 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
             while (isStartYTXHandshake){
                 try {
                     handleSendTextMessage(Constant.HAND_SHAKE);
+                    //如果Ｈ３已经掉线，则不会回调此类的onPushMessage方法，故此处要手动设置isWLANOK为false
+                    //如果有进入回调方法，则会自动改变isWLANOK的值．
+                    isWLANOK = false;
                     Thread.sleep(3000);
 //                    Log.d("TIEJIANG", "MySurfaceViewControler---YTXHandshakeRunnabel YTXHandshake");
                 }catch (InterruptedException e){

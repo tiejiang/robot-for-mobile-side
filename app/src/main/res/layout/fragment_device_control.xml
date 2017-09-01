@@ -80,24 +80,40 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1. 正在连接到小乐机器人热点"
+            android:textSize="18sp"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="14dp"
             />
         <TextView
             android:id="@+id/hint_second"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2. 向机器发送WIFI信息"
+            android:textSize="18sp"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="14dp"
             />
         <TextView
             android:id="@+id/hint_third"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="3. 重新连接到您的WIFI网络"
+            android:textSize="18sp"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="14dp"
             />
         <TextView
             android:id="@+id/hint_fouth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="4. 机器语音提示网络连接成功之后点击下一步"
+            android:text="4. 机器语音提示网络连接成功\n    之后点击下一步"
+            android:textSize="18sp"
             />
 
     </LinearLayout>

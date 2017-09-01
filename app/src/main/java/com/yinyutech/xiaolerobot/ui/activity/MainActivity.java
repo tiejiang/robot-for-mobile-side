@@ -90,6 +90,9 @@ public class MainActivity extends BaseActivity {
                         if (((String)msg.obj).equals("setting_ok")){
                             //启动HomeFragment
                             mTabhost.setCurrentTab(0);
+
+//                            mTabhost.setEnabled(false); //for test
+
                             //设置对应ｂｕｔｔｏｎ为ｃｈｅｃｋｅｄ状态
 //                        ((RadioButton)findViewById(R.id.radio_button0)).setChecked(true);
 //                            Fragment fragment =  getSupportFragmentManager().findFragmentByTag(getString(R.string.xiaole));
