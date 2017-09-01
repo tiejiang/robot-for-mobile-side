@@ -25,7 +25,7 @@ import static com.yinyutech.xiaolerobot.ui.fragment.DeviceControlFragment.mScanX
  */
 public class BoxUDPBroadcaster {
 
-    private static final int TIMEOUT = 1000;  //设置接收数据的超时时间
+    private static final int TIMEOUT = 500;  //设置接收数据的超时时间
     private static final int MAXNUM = 2;      //设置重发数据的最多次数
     private SharedPreferences mGetYTXIDsp;
     private Context activityContext;

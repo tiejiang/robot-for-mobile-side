@@ -35,7 +35,6 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-import static android.R.attr.name;
 import static com.yinyutech.xiaolerobot.R.id.linearLayout_second_step;
 import static com.yinyutech.xiaolerobot.R.id.next_step;
 import static com.yinyutech.xiaolerobot.R.id.pairTipTextView;
@@ -64,6 +63,7 @@ public class DeviceControlFragment extends BaseFragment {
     private XiaoLeUDP mXiaoLeUDP;
     public static Handler mScanXiaoLeHandler;
     private boolean isXiaoLeExist = false; // 搜索小乐是否存在
+    private boolean isStartConnectNetModel = false;  //是否开始进入到联网模式
     //获得DeviceControlFragment 实例　（程序开始时候，此处还不能够获得ＤeviceControlFragment实例）
     private HomeFragment mHomeFragment = ActivityInstance.mMainActivityInstance.getHomeFragmentInstance();
     private DeviceControlFragment mDeviceControlFragment = ActivityInstance.mMainActivityInstance.getDeviceControlFragmentInstance();
@@ -164,7 +164,8 @@ public class DeviceControlFragment extends BaseFragment {
         Log.d("TIEJIANG", "DeviceControlFragment---hidden= " + hidden + " isXiaoLeExist= " + isXiaoLeExist);
 
 //        if (!hidden && isXiaoLeExist){
-        if (!hidden){
+        //isStartConnectNetModel---不在联网模式的时候才搜索设备
+        if (!hidden && !isStartConnectNetModel){
                 startScanXiaoLe();
 //                analysis();
         }
@@ -192,55 +193,58 @@ public class DeviceControlFragment extends BaseFragment {
                 //重新切换到DeviceControlFragment的时候会重新搜索设备，如果搜索到则要隐藏联网ＵＩ
                 //未搜索到的情况则会通过按键进入到联网部分
                 invisibleNetUI();
+                // 处于联网模式则不进入
+                if (!isStartConnectNetModel){
+                    if (scanMessage.length() > 1){
+                        //搜索到设备，直接进入到设备
+                        String state = "";
+                        String hostip = "";
+                        String name = "";
+                        try{
+                            JSONObject parseH3json = new JSONObject(scanMessage);
+                            state = parseH3json.getString("state");
+                            hostip = parseH3json.getString("hostip");
+                            name = parseH3json.getString("name");
+                            Log.d("TIEJIANG", "DeviceControlFragment---mScanXiaoLeHandler" + " state= " + state + ", hostip= " + hostip + ", name= " + name);
 
-                if (scanMessage.length() > 1){
-                    //搜索到设备，直接进入到设备
-                    String state = "";
-                    String hostip = "";
-                    String name = "";
-                    try{
-                        JSONObject parseH3json = new JSONObject(scanMessage);
-                        state = parseH3json.getString("state");
-                        hostip = parseH3json.getString("hostip");
-                        name = parseH3json.getString("name");
-                        Log.d("TIEJIANG", "DeviceControlFragment---mScanXiaoLeHandler" + " state= " + state + ", hostip= " + hostip + ", name= " + name);
-
-                    }catch (JSONException e){
-                        e.printStackTrace();
-                    }
-                    if (state.equals("local_handed") && name.equals("XiaoleServer") && hostip != null) {
+                        }catch (JSONException e){
+                            e.printStackTrace();
+                        }
+                        if (state.equals("local_handed") && name.equals("XiaoleServer") && hostip != null) {
 //                            isXiaoLeExist = true;
 //                            mShowIsXiaoleExist.setText("xiaole robot: " + hostip);
+                            isXiaoLeExist = true;
+                            mShowIsXiaoleExist.setText("xiaole robot: " + hostip);
+
+                            //开启局域网控制模式
+                            mStateChangeHandler.sendEmptyMessage(1);
+                            Log.d("TIEJIANG", "DeviceControlFragment---analysis" + " udp handed");
+
+                        }else if (state.equals("IDSetted") && name.equals("XiaoleServer") && hostip != null){
+                            isXiaoLeExist = true;
+                            mShowIsXiaoleExist.setText("xiaole robot: " + hostip);
+
+                            //开启局域网控制模式
+                            mStateChangeHandler.sendEmptyMessage(1);
+
+                            Log.d("TIEJIANG", "DeviceControlFragment---analysis" + " IDset handed");
+                        }
+
+                    }else if (mHomeFragment.mMySurfaceViewControler.isWLANOK){  //外网ＯＫ且（即）云通讯ＯＫ
+                        //手机在远程情况下启动ＡＰＰ，并且首次进入到ＡＰＰ的时候搜索小乐
                         isXiaoLeExist = true;
-                        mShowIsXiaoleExist.setText("xiaole robot: " + hostip);
+                        mShowIsXiaoleExist.setText("xiaole robot");
+                        mStateChangeHandler.sendEmptyMessage(2);  //关闭局域网控制模式
+                    }else {
+                        //同时外网也不通，则判断设备掉线
+                        mShowIsXiaoleExist.setText("未发现设备,请进入联网模式");
+                        isXiaoLeExist = false;
+                        mLinearLayoutFinalStep.setVisibility(View.INVISIBLE);
+                        mStateChangeHandler.sendEmptyMessage(2);  //关闭局域网控制模式
 
-                        //开启局域网控制模式
-                        mStateChangeHandler.sendEmptyMessage(1);
-                        Log.d("TIEJIANG", "DeviceControlFragment---analysis" + " udp handed");
-
-                    }else if (state.equals("IDSetted") && name.equals("XiaoleServer") && hostip != null){
-                        isXiaoLeExist = true;
-                        mShowIsXiaoleExist.setText("xiaole robot: " + hostip);
-
-                        //开启局域网控制模式
-                        mStateChangeHandler.sendEmptyMessage(1);
-
-                        Log.d("TIEJIANG", "DeviceControlFragment---analysis" + " IDset handed");
                     }
-
-                }else if (mHomeFragment.mMySurfaceViewControler.isWLANOK){  //外网ＯＫ且（即）云通讯ＯＫ
-                    //手机在远程情况下启动ＡＰＰ，并且首次进入到ＡＰＰ的时候搜索小乐
-                    isXiaoLeExist = true;
-                    mShowIsXiaoleExist.setText("xiaole robot");
-                    mStateChangeHandler.sendEmptyMessage(2);  //关闭局域网控制模式
-                }else {
-                    //同时外网也不通，则判断设备掉线
-                    mShowIsXiaoleExist.setText("未发现设备,请进入联网模式");
-                    isXiaoLeExist = false;
-                    mLinearLayoutFinalStep.setVisibility(View.INVISIBLE);
-                    mStateChangeHandler.sendEmptyMessage(2);  //关闭局域网控制模式
-
                 }
+
             Log.d("TIEJIANG", "DeviceControlFragment---"+"mHomeFragment.mMySurfaceViewControler.isWLANOK= "+mHomeFragment.mMySurfaceViewControler.isWLANOK);
 
             }
@@ -303,8 +307,8 @@ public class DeviceControlFragment extends BaseFragment {
 
     public void showEnterNetConnectModel(){
 
+        isStartConnectNetModel = true;
         AlertDialog.Builder mVersionDialog = new AlertDialog.Builder(getActivity());
-
         mVersionDialog.setTitle("提示");
         mVersionDialog.setMessage("点击\"确认\"按钮前，请先确认小乐已经进入联网模式");
         mVersionDialog.setNegativeButton("确认", new DialogInterface.OnClickListener() {
@@ -400,6 +404,7 @@ public class DeviceControlFragment extends BaseFragment {
                         //开始发送云通讯ＩＤ到Ｈ３
                         mXiaoLeUDP.startXiaoLeUDP();
                         startScanXiaoLe();
+                        isStartConnectNetModel = false; //联网完成　退出联网模式flag
 
                         mStepFlag = 1;
                         Log.d(TAG, "mStepFlag= " + mStepFlag);
