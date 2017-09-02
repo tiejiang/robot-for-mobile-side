@@ -293,9 +293,12 @@ public class DeviceControlFragment extends BaseFragment {
                 if(isXiaoLeExist){
                     settingOK();
                 }else{
-                    //点击"确认"前，先触摸小乐进入联网模式
+                    //没有扫描到设备，进入连接和配对模式(这个步骤需要一定时间停止，在此处停止后，通过dialog缓冲获得时间)
+                    udpBroadcaster.stopBroadcastSearchBox(); //开始联网步骤之后就停止Ｈ３设备的扫描
+                    //停止"握手"信号请求
+                    isStartConnectNetModel = true;
+                    //点击"确认"前，先触摸/语音"告诉"小乐进入联网模式
                     showEnterNetConnectModel();
-
                 }
             }
         });
@@ -303,7 +306,7 @@ public class DeviceControlFragment extends BaseFragment {
 
     public void showEnterNetConnectModel(){
 
-        isStartConnectNetModel = true;
+
         AlertDialog.Builder mVersionDialog = new AlertDialog.Builder(getActivity());
         mVersionDialog.setTitle("提示");
         mVersionDialog.setMessage("点击\"确认\"按钮前，请先确认小乐已经进入联网模式");
@@ -311,8 +314,6 @@ public class DeviceControlFragment extends BaseFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                //没有扫描到设备，进入连接和配对模式
-                udpBroadcaster.stopBroadcastSearchBox(); //开始联网步骤之后就停止Ｈ３设备的扫描
                 initDeviceView();
                 showAddBoxFullStepActivity(getActivity());
                 mWifiName.setText(AddBoxStatus.getInstance().uploadWiFiName);
