@@ -39,6 +39,7 @@ import static com.yinyutech.xiaolerobot.R.id.linearLayout_second_step;
 import static com.yinyutech.xiaolerobot.R.id.next_step;
 import static com.yinyutech.xiaolerobot.R.id.pairTipTextView;
 import static com.yinyutech.xiaolerobot.ui.fragment.HomeFragment.mStateChangeHandler;
+import static de.greenrobot.event.util.AsyncExecutor.create;
 
 public class DeviceControlFragment extends BaseFragment {
 
@@ -310,7 +311,7 @@ public class DeviceControlFragment extends BaseFragment {
         AlertDialog.Builder mVersionDialog = new AlertDialog.Builder(getActivity());
         mVersionDialog.setTitle("提示");
         mVersionDialog.setMessage("点击\"确认\"按钮前，请先确认小乐已经进入联网模式");
-        mVersionDialog.setNegativeButton("确认", new DialogInterface.OnClickListener() {
+        mVersionDialog.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
@@ -318,6 +319,12 @@ public class DeviceControlFragment extends BaseFragment {
                 showAddBoxFullStepActivity(getActivity());
                 mWifiName.setText(AddBoxStatus.getInstance().uploadWiFiName);
                 mShowIsXiaoleExist.setVisibility(View.INVISIBLE);
+
+            }
+        });
+        mVersionDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
 
             }
         }).create();
