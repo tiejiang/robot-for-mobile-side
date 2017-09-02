@@ -226,11 +226,10 @@ public class DeviceControlFragment extends BaseFragment {
 
                             //开启局域网控制模式
                             mStateChangeHandler.sendEmptyMessage(1);
-
                             Log.d("TIEJIANG", "DeviceControlFragment---analysis" + " IDset handed");
                         }
-
                     }else if (mHomeFragment.mMySurfaceViewControler.isWLANOK){  //外网ＯＫ且（即）云通讯ＯＫ
+                        Log.d("TIEJIANG", "DeviceControlFragment---analysis"+" isWLANOK= TRUE");
                         //手机在远程情况下启动ＡＰＰ，并且首次进入到ＡＰＰ的时候搜索小乐
                         isXiaoLeExist = true;
                         mShowIsXiaoleExist.setText("xiaole robot");
@@ -244,9 +243,6 @@ public class DeviceControlFragment extends BaseFragment {
 
                     }
                 }
-
-            Log.d("TIEJIANG", "DeviceControlFragment---"+"mHomeFragment.mMySurfaceViewControler.isWLANOK= "+mHomeFragment.mMySurfaceViewControler.isWLANOK);
-
             }
         };
     }
