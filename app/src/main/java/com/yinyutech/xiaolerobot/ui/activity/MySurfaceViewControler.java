@@ -30,6 +30,8 @@ import com.yuntongxun.ecsdk.im.ECTextMessageBody;
 import java.util.List;
 import java.util.Random;
 
+import static com.yinyutech.xiaolerobot.ui.fragment.DeviceControlFragment.mWLANHandler;
+
 /**
  * Created by yinyu-tiejiang on 17-8-15.
  */
@@ -206,7 +208,7 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
             handleSendTextMessage(Constant.HAND_SHAKE);
             //如果Ｈ３已经掉线，则不会回调此类的onPushMessage方法，故此处要手动设置isWLANOK为false
             //如果有进入回调方法，则会自动改变isWLANOK的值．
-            isWLANOK = false;
+//            isWLANOK = false;
             i++;
         }
     }
@@ -221,13 +223,12 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
                     handleSendTextMessage(Constant.HAND_SHAKE);
                     //如果Ｈ３已经掉线，则不会回调此类的onPushMessage方法，故此处要手动设置isWLANOK为false
                     //如果有进入回调方法，则会自动改变isWLANOK的值．
-                    isWLANOK = false;
+//                    isWLANOK = false;
                     Thread.sleep(3000);
 //                    Log.d("TIEJIANG", "MySurfaceViewControler---YTXHandshakeRunnabel YTXHandshake");
                 }catch (InterruptedException e){
                     e.printStackTrace();
                 }
-
             }
         }
     }
@@ -421,6 +422,9 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
         Log.d("TIEJIANG", "MySurfaceViewControler---analysisYTX"+" message= " + message);
         if (message.equals(Constant.HAND_OK)){
             isWLANOK = true;
+            if (mWLANHandler != null){
+                mWLANHandler.obtainMessage(0, "wlan_ok").sendToTarget();
+            }
         }else {
             isWLANOK = false;
         }

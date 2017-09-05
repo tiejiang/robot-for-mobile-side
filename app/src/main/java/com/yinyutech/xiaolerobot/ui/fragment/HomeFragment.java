@@ -27,7 +27,7 @@ public class HomeFragment extends BaseFragment{
 
     private static  final  String TAG="HomeFragment";
     private View mHomeFragmenView;
-    private Button mVideoOpen;
+    private Button mVideoOpen, mTakePhoto;
 //    private FrameLayout mFramelayoutControlView;
     public static Handler mStateChangeHandler;
     public MySurfaceViewControler mMySurfaceViewControler;
@@ -35,7 +35,6 @@ public class HomeFragment extends BaseFragment{
     private boolean isDeviceFind = false;  //通过DeviceControlFragment发现了设备
     private ControlModelChanged mControlModelChanged;
 //    private boolean isStartYTXHandshake = false;
-
 
     @Override
     public View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,6 +47,7 @@ public class HomeFragment extends BaseFragment{
         mMySurfaceViewControler.setVisibility(View.INVISIBLE);
         mMySurfaceViewHeadControler.setVisibility(View.INVISIBLE);
 //        mFramelayoutControlView.setVisibility(View.INVISIBLE);
+//        mTakePhoto = (Button)mHomeFragmenView.findViewById(R.id.take_photo);
         final String id = getYTXContactID();
         Log.d("TIEJIANG", "HomeFragment---createView" + "YTX ID= " + id);
         mVideoOpen.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +64,14 @@ public class HomeFragment extends BaseFragment{
         });
         mVideoOpen.setVisibility(View.GONE);
 
+//        mTakePhoto.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mMySurfaceViewControler.handleSendTextMessage(Constant.TAKE_PHOTO);
+//            }
+//        });
+//        mTakePhoto.setVisibility(View.GONE);
+
         mStateChangeHandler = new Handler(){
 
             @Override
@@ -78,6 +86,7 @@ public class HomeFragment extends BaseFragment{
                         mMySurfaceViewControler.setVisibility(View.VISIBLE);
                         mMySurfaceViewHeadControler.setVisibility(View.VISIBLE);
                         mVideoOpen.setVisibility(View.VISIBLE);
+//                        mTakePhoto.setVisibility(View.VISIBLE);
                         isDeviceFind = true;
 //                        Log.d("TIEJIANG", "state_change");
                         break;
@@ -85,7 +94,7 @@ public class HomeFragment extends BaseFragment{
                         //第一次联网成功时候SurfaceView还未创建，因此mControlModelChanged还未在其中实例化
                         if (mControlModelChanged != null){
                             mControlModelChanged.isLocalNetControl(true);
-                        }
+                            }
                         break;
                     case 2:  //局域网控制模式被关闭，外网是否开启由握手信号决定（在MySurfaceViewControler）
 
@@ -156,7 +165,6 @@ public class HomeFragment extends BaseFragment{
         }else {
 
         }
-
     }
 
 //    class YTXHandshakeRunnabel implements Runnable{
