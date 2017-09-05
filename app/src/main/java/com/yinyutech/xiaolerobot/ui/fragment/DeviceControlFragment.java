@@ -55,7 +55,7 @@ public class DeviceControlFragment extends BaseFragment {
     private ImageView mImageView;
     private TextView wifiInputHint, settingOver, mPairTipTextView;
     private TextView hintFirst, hintSecond, hintThird, hintFouth;
-    private LinearLayout mLinearLayoutShowIsXiaoleExist ,mLinearLayoutScanXiaole ,mLinearLayoutSecond, mLinearLayoutFinalStep;
+    private LinearLayout mLinearLayoutImgProgress,mLinearLayoutShowIsXiaoleExist ,mLinearLayoutScanXiaole ,mLinearLayoutSecond, mLinearLayoutFinalStep;
     private ProgressBar mNetProgressBar, mScanProgressBar;
     private final long shortTime = 1000;
     private final long longTime = 5000;
@@ -191,6 +191,8 @@ public class DeviceControlFragment extends BaseFragment {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 String tempString = (String) msg.obj;
+                Log.d("TIEJIANG", "DeviceControlFragment---wlanNetHandle"
+                        + " tempString= " + tempString+" isLocalNetOK= "+isLocalNetOK);
                 if (!isStartConnectNetModel && !isLocalNetOK){
                     if (tempString.equals("wlan_ok")){
                         //手机在远程情况下启动ＡＰＰ，并且首次进入到ＡＰＰ的时候搜索小乐
@@ -303,6 +305,8 @@ public class DeviceControlFragment extends BaseFragment {
 
     public void initScanView(){
 
+        mLinearLayoutImgProgress = (LinearLayout)mDeviceControlFragmentView.findViewById(R.id.linearLayout_img_progress);
+        mLinearLayoutImgProgress.setVisibility(View.INVISIBLE);
         mImageView = (ImageView)mDeviceControlFragmentView.findViewById(R.id.progress_img_fist);
         mImageView.setVisibility(View.INVISIBLE);
         nextStep = (Button)mDeviceControlFragmentView.findViewById(next_step);
@@ -389,6 +393,7 @@ public class DeviceControlFragment extends BaseFragment {
 
     private void invisibleNetUI(){
 
+        mLinearLayoutImgProgress.setVisibility(View.INVISIBLE);
         mImageView.setVisibility(View.INVISIBLE);
         nextStep.setVisibility(View.INVISIBLE);
         mWifiName.setVisibility(View.INVISIBLE);
@@ -401,6 +406,7 @@ public class DeviceControlFragment extends BaseFragment {
 
     public void initDeviceView(){
 
+        mLinearLayoutImgProgress.setVisibility(View.VISIBLE);
         mImageView.setVisibility(View.VISIBLE);
         nextStep.setVisibility(View.VISIBLE);
         mWifiName.setVisibility(View.VISIBLE);
