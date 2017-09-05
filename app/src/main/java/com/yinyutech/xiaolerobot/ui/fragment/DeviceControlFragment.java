@@ -65,6 +65,7 @@ public class DeviceControlFragment extends BaseFragment {
     public static Handler mWLANHandler;    //监听外网变化的ｈａｎｄｌｅｒ
     private boolean isXiaoLeExist = false; // 搜索小乐是否存在
     private boolean isStartConnectNetModel = false;  //是否开始进入到联网模式
+    private boolean isLocalNetOK = false;    //用于判断局域网是否连接（联通）－－－局域网不同才开始使用外网的监听结果
     //获得DeviceControlFragment 实例　（程序开始时候，此处还不能够获得ＤeviceControlFragment实例）
     private HomeFragment mHomeFragment = ActivityInstance.mMainActivityInstance.getHomeFragmentInstance();
     private DeviceControlFragment mDeviceControlFragment = ActivityInstance.mMainActivityInstance.getDeviceControlFragmentInstance();
@@ -152,7 +153,7 @@ public class DeviceControlFragment extends BaseFragment {
         udpBroadcaster = new BoxUDPBroadcaster(getActivity());  //调用BoxUDPBroadcaster有context构造函数，方便获取preference存储的值
         mXiaoLeUDP = new XiaoLeUDP(getActivity());
         initScanView();
-        mHomeFragment.mMySurfaceViewControler.FirstStartYTXHandshake();
+        mHomeFragment.mMySurfaceViewControler.startYTXHandshake();
         wlanNetHandle();
         startScanXiaoLe();
         analysis();
@@ -169,7 +170,6 @@ public class DeviceControlFragment extends BaseFragment {
         //isStartConnectNetModel---不在联网模式的时候才搜索设备
         if (!hidden && !isStartConnectNetModel){
                 startScanXiaoLe();
-//                analysis();
         }
 
     }
@@ -191,19 +191,18 @@ public class DeviceControlFragment extends BaseFragment {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 String tempString = (String) msg.obj;
-                if (!isStartConnectNetModel){
+                if (!isStartConnectNetModel && !isLocalNetOK){
                     if (tempString.equals("wlan_ok")){
                         //手机在远程情况下启动ＡＰＰ，并且首次进入到ＡＰＰ的时候搜索小乐
                         isXiaoLeExist = true;
                         mShowIsXiaoleExist.setText("xiaole robot");
                         mStateChangeHandler.sendEmptyMessage(2);  //关闭局域网控制模式
-                    }else {
+                    }else {   //Ｈ３掉线情况下，此部分逻辑其实不会进入－－－没有回调onPushMessage方法～
                         //同时外网也不通，则判断设备掉线
                         mShowIsXiaoleExist.setText("未发现设备,请进入联网模式");
                         isXiaoLeExist = false;
                         mLinearLayoutFinalStep.setVisibility(View.INVISIBLE);
                         mStateChangeHandler.sendEmptyMessage(2);  //关闭局域网控制模式
-
                     }
                 }
             }
@@ -251,6 +250,7 @@ public class DeviceControlFragment extends BaseFragment {
 //                            isXiaoLeExist = true;
 //                            mShowIsXiaoleExist.setText("xiaole robot: " + hostip);
                             isXiaoLeExist = true;
+                            isLocalNetOK = true;
                             mShowIsXiaoleExist.setText("xiaole robot: " + hostip);
 
                             //开启局域网控制模式
@@ -259,12 +259,21 @@ public class DeviceControlFragment extends BaseFragment {
 
                         }else if (state.equals("IDSetted") && name.equals("XiaoleServer") && hostip != null){
                             isXiaoLeExist = true;
+                            isLocalNetOK = true;
                             mShowIsXiaoleExist.setText("xiaole robot: " + hostip);
 
                             //开启局域网控制模式
                             mStateChangeHandler.sendEmptyMessage(1);
                             Log.d("TIEJIANG", "DeviceControlFragment---analysis" + " IDset handed");
                         }
+                    }
+                    else {
+                        mShowIsXiaoleExist.setText("未发现设备,请进入联网模式");
+                        isXiaoLeExist = false;
+                        isLocalNetOK = false;
+                        mLinearLayoutFinalStep.setVisibility(View.INVISIBLE);
+                        mStateChangeHandler.sendEmptyMessage(2);  //关闭局域网控制模式
+
                     }
 //                    else if (scanMessage.equals("wlan_ok")){
 //                        //手机在远程情况下启动ＡＰＰ，并且首次进入到ＡＰＰ的时候搜索小乐

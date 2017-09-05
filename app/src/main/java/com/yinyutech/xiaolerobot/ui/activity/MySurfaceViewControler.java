@@ -59,7 +59,8 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
     private String[] ytxID = new String[2];
     public boolean isLocalNetControl = false;  //是否开启局域网的控制
     public boolean isWLANOK = false;    //通过外网是否能够和小乐通信－－－即外网状态＋云通讯状态
-    private boolean isStartYTXHandshake = false;  //是否开启云通讯的"握手"线程
+    private boolean isStartYTXHandshake = true;  //是否开启云通讯的"握手"线程
+//    private boolean isStartFirtHandshake = true;  //通过DeviceFragment第一次调用的握手线程
     private XiaoLeLocalSendingCommand mXiaoLeLocalSendingCommand;
     private String YTXReceiveMessage = "";
 
@@ -105,7 +106,7 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
 //        Log.d("TIEJIANG", "MySurfaceViewControler---onAttachedToWindow");
-        //获得云通讯ｉｄ
+        //获得云通讯ｉｄ　先要设置receiver才能够发送消息！
         ytxID = getYTXID();
         isStartYTXHandshake = true;
     }
@@ -159,7 +160,7 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
         // 避免线程
         new Thread(new DrawViewRunnable()).start();
         //启动网络监听线程
-        new Thread(new YTXHandshakeRunnabel()).start();
+//        new Thread(new YTXHandshakeRunnabel()).start();
     }
 
     @Override
@@ -171,7 +172,7 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
 
         cx = screenW/2 - radius;
         cy = screenH/2 - radius;
-        Log.d("TIEJIANG", "surfaceChanged---radius= " + radius + ", cx= " + cx + ", cy= " + cy);
+//        Log.d("TIEJIANG", "surfaceChanged---radius= " + radius + ", cx= " + cx + ", cy= " + cy);
 
     }
 
@@ -180,7 +181,8 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
     public void surfaceDestroyed(SurfaceHolder holder) {
         //停止绘制线程
         beginDrawing = false;
-        Log.d("TIEJIANG", "surfaceView destoryed " + "beginDrawing= " + beginDrawing);
+//        Log.d("TIEJIANG", "surfaceView destoryed " + "beginDrawing= " + beginDrawing);
+
     }
 
     class DrawViewRunnable implements Runnable {
@@ -201,22 +203,31 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
     /**
      * 在DeviceControlFragment 初次启动的时候，class: YTXHandshakeRunnabel尚未启动
      * 因此，单独使用此方法供DeviceControlFragment首次启动的时候检测网络状况使用
+     * 在应用进入/启动了此surfaceView之后停止此＂握手＂线程，启动正常的＂握手＂线程
      */
-    public void FirstStartYTXHandshake(){
-        int i = 0;
-        while (i<3){
-            handleSendTextMessage(Constant.HAND_SHAKE);
-            //如果Ｈ３已经掉线，则不会回调此类的onPushMessage方法，故此处要手动设置isWLANOK为false
-            //如果有进入回调方法，则会自动改变isWLANOK的值．
-//            isWLANOK = false;
-            i++;
-        }
+    public void startYTXHandshake(){
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while(isStartYTXHandshake){
+                    handleSendTextMessage(Constant.HAND_SHAKE);
+                    try {
+//                        Log.d("TIEJIANG", "MySurfaceViewControler---FirstStartYTXHandshake");
+                        Thread.sleep(3000);
+                    }catch (InterruptedException e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
     }
 
     public class YTXHandshakeRunnabel implements Runnable{
 
         @Override
         public void run() {
+//            isStartFirtHandshake = false;  //已经进入到了常规握手线程－－－停止初次FirstStartYTXHandshake线程．
             //beginDrawing---surfaceView开始绘制的时候即开始判断网络情况
             while (isStartYTXHandshake){
                 try {
@@ -224,6 +235,7 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
                     //如果Ｈ３已经掉线，则不会回调此类的onPushMessage方法，故此处要手动设置isWLANOK为false
                     //如果有进入回调方法，则会自动改变isWLANOK的值．
 //                    isWLANOK = false;
+                    Log.d("TIEJIANG", "MySurfaceViewControler---YTXHandshakeRunnabel");
                     Thread.sleep(3000);
 //                    Log.d("TIEJIANG", "MySurfaceViewControler---YTXHandshakeRunnabel YTXHandshake");
                 }catch (InterruptedException e){

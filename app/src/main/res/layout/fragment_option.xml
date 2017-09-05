@@ -36,66 +36,157 @@
 
     </LinearLayout>
 
-
     <View
         android:layout_width="match_parent"
         android:layout_height="50dp"
         />
 
-
-    <ImageView
+    <LinearLayout
         android:id="@+id/option_user"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="@drawable/option_user" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:orientation="horizontal">
 
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="30dip"
+                android:layout_height="30dip"
+                android:background="@drawable/option_user" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:text="用户"
+                android:textSize="15dp"
+                android:textColor="@color/black" />
+        </RelativeLayout>
+
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_height="1dp"
+        android:background="@color/grey_fifty"
         />
 
-
-    <ImageView
+    <LinearLayout
         android:id="@+id/option_album"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/option_album"
-        />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:orientation="horizontal">
 
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="30dip"
+                android:layout_height="30dip"
+                android:background="@drawable/option_album" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:text="相册"
+                android:textSize="15dp"
+                android:textColor="@color/black" />
+        </RelativeLayout>
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_height="1dp"
+        android:background="@color/grey_fifty"
         />
 
-    <ImageView
+    <LinearLayout
         android:id="@+id/option_version"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/option_version"
-        />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="30dip"
+                android:layout_height="30dip"
+                android:background="@drawable/option_version" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:text="版本"
+                android:textSize="15dp"
+                android:textColor="@color/black" />
+        </RelativeLayout>
+    </LinearLayout>
 
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_height="1dp"
+        android:background="@color/grey_fifty"
         />
 
 
-    <ImageView
+    <LinearLayout
         android:id="@+id/option_setting"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/option_setting"
-        />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="30dip"
+                android:layout_height="30dip"
+                android:background="@drawable/option_setting" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:text="设置"
+                android:textSize="15dp"
+                android:textColor="@color/black" />
+        </RelativeLayout>
+
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_height="1dp"
+        android:background="@color/grey_fifty"
         />
 
 </LinearLayout>

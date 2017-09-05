@@ -11,7 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.yinyutech.xiaolerobot.R;
 import com.yinyutech.xiaolerobot.fractory.ActivityInstance;
@@ -34,7 +34,7 @@ public class OptionFragment extends BaseFragment {
 
     private int state=STATE_NORMAL;
     private View mOptionFragmentView;
-    private ImageView mOptionUser, mOptionAlbum, mOptionVersion, mOptionSetting;
+    private LinearLayout mOptionUser, mOptionAlbum, mOptionVersion, mOptionSetting;
     private Context mOptionFragmentInstance;
     /*获取当前系统的android版本号*/
     int currentapiVersion=android.os.Build.VERSION.SDK_INT;
@@ -54,10 +54,10 @@ public class OptionFragment extends BaseFragment {
 
     @Override
     public void init() {
-        mOptionUser = (ImageView)mOptionFragmentView.findViewById(R.id.option_user);
-        mOptionAlbum = (ImageView)mOptionFragmentView.findViewById(R.id.option_album);
-        mOptionVersion = (ImageView)mOptionFragmentView.findViewById(R.id.option_version);
-        mOptionSetting = (ImageView)mOptionFragmentView.findViewById(R.id.option_setting);
+        mOptionUser = (LinearLayout)mOptionFragmentView.findViewById(R.id.option_user);
+        mOptionAlbum = (LinearLayout)mOptionFragmentView.findViewById(R.id.option_album);
+        mOptionVersion = (LinearLayout)mOptionFragmentView.findViewById(R.id.option_version);
+        mOptionSetting = (LinearLayout)mOptionFragmentView.findViewById(R.id.option_setting);
 
         mOptionUser.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -9,6 +9,7 @@
     <color name="bg_color">#f1f1f1</color>
     <color name="voip_interface_text_color">#bababa</color>
     <color name="transparent">#00000000</color>
+    <color name="grey_fifty">#CCCCCC</color>
 
     <color name="white_light">#DDDDDD</color>
     <color name="white_dark">#999999</color>
