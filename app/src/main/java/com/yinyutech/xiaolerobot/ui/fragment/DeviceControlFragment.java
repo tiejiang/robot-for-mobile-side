@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
@@ -26,6 +27,7 @@ import com.yinyutech.xiaolerobot.fractory.ActivityInstance;
 import com.yinyutech.xiaolerobot.logger.Logger;
 import com.yinyutech.xiaolerobot.model.AddBoxStatus;
 import com.yinyutech.xiaolerobot.ui.activity.MainActivity;
+import com.yinyutech.xiaolerobot.ui.activity.SplashActivity;
 import com.yinyutech.xiaolerobot.utils.soundbox.BoxUDPBroadcaster;
 import com.yinyutech.xiaolerobot.utils.soundbox.SoundBoxManager;
 import com.yinyutech.xiaolerobot.utils.soundbox.XiaoLeUDP;
@@ -67,8 +69,8 @@ public class DeviceControlFragment extends BaseFragment {
     private boolean isStartConnectNetModel = false;  //是否开始进入到联网模式
     private boolean isLocalNetOK = false;    //用于判断局域网是否连接（联通）－－－局域网不同才开始使用外网的监听结果
     //获得DeviceControlFragment 实例　（程序开始时候，此处还不能够获得ＤeviceControlFragment实例）
-    private HomeFragment mHomeFragment = ActivityInstance.mMainActivityInstance.getHomeFragmentInstance();
-    private DeviceControlFragment mDeviceControlFragment = ActivityInstance.mMainActivityInstance.getDeviceControlFragmentInstance();
+    private HomeFragment mHomeFragment = null;
+//    private DeviceControlFragment mDeviceControlFragment = ActivityInstance.mMainActivityInstance.getDeviceControlFragmentInstance();
 
 
     private Handler timerHandler = new Handler();
@@ -152,8 +154,17 @@ public class DeviceControlFragment extends BaseFragment {
         //在此生命周期方法内初始化才能够得到activity的实例
         udpBroadcaster = new BoxUDPBroadcaster(getActivity());  //调用BoxUDPBroadcaster有context构造函数，方便获取preference存储的值
         mXiaoLeUDP = new XiaoLeUDP(getActivity());
+        mHomeFragment = ActivityInstance.mMainActivityInstance.getHomeFragmentInstance();
+        //ＡＰＰ退到后台再回到前台的时候可能会出现类的实例被回收，此时就统一回到ＡＰＰ登入界面重新开始（获得实例）
+        if (mHomeFragment == null){
+            Intent mIntent = new Intent(getActivity(), SplashActivity.class);
+            startActivity(mIntent);
+            getActivity().finish();
+        }else {
+            mHomeFragment.mMySurfaceViewControler.startYTXHandshake();
+        }
+
         initScanView();
-        mHomeFragment.mMySurfaceViewControler.startYTXHandshake();
         wlanNetHandle();
         startScanXiaoLe();
         analysis();
