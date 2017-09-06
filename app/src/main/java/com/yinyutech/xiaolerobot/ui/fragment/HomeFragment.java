@@ -1,5 +1,6 @@
 package com.yinyutech.xiaolerobot.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,6 +17,7 @@ import com.yinyutech.xiaolerobot.entrance.ControlModelChanged;
 import com.yinyutech.xiaolerobot.fractory.ActivityInstance;
 import com.yinyutech.xiaolerobot.ui.activity.MySurfaceViewControler;
 import com.yinyutech.xiaolerobot.ui.activity.MySurfaceViewHeadControler;
+import com.yinyutech.xiaolerobot.ui.activity.SplashActivity;
 import com.yuntongxun.ecsdk.ECVoIPCallManager;
 
 
@@ -204,10 +206,17 @@ public class HomeFragment extends BaseFragment{
 
     public String getYTXContactID(){
 
-        String[] id = ActivityInstance.mSplashActivityInstance.getYTXID();
-        if (!id[1].equals("1") && id[1] != null){
-            return id[1];
+        //ＡＰＰ退到后台再回到前台的时候可能会出现类的实例被回收，此时就统一回到ＡＰＰ登入界面重新开始（获得实例）
+        if (ActivityInstance.mSplashActivityInstance == null){
+            Intent mIntent = new Intent(getActivity(), SplashActivity.class);
+            startActivity(mIntent);
+        }else {
+            String[] id = ActivityInstance.mSplashActivityInstance.getYTXID();
+            if (!id[1].equals("1") && id[1] != null){
+                return id[1];
+            }
         }
+
         return "0";
     }
 
