@@ -19,16 +19,32 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
-<!--
+    <ImageView
+        android:id="@+id/xiaole_image"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_above="@+id/framelayout_control_view"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="43dp" />
+
+    <ProgressBar
+        android:id="@+id/download_progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true" />
+
     <Button
         android:id="@+id/take_photo"
-        android:layout_width="100dp"
-        android:layout_height="70dp"
-        android:text="take photo"
-        android:background="@drawable/take_photo"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/xiaole_photo_take"
         android:layout_above="@+id/open_video"
-        android:layout_centerHorizontal="true" />
--->
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="49dp" />
+
     <FrameLayout
         android:id="@+id/framelayout_control_view"
         android:layout_width="wrap_content"

@@ -1,6 +1,8 @@
 package com.yinyutech.xiaolerobot.ui.fragment;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -9,15 +11,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.yinyutech.xiaolerobot.R;
 import com.yinyutech.xiaolerobot.common.CCPAppManager;
 import com.yinyutech.xiaolerobot.entrance.ControlModelChanged;
+import com.yinyutech.xiaolerobot.entrance.ImageDownloadInterface;
 import com.yinyutech.xiaolerobot.fractory.ActivityInstance;
+import com.yinyutech.xiaolerobot.net.HttpConnect;
 import com.yinyutech.xiaolerobot.ui.activity.MySurfaceViewControler;
 import com.yinyutech.xiaolerobot.ui.activity.MySurfaceViewHeadControler;
 import com.yinyutech.xiaolerobot.ui.activity.SplashActivity;
+import com.yinyutech.xiaolerobot.utils.Constant;
+import com.yinyutech.xiaolerobot.utils.FileUtil;
 import com.yuntongxun.ecsdk.ECVoIPCallManager;
 
 
@@ -30,12 +38,15 @@ public class HomeFragment extends BaseFragment{
     private static  final  String TAG="HomeFragment";
     private View mHomeFragmenView;
     private Button mVideoOpen, mTakePhoto;
+    private ImageView mImageView;
+    private ProgressBar mProgressBar;
 //    private FrameLayout mFramelayoutControlView;
     public static Handler mStateChangeHandler;
     public MySurfaceViewControler mMySurfaceViewControler;
     public MySurfaceViewHeadControler mMySurfaceViewHeadControler;
     private boolean isDeviceFind = false;  //通过DeviceControlFragment发现了设备
     private ControlModelChanged mControlModelChanged;
+    public static Handler mImageDisplayHandler;
 //    private boolean isStartYTXHandshake = false;
 
     @Override
@@ -43,13 +54,16 @@ public class HomeFragment extends BaseFragment{
 
         mHomeFragmenView =  inflater.inflate(R.layout.fragment_home,container,false);
         mVideoOpen = (Button)mHomeFragmenView.findViewById(R.id.open_video);
+        mImageView = (ImageView)mHomeFragmenView.findViewById(R.id.xiaole_image);
+        mProgressBar = (ProgressBar)mHomeFragmenView.findViewById(R.id.download_progressBar);
+        mProgressBar.setVisibility(View.GONE);
         mMySurfaceViewControler = (MySurfaceViewControler)mHomeFragmenView.findViewById(R.id.control_view);
         mMySurfaceViewHeadControler = (MySurfaceViewHeadControler)mHomeFragmenView.findViewById(R.id.control_view_head);
 //        mFramelayoutControlView = (FrameLayout)mHomeFragmenView.findViewById(R.id.framelayout_control_view);
         mMySurfaceViewControler.setVisibility(View.INVISIBLE);
         mMySurfaceViewHeadControler.setVisibility(View.INVISIBLE);
 //        mFramelayoutControlView.setVisibility(View.INVISIBLE);
-//        mTakePhoto = (Button)mHomeFragmenView.findViewById(R.id.take_photo);
+        mTakePhoto = (Button)mHomeFragmenView.findViewById(R.id.take_photo);
         final String id = getYTXContactID();
         Log.d("TIEJIANG", "HomeFragment---createView" + "YTX ID= " + id);
         mVideoOpen.setOnClickListener(new View.OnClickListener() {
@@ -66,13 +80,17 @@ public class HomeFragment extends BaseFragment{
         });
         mVideoOpen.setVisibility(View.GONE);
 
-//        mTakePhoto.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mMySurfaceViewControler.handleSendTextMessage(Constant.TAKE_PHOTO);
-//            }
-//        });
-//        mTakePhoto.setVisibility(View.GONE);
+        mTakePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMySurfaceViewControler.handleSendTextMessage(Constant.TAKE_PHOTO);
+                receiveImageUrlAndDownload();
+                mProgressBar.setVisibility(View.VISIBLE);
+                displayImage();
+                mTakePhoto.setVisibility(View.INVISIBLE);
+            }
+        });
+        mTakePhoto.setVisibility(View.GONE);
 
         mStateChangeHandler = new Handler(){
 
@@ -88,8 +106,9 @@ public class HomeFragment extends BaseFragment{
                         mMySurfaceViewControler.setVisibility(View.VISIBLE);
                         mMySurfaceViewHeadControler.setVisibility(View.VISIBLE);
                         mVideoOpen.setVisibility(View.VISIBLE);
-//                        mTakePhoto.setVisibility(View.VISIBLE);
+                        mTakePhoto.setVisibility(View.VISIBLE);
                         isDeviceFind = true;
+
 //                        Log.d("TIEJIANG", "state_change");
                         break;
                     case 1: //控制模式改变（局域网/外网）,设置为局域网控制
@@ -107,6 +126,7 @@ public class HomeFragment extends BaseFragment{
                 }
             }
         };
+
 
         //启动网络监听线程
 //        isStartYTXHandshake = true;
@@ -144,6 +164,8 @@ public class HomeFragment extends BaseFragment{
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
 
+//        mImageView.setVisibility(View.INVISIBLE);
+        mProgressBar.setVisibility(View.INVISIBLE);
         if (hidden){
             mMySurfaceViewControler.setVisibility(View.INVISIBLE);
             mMySurfaceViewHeadControler.setVisibility(View.INVISIBLE);
@@ -186,6 +208,104 @@ public class HomeFragment extends BaseFragment{
 //            }
 //        }
 //    }
+
+    /**
+     * function: display image
+     *
+     * */
+    public void displayImage(){
+
+        mImageDisplayHandler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                mProgressBar.setVisibility(View.INVISIBLE); //progressBar dismiss
+                switch (msg.what){
+                    case 0:
+                        if (((String)msg.obj).equals("down_failed")){
+                            mImageView.setImageResource(R.drawable.xiaole_image_down_failed);
+                        }
+                        break;
+                    case 1:  //缩略图
+                        byte[] bitmapByte = (byte[])msg.obj;
+                        Bitmap mBitmap = BitmapFactory.decodeByteArray(bitmapByte, 0, bitmapByte.length);
+                        mImageView.setImageBitmap(mBitmap);
+                        mTakePhoto.setVisibility(View.VISIBLE);
+                        break;
+                    case 2: //完整图片
+                        byte[] BigBitmapByte = (byte[])msg.obj;
+                        Bitmap mBigBitmap = BitmapFactory.decodeByteArray(BigBitmapByte, 0, BigBitmapByte.length);
+                        mImageView.setImageBitmap(mBigBitmap);
+                        mTakePhoto.setVisibility(View.VISIBLE);
+                        FileUtil.saveBitmap(mBigBitmap);
+                        clearImageDisplay();
+                        break;
+                    case 3:  //clear image after 3s
+                        mImageView.setVisibility(View.INVISIBLE);
+                        break;
+
+                }
+            }
+        };
+    }
+
+    /**
+     * function: clear image display after 3s
+     *
+     * */
+    private void clearImageDisplay(){
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    Thread.sleep(3000);
+                    mImageDisplayHandler.obtainMessage(3, "").sendToTarget();
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+    }
+
+    /**
+     * function: receive image url from ytx (callback)
+     * and start to download image with okhttp
+     *
+     * */
+    public void receiveImageUrlAndDownload(){
+
+        //启动拍照监听回调
+        mMySurfaceViewControler.getImageDowndURL(new ImageDownloadInterface() {
+            @Override
+            public void onImageDownload(final String image_url) {
+
+                Log.d("TIEJIANG", "HomeFragment---"+" image_url="+image_url);
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        new HttpConnect().downImage(image_url);
+                    }
+                }).start();
+
+            }
+
+            @Override
+            public void onImagethumbDownload(final String thumb_image_url) {
+                Log.d("TIEJIANG", "HomeFragment---"+" thumb_image_url="+thumb_image_url);
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        new HttpConnect().downImage(thumb_image_url);
+                    }
+                }).start();
+            }
+
+        });
+    }
 
     public MySurfaceViewControler getMySurfaceViewControlerInstance(){
 

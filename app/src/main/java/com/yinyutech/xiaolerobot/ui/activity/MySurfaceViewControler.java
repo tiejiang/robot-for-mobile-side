@@ -18,6 +18,7 @@ import android.view.SurfaceView;
 
 import com.yinyutech.xiaolerobot.R;
 import com.yinyutech.xiaolerobot.entrance.ControlModelChanged;
+import com.yinyutech.xiaolerobot.entrance.ImageDownloadInterface;
 import com.yinyutech.xiaolerobot.fractory.ActivityInstance;
 import com.yinyutech.xiaolerobot.helper.IMChattingHelper;
 import com.yinyutech.xiaolerobot.ui.fragment.HomeFragment;
@@ -25,6 +26,7 @@ import com.yinyutech.xiaolerobot.utils.Constant;
 import com.yinyutech.xiaolerobot.utils.soundbox.XiaoLeLocalSendingCommand;
 import com.yuntongxun.ecsdk.ECError;
 import com.yuntongxun.ecsdk.ECMessage;
+import com.yuntongxun.ecsdk.im.ECImageMessageBody;
 import com.yuntongxun.ecsdk.im.ECTextMessageBody;
 
 import java.util.List;
@@ -63,6 +65,7 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
 //    private boolean isStartFirtHandshake = true;  //通过DeviceFragment第一次调用的握手线程
     private XiaoLeLocalSendingCommand mXiaoLeLocalSendingCommand;
     private String YTXReceiveMessage = "";
+    private ImageDownloadInterface mImageDownloadInterface = null;
 
 
     public MySurfaceViewControler(Context context){
@@ -419,13 +422,31 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
     public void onPushMessage(String sessionId, List<ECMessage> msgs) {
         int msgsSize = msgs.size();
         String message = "";
-        for (int i = 0; i < msgsSize; i++){
-            message = ((ECTextMessageBody) msgs.get(i).getBody()).getMessage();
-            Log.d("TIEJIANG", "MySurfaceViewControler---onPushMessage" + "i :" + i + ", message = " + message);
-        }
+        String thumbnailFileUrl = null;
+        String remoteUrl = null;
 
-        Log.d("TIEJIANG", "MySurfaceViewControler---onPushMessage" + ",sessionId :" + sessionId);
-        analysisYTX(message);
+        for (int i = 0; i < msgsSize; i++){
+            if (msgs.get(i).getType()== ECMessage.Type.IMAGE){
+                ECImageMessageBody mECImageMessageBody = (ECImageMessageBody)msgs.get(i).getBody();
+
+                thumbnailFileUrl = mECImageMessageBody.getThumbnailFileUrl(); //缩略图地址
+                remoteUrl = mECImageMessageBody.getRemoteUrl(); //原图地址
+                Log.d("TIEJIANG", "MySurfaceViewControler---onPushMessage"
+                        +", thumbnailFileUrl= "+thumbnailFileUrl + ", remoteUrl= " + remoteUrl);
+                mImageDownloadInterface.onImageDownload(remoteUrl);
+                mImageDownloadInterface.onImagethumbDownload(thumbnailFileUrl);
+            }else if (msgs.get(i).getType() == ECMessage.Type.TXT){
+                message = ((ECTextMessageBody) msgs.get(i).getBody()).getMessage();
+//                Log.d("TIEJIANG", "MySurfaceViewControler---onPushMessage" + "i :" + i + ", message = " + message);
+                Log.d("TIEJIANG", "MySurfaceViewControler---onPushMessage" + ",sessionId :" + sessionId);
+                analysisYTX(message);
+            }
+        }
+    }
+
+    public void getImageDowndURL(ImageDownloadInterface imageDownloadInterface){
+
+        this.mImageDownloadInterface = imageDownloadInterface;
     }
 
     //解析Ｈ３平台发送过来的ＩＭ信息

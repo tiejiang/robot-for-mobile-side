@@ -12,11 +12,12 @@
  */
 package com.yinyutech.xiaolerobot.helper;
 
+import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.yinyutech.xiaolerobot.common.CCPAppManager;
 import com.yinyutech.xiaolerobot.bean.ClientUser;
+import com.yinyutech.xiaolerobot.common.CCPAppManager;
 import com.yinyutech.xiaolerobot.utils.DateUtil;
 import com.yinyutech.xiaolerobot.utils.ECPreferenceSettings;
 import com.yinyutech.xiaolerobot.utils.ECPreferences;
@@ -27,8 +28,10 @@ import com.yuntongxun.ecsdk.ECMessage;
 import com.yuntongxun.ecsdk.OnChatReceiveListener;
 import com.yuntongxun.ecsdk.PersonInfo;
 import com.yuntongxun.ecsdk.SdkErrorCode;
+import com.yuntongxun.ecsdk.im.ECImageMessageBody;
 import com.yuntongxun.ecsdk.im.ECMessageNotify;
 import com.yuntongxun.ecsdk.im.ECTextMessageBody;
+import com.yuntongxun.ecsdk.im.ECUserStateMessageBody;
 import com.yuntongxun.ecsdk.im.group.ECGroupNoticeMessage;
 
 import java.io.InvalidClassException;
@@ -434,19 +437,19 @@ public class IMChattingHelper implements OnChatReceiveListener,
 		// IM消息类型：ECMessage.Type
 
 		Log.d("TIEJIANG", "TIEJIANG-skyee---[postReceiveMessage]-method");// add by tiejiang
-//		if(msg.getType()== Type.STATE){ //状态消息
-//			String msgTo = msg.getTo();
-//			if(isGroup(msg)){
-//				return;
-//			}
-//		    ECUserStateMessageBody stateBody = (ECUserStateMessageBody) msg.getBody();
-//			String state =stateBody.getMessage();
-//			Intent intent =new Intent();
-//			intent.putExtra(USER_STATE,state);
-//			intent.setAction(INTENT_ACTION_CHAT_USER_STATE);
-//			CCPAppManager.getContext().sendBroadcast(intent);
-//			return;
-//		}
+		if(msg.getType()== ECMessage.Type.STATE){ //状态消息
+			String msgTo = msg.getTo();
+			if(isGroup(msg)){
+				return;
+			}
+		    ECUserStateMessageBody stateBody = (ECUserStateMessageBody) msg.getBody();
+			String state =stateBody.getMessage();
+			Intent intent =new Intent();
+			intent.putExtra(USER_STATE,state);
+			intent.setAction(INTENT_ACTION_CHAT_USER_STATE);
+			CCPAppManager.getContext().sendBroadcast(intent);
+			return;
+		}
 //		if (msg.isMultimediaBody()) {
 //			{
 //				if(msg.getType()!=Type.CALL){
@@ -606,12 +609,28 @@ public class IMChattingHelper implements OnChatReceiveListener,
 //				LogUtil.e(TAG, "ECMessage fileUrl: null");
 //			}
 //		} else {
-			Log.d("TIEJIANG", "TIEJIANG-skyee---[postReceiveMessage]-IM message deal-1");// add by tiejiang
+//			Log.d("TIEJIANG", "IMChattingHelper---[postReceiveMessage]-IM message deal-1");// add by tiejiang
 			// add if condition to judge the txt type message
-//			if (msg.getType() == Type.TXT){
+			if (msg.getType() == ECMessage.Type.TXT){
 				String  message = ((ECTextMessageBody) msg.getBody()).getMessage();
-				Log.d("TIEJIANG", "TIEJIANG-skyee---[postReceiveMessage]-IM message deal-2" + ",message = " + message);// add by tiejiang
-//			}
+//				Log.d("TIEJIANG", "IMChattingHelper---[postReceiveMessage]-IM message deal-2" + ",message = " + message);
+			}
+
+		if (msg.getType() == ECMessage.Type.IMAGE) {
+			ECImageMessageBody imageBody = ((ECImageMessageBody) msg.getBody());
+			boolean thumbnail = false;
+			thumbnail = !TextUtils.isEmpty(imageBody
+					.getThumbnailFileUrl());
+			String mThumbnailFileUrl = imageBody.getThumbnailFileUrl();
+			String mImageUrl = imageBody.getRemoteUrl();
+//			Log.d("TIEJIANG", "IMChattingHelper---[postReceiveMessage]"
+//					+",mThumbnailFileUrl = "+mThumbnailFileUrl+",mImageUrl= "+mImageUrl);
+//			imageBody.setLocalUrl(new File(FileAccessor
+//					.getImagePathName(), DemoUtils
+//					.md5(thumbnail ? imageBody.getThumbnailFileUrl()
+//							: imageBody.getRemoteUrl())
+//					+ "." + fileExt).getAbsolutePath());
+		}
 //			if(msg.getType() == Type.TXT && msg.getSessionId().toUpperCase().startsWith("G")) {
 //				ECTextMessageBody body = (ECTextMessageBody)msg.getBody();
 //				if(body != null && body.isAt()) {
@@ -629,7 +648,7 @@ public class IMChattingHelper implements OnChatReceiveListener,
 //			return;
 //		}
 		if (mOnMessageReportCallback != null) {
-			Log.d("TIEJIANG", "TIEJIANG---[postReceiveMessage]-IM message deal-3");// add by tiejiang
+//			Log.d("TIEJIANG", "TIEJIANG---[postReceiveMessage]-IM message deal-3");// add by tiejiang
 			ArrayList<ECMessage> msgs = new ArrayList<ECMessage>();
 			msgs.add(msg);
 			mOnMessageReportCallback.onPushMessage(msg.getSessionId(), msgs);
@@ -637,7 +656,7 @@ public class IMChattingHelper implements OnChatReceiveListener,
 
 		// 是否状态栏提示
 		if (showNotice) {
-			Log.d("TIEJIANG", "TIEJIANG---[postReceiveMessage]-IM message deal-4");// add by tiejiang
+//			Log.d("TIEJIANG", "TIEJIANG---[postReceiveMessage]-IM message deal-4");// add by tiejiang
 //			showNotification(msg);
 		}
 	}

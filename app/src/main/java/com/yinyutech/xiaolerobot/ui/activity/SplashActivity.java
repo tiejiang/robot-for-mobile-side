@@ -36,7 +36,6 @@ public class SplashActivity extends BaseActivity
 	private SharedPreferences mYTXIDSharedPreference;
 	private RelativeLayout mAnimRelativeLayout1;
 
-	String mobile = "71707102";
 	String pass = "";
 	ECInitParams.LoginAuthType mLoginAuthType = ECInitParams.LoginAuthType.NORMAL_AUTH;
 
