@@ -9,6 +9,8 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileUtil {
 	private static final String TAG = "FileUtil";
@@ -57,5 +59,37 @@ public class FileUtil {
 		return null;
 	}
 
+
+	//遍历SD卡中某一路径下指定类型的图片
+	public static List<String> getSD() {
+
+		String path = initPath();
+		// 遍历符合条件的列表
+		List<String> it = new ArrayList<String>();
+		File f = new File(path);
+		File[] files = f.listFiles();
+
+		for (int i = 0; i < files.length; i++) {
+			File file = files[i];
+			if (getImageFile(file.getPath()))
+				it.add(file.getPath());
+		}
+		return it;
+	}
+
+	//指定遍历文件类型
+	private static boolean getImageFile(String fName) {
+		boolean re;
+		String end = fName
+				.substring(fName.lastIndexOf(".") + 1, fName.length())
+				.toLowerCase();
+		if (end.equals("jpg") || end.equals("gif") || end.equals("png")
+				|| end.equals("jpeg") || end.equals("bmp")) {
+			re = true;
+		} else {
+			re = false;
+		}
+		return re;
+	}
 
 }

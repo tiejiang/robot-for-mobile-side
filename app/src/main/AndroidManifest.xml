@@ -44,6 +44,10 @@
             android:screenOrientation="portrait">
 
         </activity>
+        <activity android:name=".ui.activity.OPtionAlbumActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
 
         <activity
             android:name="com.yinyutech.xiaolerobot.ui.activity.MenuActivity">
@@ -75,11 +79,6 @@
                 <action android:name="con.yuntongxun.ecdemo.intent.ACTION_VIDEO_CALL" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".ui.activity.AlbumActivity"
-            android:screenOrientation="portrait">
         </activity>
 
         // SDK核心服务配置

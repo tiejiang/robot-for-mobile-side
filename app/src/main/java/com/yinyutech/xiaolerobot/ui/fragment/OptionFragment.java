@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 
 import com.yinyutech.xiaolerobot.R;
 import com.yinyutech.xiaolerobot.fractory.ActivityInstance;
-import com.yinyutech.xiaolerobot.ui.activity.AlbumActivity;
+import com.yinyutech.xiaolerobot.ui.activity.OPtionAlbumActivity;
 import com.yinyutech.xiaolerobot.ui.activity.SplashActivity;
 
 import static com.yinyutech.xiaolerobot.common.CCPAppManager.getPackageName;
@@ -72,7 +72,7 @@ public class OptionFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
 
-                Intent mIntent  = new Intent(mOptionFragmentInstance, AlbumActivity.class);
+                Intent mIntent  = new Intent(mOptionFragmentInstance, OPtionAlbumActivity.class);
                 startActivity(mIntent);
 
             }

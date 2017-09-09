@@ -90,7 +90,7 @@ public class HomeFragment extends BaseFragment{
                 mTakePhoto.setVisibility(View.INVISIBLE);
             }
         });
-        mTakePhoto.setVisibility(View.GONE);
+        mTakePhoto.setVisibility(View.INVISIBLE);
 
         mStateChangeHandler = new Handler(){
 
@@ -220,6 +220,7 @@ public class HomeFragment extends BaseFragment{
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 mProgressBar.setVisibility(View.INVISIBLE); //progressBar dismiss
+                mImageView.setVisibility(View.VISIBLE);
                 switch (msg.what){
                     case 0:
                         if (((String)msg.obj).equals("down_failed")){
