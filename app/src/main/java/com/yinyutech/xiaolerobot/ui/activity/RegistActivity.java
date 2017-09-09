@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -32,7 +33,8 @@ public class RegistActivity extends Activity {
     private EditText et_security;
     private ProgressDialog dialog;
     private String security = "";
-
+    private AlertDialog.Builder mDialog = null;
+    private AlertDialog mAlertDialog = null;
     private SharedPreferences mUserSharedPreferences;
 
     @Override
@@ -61,6 +63,12 @@ public class RegistActivity extends Activity {
         super.onDestroy();
         //要在activity销毁时反注册，否侧会造成内存泄漏问题
         SMSSDK.unregisterAllEventHandler();
+        if (mDialog != null){
+//            mAlertDialog.dismiss();
+            mDialog = null;
+//            mAlertDialog = null;
+        }
+
     }
     /**
      * 短信验证的回调监听
@@ -84,24 +92,7 @@ public class RegistActivity extends Activity {
                             @Override
                             public void run() {
                                 showDailog("恭喜你！通过验证");
-                                //保存注册用户信息
-                                mUserSharedPreferences = getSharedPreferences(Constant.USER_MESSAGE, Context.MODE_PRIVATE);
-                                SharedPreferences.Editor mEditor = mUserSharedPreferences.edit();
-                                mEditor.putString(Constant.USER_NUMBER, number);
-                                mEditor.putString(Constant.USER_SERCURITY, security);
-                                mEditor.commit();
-                                //test code to get sharedPreference value
-//                                SharedPreferences sp = getSharedPreferences(Constant.USER_MESSAGE, Context.MODE_PRIVATE);
-//                                String number = sp.getString(Constant.USER_NUMBER, "0");
-//                                String security = sp.getString(Constant.USER_SERCURITY, "1");
-//                                Log.d("TIEJIANG", "RegistActivity---NUMBER= " + number + " SECURITY= " + security);
 
-
-                                //注册成功，进入到主界面
-                                Intent mIntent = new Intent(RegistActivity.this, MainActivity.class);
-                                startActivity(mIntent);
-                                RegistActivity.this.finish();
-                                //    Toast.makeText(MainActivity.this, "通过验证", Toast.LENGTH_SHORT).show();
                             }
                         });
                     } else {
@@ -131,10 +122,37 @@ public class RegistActivity extends Activity {
     //验证结果弹窗
     private void showDailog(String text) {
 
-        new AlertDialog.Builder(RegistActivity.this)
-                .setTitle(text)
-                .setPositiveButton("确定", null)
-                .show();
+        mDialog = new AlertDialog.Builder(this);
+        mDialog.setTitle(text);
+        mDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //保存注册用户信息
+                mUserSharedPreferences = getSharedPreferences(Constant.USER_MESSAGE, Context.MODE_PRIVATE);
+                SharedPreferences.Editor mEditor = mUserSharedPreferences.edit();
+                mEditor.putString(Constant.USER_NUMBER, number);
+                mEditor.putString(Constant.USER_SERCURITY, security);
+                mEditor.commit();
+                //test code to get sharedPreference value
+//                                SharedPreferences sp = getSharedPreferences(Constant.USER_MESSAGE, Context.MODE_PRIVATE);
+//                                String number = sp.getString(Constant.USER_NUMBER, "0");
+//                                String security = sp.getString(Constant.USER_SERCURITY, "1");
+//                                Log.d("TIEJIANG", "RegistActivity---NUMBER= " + number + " SECURITY= " + security);
+
+
+                //注册成功，进入到主界面
+                Intent mIntent = new Intent(RegistActivity.this, MainActivity.class);
+                startActivity(mIntent);
+                RegistActivity.this.finish();
+            }
+        });
+        mDialog.create();
+        mDialog.show();
+
+//        new AlertDialog.Builder(RegistActivity.this)
+//                .setTitle(text)
+//                .setPositiveButton("确定", null)
+//                .show();
     }
     /**
      * 获取验证码
@@ -167,4 +185,3 @@ public class RegistActivity extends Activity {
         }
     }
 }
-

@@ -15,6 +15,8 @@ import android.provider.MediaStore;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
@@ -41,6 +43,7 @@ public class OPtionAlbumActivity extends Activity {
     private GalleryAdapter mAdapter;
 //    private List<Integer> mDatas;
     private ImageView mImg ;
+    private Button mButtonReturn;
     private ProgressBar mProgressBar;
     private List<String> imageList;
     private Vector<String> mWaitDeleteImage = new Vector<String>();
@@ -86,8 +89,6 @@ public class OPtionAlbumActivity extends Activity {
                             }else {
                                 mImg.setImageResource(R.drawable.xiaole_image_down_failed);
                             }
-//                            Bitmap bitmap = BitmapFactory.decodeFile(imageList.get(position));
-//                            mImg.setImageBitmap(bitmap);
                         }
                     });
 
@@ -111,19 +112,30 @@ public class OPtionAlbumActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_album);
 
         initImageSource();
 
         mImg = (ImageView) findViewById(R.id.id_content);
         mImg.setVisibility(View.INVISIBLE);
+        mButtonReturn = (Button)findViewById(R.id.album_return);
+
         mProgressBar = (ProgressBar) findViewById(R.id.scan_sdcard_progressBar);
         mRecyclerView = (MyRecyclerView) findViewById(R.id.id_recyclerview_horizontal);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mRecyclerView.setLayoutManager(linearLayoutManager);
+
+        mButtonReturn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Intent mIntent = new Intent(OPtionAlbumActivity.this, OptionFragment.class);
+//                startActivity(mIntent);
+                finish();
+            }
+        });
 
 //        mAdapter = new GalleryAdapter(this, imageList);
 //        mRecyclerView.setAdapter(mAdapter);
