@@ -15,10 +15,12 @@ import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.yinyutech.xiaolerobot.R;
 import com.yinyutech.xiaolerobot.adapter.GalleryAdapter;
@@ -174,19 +176,31 @@ public class OPtionAlbumActivity extends Activity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.tasks_fragment_menu, menu);
+
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()){
             case android.R.id.home:
 
                 finish();
-                return true;
-//                break;
+//                return true;
+                break;
+            case R.id.menu_note:
+                Toast.makeText(this, "单击显示对应大图 \n长按删除图片", Toast.LENGTH_SHORT).show();
+                break;
 
             default:
-                return super.onOptionsItemSelected(item);
+
 
         }
+        return super.onOptionsItemSelected(item);
 
     }
 
