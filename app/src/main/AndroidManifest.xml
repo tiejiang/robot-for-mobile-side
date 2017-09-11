@@ -45,7 +45,7 @@
 
         </activity>
         <activity android:name=".ui.activity.OPtionAlbumActivity"
-            android:screenOrientation="portrait">
+            android:theme="@android:style/Theme.Holo">
 
         </activity>
 

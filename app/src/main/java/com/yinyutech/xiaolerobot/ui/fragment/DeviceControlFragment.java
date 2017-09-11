@@ -208,7 +208,7 @@ public class DeviceControlFragment extends BaseFragment {
                     if (tempString.equals("wlan_ok")){
                         //手机在远程情况下启动ＡＰＰ，并且首次进入到ＡＰＰ的时候搜索小乐
                         isXiaoLeExist = true;
-                        mShowIsXiaoleExist.setText("xiaole robot");
+                        mShowIsXiaoleExist.setText("xiaole robot" + "\n电量:");
                         mStateChangeHandler.sendEmptyMessage(2);  //关闭局域网控制模式
                     }else {   //Ｈ３掉线情况下，此部分逻辑其实不会进入－－－没有回调onPushMessage方法～
                         //同时外网也不通，则判断设备掉线
@@ -264,7 +264,7 @@ public class DeviceControlFragment extends BaseFragment {
 //                            mShowIsXiaoleExist.setText("xiaole robot: " + hostip);
                             isXiaoLeExist = true;
                             isLocalNetOK = true;
-                            mShowIsXiaoleExist.setText("xiaole robot: " + hostip);
+                            mShowIsXiaoleExist.setText("xiaole robot: " + hostip + "\n电量: ");
 
                             //开启局域网控制模式
                             mStateChangeHandler.sendEmptyMessage(1);
@@ -273,7 +273,7 @@ public class DeviceControlFragment extends BaseFragment {
                         }else if (state.equals("IDSetted") && name.equals("XiaoleServer") && hostip != null){
                             isXiaoLeExist = true;
                             isLocalNetOK = true;
-                            mShowIsXiaoleExist.setText("xiaole robot: " + hostip);
+                            mShowIsXiaoleExist.setText("xiaole robot: " + hostip + "\n电量: ");
 
                             //开启局域网控制模式
                             mStateChangeHandler.sendEmptyMessage(1);

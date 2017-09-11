@@ -216,7 +216,7 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
                 while(isStartYTXHandshake){
                     handleSendTextMessage(Constant.HAND_SHAKE);
                     try {
-//                        Log.d("TIEJIANG", "MySurfaceViewControler---FirstStartYTXHandshake");
+                        Log.d("TIEJIANG", "MySurfaceViewControler---FirstStartYTXHandshake");
                         Thread.sleep(3000);
                     }catch (InterruptedException e){
                         e.printStackTrace();
@@ -238,7 +238,7 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
                     //如果Ｈ３已经掉线，则不会回调此类的onPushMessage方法，故此处要手动设置isWLANOK为false
                     //如果有进入回调方法，则会自动改变isWLANOK的值．
 //                    isWLANOK = false;
-                    Log.d("TIEJIANG", "MySurfaceViewControler---YTXHandshakeRunnabel");
+//                    Log.d("TIEJIANG", "MySurfaceViewControler---YTXHandshakeRunnabel");
                     Thread.sleep(3000);
 //                    Log.d("TIEJIANG", "MySurfaceViewControler---YTXHandshakeRunnabel YTXHandshake");
                 }catch (InterruptedException e){
