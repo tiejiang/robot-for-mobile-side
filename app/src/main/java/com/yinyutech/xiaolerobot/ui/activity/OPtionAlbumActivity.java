@@ -178,7 +178,7 @@ public class OPtionAlbumActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.tasks_fragment_menu, menu);
+        getMenuInflater().inflate(R.menu.activity_album_menu, menu);
 
         return true;
     }

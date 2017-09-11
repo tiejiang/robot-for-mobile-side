@@ -453,10 +453,10 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
     private void analysisYTX(String message){
 
         Log.d("TIEJIANG", "MySurfaceViewControler---analysisYTX"+" message= " + message);
-        if (message.equals(Constant.HAND_OK)){
+        if (message.contains(Constant.HAND_OK)){
             isWLANOK = true;
             if (mWLANHandler != null){
-                mWLANHandler.obtainMessage(0, "wlan_ok").sendToTarget();
+                mWLANHandler.obtainMessage(0, message).sendToTarget();
             }
         }else {
             isWLANOK = false;
