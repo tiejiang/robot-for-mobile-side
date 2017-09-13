@@ -599,8 +599,8 @@ public class DeviceControlFragment extends BaseFragment {
 
         if (wifiConfig != null) {
             boolean isSuccess = wifiManager.enableNetwork(wifiConfig.networkId, true);
-            int connectState = wifiManager.getConfiguredNetworks().get(wifiConfig.networkId).status;
-            Log.d("TIEJIANG", "DeviceControlFragment---connectToOriginWiFi" + " connectState= "+ connectState);
+//            int connectState = wifiManager.getConfiguredNetworks().get(wifiConfig.networkId).status;
+//            Log.d("TIEJIANG", "DeviceControlFragment---connectToOriginWiFi" + " connectState= "+ connectState);
             // isSuccess 如果返回true只是代表wifiManager去执行连接网络的指令了,并不代表已经连接上网络
             Log.d("TIEJIANG", "DeviceControlFragment---connectToOriginWiFi" + " wifiConfig.networkId= "+ wifiConfig.networkId);
 //            Logger.v("connect to origin Wifi: %s", isSuccess ? "success" : "fail");
