@@ -38,7 +38,7 @@ public class OptionFragment extends BaseFragment {
     private Context mOptionFragmentInstance;
     /*获取当前系统的android版本号*/
     int currentapiVersion=android.os.Build.VERSION.SDK_INT;
-    private static String phoneMessage = "手机型号: " + android.os.Build.MODEL + "\n系统版本:" + android.os.Build.VERSION.RELEASE;
+    private static String phoneMessage = "手机型号: " + android.os.Build.MODEL + "\n系统版本: " + android.os.Build.VERSION.RELEASE;
     private SplashActivity mSplashActivity = ActivityInstance.mSplashActivityInstance;
     private String userID = mSplashActivity.getUserID();
 
