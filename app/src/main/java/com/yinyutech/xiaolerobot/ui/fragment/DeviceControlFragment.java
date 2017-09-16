@@ -38,6 +38,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+import static android.R.attr.name;
 import static com.yinyutech.xiaolerobot.R.id.linearLayout_second_step;
 import static com.yinyutech.xiaolerobot.R.id.next_step;
 import static com.yinyutech.xiaolerobot.R.id.pairTipTextView;
@@ -69,6 +70,7 @@ public class DeviceControlFragment extends BaseFragment {
     private boolean isXiaoLeExist = false; // 搜索小乐是否存在
     private boolean isStartConnectNetModel = false;  //是否开始进入到联网模式
     private boolean isLocalNetOK = false;    //用于判断局域网是否连接（联通）－－－局域网不同才开始使用外网的监听结果
+    private boolean isWlanNetOK = false;     //用于判断云通讯ID是否发送成功到H3平台
     //获得DeviceControlFragment 实例　（程序开始时候，此处还不能够获得ＤeviceControlFragment实例）
     private HomeFragment mHomeFragment = null;
 //    private DeviceControlFragment mDeviceControlFragment = ActivityInstance.mMainActivityInstance.getDeviceControlFragmentInstance();
@@ -180,10 +182,10 @@ public class DeviceControlFragment extends BaseFragment {
 
 //        if (!hidden && isXiaoLeExist){
         //isStartConnectNetModel---不在联网模式的时候才搜索设备
-        if (!hidden && !isStartConnectNetModel){
-                startScanXiaoLe();
-        }
 
+        if (!hidden && !isStartConnectNetModel){
+            startScanXiaoLe();
+        }
     }
 
     @Override
@@ -242,7 +244,7 @@ public class DeviceControlFragment extends BaseFragment {
 
 
 
-//                mShowIsXiaoleExist.setVisibility(View.VISIBLE);
+                mShowIsXiaoleExist.setVisibility(View.VISIBLE);
                 mPairTipTextView.setVisibility(View.INVISIBLE);
                 mScanProgressBar.setVisibility(View.INVISIBLE);
                 //重新切换到DeviceControlFragment的时候会重新搜索设备，如果搜索到则要隐藏联网ＵＩ
@@ -250,8 +252,6 @@ public class DeviceControlFragment extends BaseFragment {
                 invisibleNetUI();
                 // 处于联网模式则不进入
                 if (!isStartConnectNetModel){
-
-                    mShowIsXiaoleExist.setVisibility(View.VISIBLE);
 
                     if (scanMessage.length() > 1){
                         //搜索到设备，直接进入到设备
@@ -268,19 +268,20 @@ public class DeviceControlFragment extends BaseFragment {
                         }catch (JSONException e){
                             e.printStackTrace();
                         }
-                        if (state.contains("local_handed") && name.equals("XiaoleServer") && hostip != null) {
-////                            isXiaoLeExist = true;
-////                            mShowIsXiaoleExist.setText("xiaole robot: " + hostip);
-//                            isXiaoLeExist = true;
-//                            isLocalNetOK = true;
-//                            String batteryValue = state.split(",")[1];
-//                            mShowIsXiaoleExist.setText("xiaole robot: " + hostip + "\n电量: " + batteryValue + "%");
-//
-//                            //开启局域网控制模式
-//                            mStateChangeHandler.sendEmptyMessage(1);
-//                            Log.d("TIEJIANG", "DeviceControlFragment---analysis" + " udp handed");
+                        if (state.contains("IDSetted") && name.equals("XiaoleServer") && hostip != null){
+                            isWlanNetOK = true;
+                            startScanXiaoLe();
+                            Log.d("TIEJIANG", "DeviceControlFragment---analysis" + " ID seted");
 
-                        }else if (state.contains("IDSetted") && name.equals("XiaoleServer") && hostip != null){
+                        }else {
+                            Log.d("TIEJIANG", "DeviceControlFragment---analysis" + " ID not set resend");
+                            //继续发送云通讯ＩＤ到Ｈ３
+                            mXiaoLeUDP.startXiaoLeUDP();
+                            return;  //没有收到id设置成功的反馈则再次发送云通讯ID然后直接退出当前逻辑
+                        }
+                        if (isWlanNetOK && state.contains("local_handed") && name.equals("XiaoleServer") && hostip != null) {
+                            Log.d("TIEJIANG", "DeviceControlFragment---analysis" + " IDset handed");
+
                             isXiaoLeExist = true;
                             isLocalNetOK = true;
                             String batteryValue = state.split(",")[1];
@@ -288,7 +289,8 @@ public class DeviceControlFragment extends BaseFragment {
 
                             //开启局域网控制模式
                             mStateChangeHandler.sendEmptyMessage(1);
-                            Log.d("TIEJIANG", "DeviceControlFragment---analysis" + " IDset handed");
+                            Log.d("TIEJIANG", "DeviceControlFragment---analysis" + " udp handed");
+
                         }
                     }
                     else {
@@ -488,7 +490,7 @@ public class DeviceControlFragment extends BaseFragment {
                         isXiaoLeExist = true;
                         //开始发送云通讯ＩＤ到Ｈ３
                         mXiaoLeUDP.startXiaoLeUDP();
-                        startScanXiaoLe();
+//                        startScanXiaoLe();
                         isStartConnectNetModel = false; //联网完成　退出联网模式flag
 
                         mStepFlag = 1;
