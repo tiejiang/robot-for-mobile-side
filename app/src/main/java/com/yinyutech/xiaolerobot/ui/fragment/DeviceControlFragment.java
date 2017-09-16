@@ -269,16 +269,16 @@ public class DeviceControlFragment extends BaseFragment {
                             e.printStackTrace();
                         }
                         if (state.contains("local_handed") && name.equals("XiaoleServer") && hostip != null) {
+////                            isXiaoLeExist = true;
+////                            mShowIsXiaoleExist.setText("xiaole robot: " + hostip);
 //                            isXiaoLeExist = true;
-//                            mShowIsXiaoleExist.setText("xiaole robot: " + hostip);
-                            isXiaoLeExist = true;
-                            isLocalNetOK = true;
-                            String batteryValue = state.split(",")[1];
-                            mShowIsXiaoleExist.setText("xiaole robot: " + hostip + "\n电量: " + batteryValue + "%");
-
-                            //开启局域网控制模式
-                            mStateChangeHandler.sendEmptyMessage(1);
-                            Log.d("TIEJIANG", "DeviceControlFragment---analysis" + " udp handed");
+//                            isLocalNetOK = true;
+//                            String batteryValue = state.split(",")[1];
+//                            mShowIsXiaoleExist.setText("xiaole robot: " + hostip + "\n电量: " + batteryValue + "%");
+//
+//                            //开启局域网控制模式
+//                            mStateChangeHandler.sendEmptyMessage(1);
+//                            Log.d("TIEJIANG", "DeviceControlFragment---analysis" + " udp handed");
 
                         }else if (state.contains("IDSetted") && name.equals("XiaoleServer") && hostip != null){
                             isXiaoLeExist = true;
