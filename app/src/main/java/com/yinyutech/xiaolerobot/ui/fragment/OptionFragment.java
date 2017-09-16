@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import com.yinyutech.xiaolerobot.R;
 import com.yinyutech.xiaolerobot.fractory.ActivityInstance;
 import com.yinyutech.xiaolerobot.ui.activity.OPtionAlbumActivity;
 import com.yinyutech.xiaolerobot.ui.activity.SplashActivity;
+import com.yinyutech.xiaolerobot.utils.Constant;
 
 import static com.yinyutech.xiaolerobot.common.CCPAppManager.getPackageName;
 
@@ -41,6 +43,7 @@ public class OptionFragment extends BaseFragment {
     private static String phoneMessage = "手机型号: " + android.os.Build.MODEL + "\n系统版本: " + android.os.Build.VERSION.RELEASE;
     private SplashActivity mSplashActivity = ActivityInstance.mSplashActivityInstance;
     private String userID = mSplashActivity.getUserID();
+    private SharedPreferences mYTXIDSharedPreference;
 
     @Override
     public View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -93,6 +96,7 @@ public class OptionFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
 
+                showWhetherUnbindYTXID();
 
             }
         });
@@ -100,6 +104,44 @@ public class OptionFragment extends BaseFragment {
 
     private void initSourceView(){
 //        mOptionUser = (ImageView)mOptionFragmentView.findView
+    }
+
+    public void showWhetherUnbindYTXID(){
+
+        AlertDialog.Builder mVersionDialog = new AlertDialog.Builder(mOptionFragmentInstance);
+
+        mVersionDialog.setMessage("是否解除绑定?");
+        mVersionDialog.setIcon(R.drawable.version_icon);
+        mVersionDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        mVersionDialog.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+//                cancelYunTXID();
+            }
+        });
+        mVersionDialog.create();
+        mVersionDialog.show();
+    }
+
+    private void cancelYunTXID(){
+
+        //保存注册用户信息
+        mYTXIDSharedPreference = getActivity().getSharedPreferences(Constant.USER_MESSAGE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor mEditor = mYTXIDSharedPreference.edit();
+        mEditor.putString(Constant.XIAOLE_YTX_MOBILE, "0");
+        mEditor.putString(Constant.XIAOLE_YTX_H3, "0");
+        mEditor.commit();
+
+        SharedPreferences sp = getActivity().getSharedPreferences(Constant.USER_MESSAGE, Context.MODE_PRIVATE);
+        String mobileXiaoLe = sp.getString(Constant.XIAOLE_YTX_MOBILE, "2");
+        String H3XiaoLe = sp.getString(Constant.XIAOLE_YTX_H3, "1");
+        Log.d("TIEJIANG", "OptionFragment---cancelYunTXID= " + mobileXiaoLe + " H3XiaoLe= " + H3XiaoLe);
+
     }
 
     public void showVersionData(String title_meg, String message){

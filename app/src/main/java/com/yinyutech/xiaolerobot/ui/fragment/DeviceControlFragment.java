@@ -213,8 +213,9 @@ public class DeviceControlFragment extends BaseFragment {
                         mShowIsXiaoleExist.setText("xiaole robot" + "\n电量:" + batteryValue + "%");
                         mStateChangeHandler.sendEmptyMessage(2);  //关闭局域网控制模式
                     }else {   //Ｈ３掉线情况下，此部分逻辑其实不会进入－－－没有回调onPushMessage方法～
+
                         //同时外网也不通，则判断设备掉线
-                        mShowIsXiaoleExist.setText("未发现设备,请进入联网模式");
+                        mShowIsXiaoleExist.setText("未发现设备,请进入联网模式-w");
                         isXiaoLeExist = false;
                         mLinearLayoutFinalStep.setVisibility(View.INVISIBLE);
                         mStateChangeHandler.sendEmptyMessage(2);  //关闭局域网控制模式
@@ -236,9 +237,12 @@ public class DeviceControlFragment extends BaseFragment {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
 
-                String scanMessage = (String)msg.obj;
+                String scanMessage = ((String)msg.obj).trim();
                 Log.d("TIEJIANG", "DeviceControlFragment---mScanXiaoLeHandler" + " scanMessage= " + scanMessage);
-                mShowIsXiaoleExist.setVisibility(View.VISIBLE);
+
+
+
+//                mShowIsXiaoleExist.setVisibility(View.VISIBLE);
                 mPairTipTextView.setVisibility(View.INVISIBLE);
                 mScanProgressBar.setVisibility(View.INVISIBLE);
                 //重新切换到DeviceControlFragment的时候会重新搜索设备，如果搜索到则要隐藏联网ＵＩ
@@ -246,6 +250,9 @@ public class DeviceControlFragment extends BaseFragment {
                 invisibleNetUI();
                 // 处于联网模式则不进入
                 if (!isStartConnectNetModel){
+
+                    mShowIsXiaoleExist.setVisibility(View.VISIBLE);
+
                     if (scanMessage.length() > 1){
                         //搜索到设备，直接进入到设备
                         String state = "";
@@ -290,7 +297,8 @@ public class DeviceControlFragment extends BaseFragment {
                         isLocalNetOK = false;
                         mLinearLayoutFinalStep.setVisibility(View.INVISIBLE);
                         mStateChangeHandler.sendEmptyMessage(2);  //关闭局域网控制模式
-
+                        Log.d("TIEJIANG", "DeviceControlFragment---analysis"
+                                +" isStartConnectNetModel= "+isStartConnectNetModel);
                     }
 //                    else if (scanMessage.equals("wlan_ok")){
 //                        //手机在远程情况下启动ＡＰＰ，并且首次进入到ＡＰＰ的时候搜索小乐
@@ -368,8 +376,7 @@ public class DeviceControlFragment extends BaseFragment {
                 }else{
                     //没有扫描到设备，进入连接和配对模式(这个步骤需要一定时间停止，在此处停止后，通过dialog缓冲获得时间)
                     udpBroadcaster.stopBroadcastSearchBox(); //开始联网步骤之后就停止Ｈ３设备的扫描
-                    //停止"握手"信号请求
-                    isStartConnectNetModel = true;
+
                     //点击"确认"前，先触摸/语音"告诉"小乐进入联网模式
                     showEnterNetConnectModel();
                 }
@@ -385,7 +392,8 @@ public class DeviceControlFragment extends BaseFragment {
         mVersionDialog.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                //停止"握手"信号请求
+                isStartConnectNetModel = true;
                 initDeviceView();
                 showAddBoxFullStepActivity(getActivity());
                 mWifiName.setText(AddBoxStatus.getInstance().uploadWiFiName);
@@ -393,7 +401,7 @@ public class DeviceControlFragment extends BaseFragment {
 
             }
         });
-        mVersionDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+        mVersionDialog.setNegativeButton("再次搜索", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
