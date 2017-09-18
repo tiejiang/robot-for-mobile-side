@@ -67,6 +67,7 @@ public class DeviceControlFragment extends BaseFragment {
     private XiaoLeUDP mXiaoLeUDP;
     public static Handler mScanXiaoLeHandler;
     public static Handler mWLANHandler;    //监听外网变化的ｈａｎｄｌｅｒ
+    public static Handler mYTXIDSendCallbackHandler;    //监听云通讯ID是否发送成功的handler
     private boolean isXiaoLeExist = false; // 搜索小乐是否存在
     private boolean isStartConnectNetModel = false;  //是否开始进入到联网模式
     private boolean isLocalNetOK = false;    //用于判断局域网是否连接（联通）－－－局域网不同才开始使用外网的监听结果
@@ -268,18 +269,19 @@ public class DeviceControlFragment extends BaseFragment {
                         }catch (JSONException e){
                             e.printStackTrace();
                         }
-                        if (state.contains("IDSetted") && name.equals("XiaoleServer") && hostip != null){
-                            isWlanNetOK = true;
-                            startScanXiaoLe();
-                            Log.d("TIEJIANG", "DeviceControlFragment---analysis" + " ID seted");
-
-                        }else {
-                            Log.d("TIEJIANG", "DeviceControlFragment---analysis" + " ID not set resend");
-                            //继续发送云通讯ＩＤ到Ｈ３
-                            mXiaoLeUDP.startXiaoLeUDP();
-                            return;  //没有收到id设置成功的反馈则再次发送云通讯ID然后直接退出当前逻辑
-                        }
-                        if (isWlanNetOK && state.contains("local_handed") && name.equals("XiaoleServer") && hostip != null) {
+//                        if (!isWlanNetOK && state.contains("IDSetted") && name.equals("XiaoleServer") && hostip != null){
+//                            isWlanNetOK = true;
+//                            startScanXiaoLe();
+//                            Log.d("TIEJIANG", "DeviceControlFragment---analysis" + " ID setted");
+//
+//                        }else {
+//                            Log.d("TIEJIANG", "DeviceControlFragment---analysis" + " ID not set resend");
+//                            isWlanNetOK = false;
+//                            //继续发送云通讯ＩＤ到Ｈ３
+//                            mXiaoLeUDP.startXiaoLeUDP();
+////                            return;  //没有收到id设置成功的反馈则再次发送云通讯ID然后直接退出当前逻辑
+//                        }
+                        if (state.contains("local_handed") && name.equals("XiaoleServer") && hostip != null) {
                             Log.d("TIEJIANG", "DeviceControlFragment---analysis" + " IDset handed");
 
                             isXiaoLeExist = true;
@@ -326,6 +328,31 @@ public class DeviceControlFragment extends BaseFragment {
                 }
             }
         };
+    }
+
+    /**
+     * function: deal the xiaole YTX ID send callback
+     *
+     * */
+    public void dealYTXIDSendCallback(){
+
+        mYTXIDSendCallbackHandler = new Handler(){
+
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                String tempString = (String) msg.obj;
+                Log.d("TIEJIANG", "DeviceControlFragment---dealYTXIDSendCallback"
+                        + " tempString= " + tempString+" isLocalNetOK= "+isLocalNetOK);
+                if (tempString.contains("IDSetted")){
+                    startScanXiaoLe();
+                }else {
+                    //继续发送云通讯ＩＤ到Ｈ３
+                    mXiaoLeUDP.startXiaoLeUDP();
+                }
+            }
+        };
+
     }
 
     public void initScanView(){
@@ -488,6 +515,7 @@ public class DeviceControlFragment extends BaseFragment {
                         settingOver.setVisibility(View.VISIBLE);
                         mLinearLayoutFinalStep.setVisibility(View.VISIBLE);
                         isXiaoLeExist = true;
+                        dealYTXIDSendCallback();
                         //开始发送云通讯ＩＤ到Ｈ３
                         mXiaoLeUDP.startXiaoLeUDP();
 //                        startScanXiaoLe();

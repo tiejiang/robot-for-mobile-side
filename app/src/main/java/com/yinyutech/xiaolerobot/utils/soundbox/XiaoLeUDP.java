@@ -17,7 +17,7 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
-import static com.yinyutech.xiaolerobot.ui.fragment.DeviceControlFragment.mScanXiaoLeHandler;
+import static com.yinyutech.xiaolerobot.ui.fragment.DeviceControlFragment.mYTXIDSendCallbackHandler;
 
 /**
  * Created by yinyu-tiejiang on 17-8-24.
@@ -27,7 +27,7 @@ import static com.yinyutech.xiaolerobot.ui.fragment.DeviceControlFragment.mScanX
 public class XiaoLeUDP {
 
     private static final int TIMEOUT = 5000;  //设置接收数据的超时时间
-    private static final int MAXNUM = 3;      //设置重发数据的最多次数
+    private static final int MAXNUM = 1;      //设置重发数据的最多次数
     private SharedPreferences mGetYTXIDsp;
     private Context activityContextForXiaoLeUDP;
 
@@ -149,7 +149,7 @@ public class XiaoLeUDP {
             String mes = sendYTXUDPData();
             Log.d("TIEJIANG", "XiaoLeUDP---ScanXiaoLeRunnable " + "mes= " + mes);
             if (mes != null){
-                mScanXiaoLeHandler.obtainMessage(0, mes).sendToTarget();
+                mYTXIDSendCallbackHandler.obtainMessage(0, mes).sendToTarget();
             }
         }
     }
