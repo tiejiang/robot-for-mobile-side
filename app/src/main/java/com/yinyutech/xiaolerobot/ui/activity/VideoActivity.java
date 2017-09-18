@@ -121,6 +121,8 @@ public class VideoActivity extends ECVoIPBaseActivity
     public void setCaptureView(ECCaptureView captureView) {
         ECVoIPSetupManager setUpMgr = ECDevice.getECVoIPSetupManager();
         if (setUpMgr != null) {
+            setUpMgr.setVideoBitRates(50);
+
             setUpMgr.setCaptureView(captureView);
         }
         addCaptureView(captureView);

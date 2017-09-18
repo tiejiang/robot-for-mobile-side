@@ -186,6 +186,8 @@ public class DeviceControlFragment extends BaseFragment {
 
         if (!hidden && !isStartConnectNetModel){
             startScanXiaoLe();
+        }else {
+            stopScanXiaole();
         }
     }
 
@@ -441,6 +443,10 @@ public class DeviceControlFragment extends BaseFragment {
 
     public void startScanXiaoLe(){
         udpBroadcaster.startBroadcastSearchBox();
+    }
+
+    public void stopScanXiaole(){
+        udpBroadcaster.stopBroadcastSearchBox();
     }
 
     private void invisibleNetUI(){
