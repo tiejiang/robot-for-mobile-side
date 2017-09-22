@@ -192,7 +192,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/input_box"
         android:hint="WIFI密码:"
-        android:text="lele999991688"
+        android:text="lele924**--1688"
         android:gravity="center"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />

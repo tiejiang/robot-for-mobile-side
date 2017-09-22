@@ -39,6 +39,14 @@ public class Constant {
 
     //移动端通过云通讯ＩＭ发送拍照信号
     public static final String TAKE_PHOTO = "take_photo";
+
+    //音量增加和减少
+    public static final String VOLUME_RISE = "volem_rise";
+    public static final String VOLUME_DOWN = "volume_down";
+
+    //最大音量和最小~
+    public static final String ALREADY_MAX_VOLUME = "already_max_volume";
+    public static final String ALREADY_MIN_VOLUME = "already_min_volume";
     
     public static Vector<String> mNotEncryptionApp;
 

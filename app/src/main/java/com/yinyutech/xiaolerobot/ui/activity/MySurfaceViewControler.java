@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Random;
 
 import static com.yinyutech.xiaolerobot.ui.fragment.DeviceControlFragment.mWLANHandler;
+import static com.yinyutech.xiaolerobot.ui.fragment.HomeFragment.mStateChangeHandler;
 
 /**
  * Created by yinyu-tiejiang on 17-8-15.
@@ -458,7 +459,12 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
             if (mWLANHandler != null){
                 mWLANHandler.obtainMessage(0, message).sendToTarget();
             }
-        }else {
+        }else if (message.equals(Constant.ALREADY_MAX_VOLUME)){
+            mStateChangeHandler.obtainMessage(3, "max_volume").sendToTarget();
+        }else if (message.equals(Constant.ALREADY_MIN_VOLUME)){
+            mStateChangeHandler.obtainMessage(4, "mix_volume").sendToTarget();
+        }
+        else {
             isWLANOK = false;
         }
     }

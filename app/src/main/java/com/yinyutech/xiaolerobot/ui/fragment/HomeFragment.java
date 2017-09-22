@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -37,7 +38,8 @@ public class HomeFragment extends BaseFragment{
 
     private static  final  String TAG="HomeFragment";
     private View mHomeFragmenView;
-    private Button mVideoOpen, mTakePhoto;
+    private LinearLayout mXiaoLeVolumeControl;
+    private Button mVideoOpen, mTakePhoto, mVolumeRise, mVolumeDown;
     private ImageView mImageView;
     private ProgressBar mProgressBar;
 //    private FrameLayout mFramelayoutControlView;
@@ -66,6 +68,10 @@ public class HomeFragment extends BaseFragment{
         mTakePhoto = (Button)mHomeFragmenView.findViewById(R.id.take_photo);
         //test to invisible take photo button
         mTakePhoto.setVisibility(View.INVISIBLE);
+        mXiaoLeVolumeControl = (LinearLayout)mHomeFragmenView.findViewById(R.id.xiaole_volume_control);
+        mXiaoLeVolumeControl.setVisibility(View.INVISIBLE);
+        mVolumeRise = (Button)mHomeFragmenView.findViewById(R.id.volume_rise);
+        mVolumeDown = (Button)mHomeFragmenView.findViewById(R.id.volume_down);
 
         final String id = getYTXContactID();
         Log.d("TIEJIANG", "HomeFragment---createView" + "YTX ID= " + id);
@@ -93,6 +99,18 @@ public class HomeFragment extends BaseFragment{
                 mTakePhoto.setVisibility(View.INVISIBLE);
             }
         });
+        mVolumeRise.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMySurfaceViewControler.handleSendTextMessage(Constant.VOLUME_RISE);
+            }
+        });
+        mVolumeDown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMySurfaceViewControler.handleSendTextMessage(Constant.VOLUME_DOWN);
+            }
+        });
         mTakePhoto.setVisibility(View.INVISIBLE);
         mStateChangeHandler = new Handler(){
 
@@ -108,8 +126,9 @@ public class HomeFragment extends BaseFragment{
                         mMySurfaceViewControler.setVisibility(View.VISIBLE);
                         mMySurfaceViewHeadControler.setVisibility(View.VISIBLE);
                         mVideoOpen.setVisibility(View.VISIBLE);
-//                        mTakePhoto.setVisibility(View.VISIBLE);
-                        mTakePhoto.setVisibility(View.INVISIBLE);
+                        mXiaoLeVolumeControl.setVisibility(View.VISIBLE);
+                        mTakePhoto.setVisibility(View.VISIBLE);
+//                        mTakePhoto.setVisibility(View.INVISIBLE);
                         isDeviceFind = true;
 
 //                        Log.d("TIEJIANG", "state_change");
@@ -125,6 +144,12 @@ public class HomeFragment extends BaseFragment{
                         if (mControlModelChanged != null){
                             mControlModelChanged.isLocalNetControl(false);
                         }
+                        break;
+                    case 3:
+                        Toast.makeText(getActivity(), "已经是最大音量", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 4:
+                        Toast.makeText(getActivity(), "当前为最小音量", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -177,6 +202,7 @@ public class HomeFragment extends BaseFragment{
         }else if (isDeviceFind){
             mMySurfaceViewControler.setVisibility(View.VISIBLE);
             mMySurfaceViewHeadControler.setVisibility(View.VISIBLE);
+            mTakePhoto.setVisibility(View.VISIBLE);
         }
 
 //        isHomeFragmentHidden = hidden;

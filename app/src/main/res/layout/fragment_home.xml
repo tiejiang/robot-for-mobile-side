@@ -19,6 +19,31 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
+    <LinearLayout
+        android:id="@+id/xiaole_volume_control"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="20dp"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/volume_rise"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/volume_button_rise"
+            />
+
+        <Button
+            android:id="@+id/volume_down"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="60dp"
+            android:background="@drawable/volume_button_down"
+            />
+
+    </LinearLayout>
+
     <ImageView
         android:id="@+id/xiaole_image"
         android:layout_width="300dp"
