@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/xiaole_volume_control_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <SeekBar
+        android:id="@+id/xiaole_volume_control"
+        android:max="15"
+        android:progress="7"
+        android:layout_width="200dp"
+        android:layout_height="15dp"
+        android:progressDrawable="@drawable/xiaole_volume_seekbar"
+        />
+
+</LinearLayout>

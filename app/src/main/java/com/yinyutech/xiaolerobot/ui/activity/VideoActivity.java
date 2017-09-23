@@ -2,6 +2,8 @@ package com.yinyutech.xiaolerobot.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yinyutech.xiaolerobot.R;
+import com.yinyutech.xiaolerobot.fractory.ActivityInstance;
 import com.yinyutech.xiaolerobot.helper.VoIPCallHelper;
 import com.yinyutech.xiaolerobot.utils.CallFailReason;
 import com.yinyutech.xiaolerobot.utils.ECPreferenceSettings;
@@ -31,6 +34,8 @@ import com.yuntongxun.ecsdk.VideoRatio;
 import com.yuntongxun.ecsdk.voip.video.ECCaptureView;
 import com.yuntongxun.ecsdk.voip.video.ECOpenGlView;
 import com.yuntongxun.ecsdk.voip.video.OnCameraInitListener;
+
+import static com.yinyutech.xiaolerobot.ui.fragment.HomeFragment.mStateChangeHandler;
 
 /**
  * com.yuntongxun.ecdemo.ui.voip in ECDemo_Android
@@ -67,22 +72,24 @@ public class VideoActivity extends ECVoIPBaseActivity
      */
     RelativeLayout mCallRoot;
     private boolean mMaxSizeRemote = true;
+    public static Handler mVideoStateHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case 0:
+                    Toast.makeText(ActivityInstance.mVideoActivity, "小乐摄像头不可用,请稍后重试", Toast.LENGTH_SHORT).show();
+                    break;
+            }
 
-//    @Override
-//    protected int getLayoutId() {
-//        return R.layout.ec_video_call;
-//    }
-
-//    @Override
-//    protected boolean isEnableSwipe() {
-//        return false;
-//    }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ec_video_call);
-
+        ActivityInstance.mVideoActivity = this;
         initVideoLayout();
         isCreated = true;
     }
@@ -412,6 +419,7 @@ public class VideoActivity extends ECVoIPBaseActivity
             case R.id.video_botton_cancle:
 
                 doHandUpReleaseCall();
+                mStateChangeHandler.obtainMessage(5, "video_close").sendToTarget();
                 break;
 //            case R.id.camera_switch:
 //                mCameraSwitch.setEnabled(false);

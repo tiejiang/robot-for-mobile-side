@@ -34,6 +34,7 @@ import java.util.Random;
 
 import static com.yinyutech.xiaolerobot.ui.fragment.DeviceControlFragment.mWLANHandler;
 import static com.yinyutech.xiaolerobot.ui.fragment.HomeFragment.mStateChangeHandler;
+import static com.yinyutech.xiaolerobot.ui.activity.VideoActivity.mVideoStateHandler;
 
 /**
  * Created by yinyu-tiejiang on 17-8-15.
@@ -434,8 +435,10 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
                 remoteUrl = mECImageMessageBody.getRemoteUrl(); //原图地址
                 Log.d("TIEJIANG", "MySurfaceViewControler---onPushMessage"
                         +", thumbnailFileUrl= "+thumbnailFileUrl + ", remoteUrl= " + remoteUrl);
-                mImageDownloadInterface.onImageDownload(remoteUrl);
-                mImageDownloadInterface.onImagethumbDownload(thumbnailFileUrl);
+                if (mImageDownloadInterface != null){
+                    mImageDownloadInterface.onImageDownload(remoteUrl);
+                    mImageDownloadInterface.onImagethumbDownload(thumbnailFileUrl);
+                }
             }else if (msgs.get(i).getType() == ECMessage.Type.TXT){
                 message = ((ECTextMessageBody) msgs.get(i).getBody()).getMessage();
 //                Log.d("TIEJIANG", "MySurfaceViewControler---onPushMessage" + "i :" + i + ", message = " + message);
@@ -463,8 +466,9 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
             mStateChangeHandler.obtainMessage(3, "max_volume").sendToTarget();
         }else if (message.equals(Constant.ALREADY_MIN_VOLUME)){
             mStateChangeHandler.obtainMessage(4, "mix_volume").sendToTarget();
-        }
-        else {
+        }else if (message.equals(Constant.XIAOLE_CAMERA_IS_IN_USE)){
+            mVideoStateHandler.obtainMessage(0, "camera_is_in_use").sendToTarget();
+        } else {
             isWLANOK = false;
         }
     }

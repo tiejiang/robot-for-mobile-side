@@ -151,6 +151,12 @@ public class HomeFragment extends BaseFragment{
                     case 4:
                         Toast.makeText(getActivity(), "当前为最小音量", Toast.LENGTH_SHORT).show();
                         break;
+                    case 5:   //send message to tell H3 shut up videoActivity
+                        mMySurfaceViewControler.handleSendTextMessage(Constant.CLOSE_VIDEO_COMMUNICATION);
+                        break;
+                    case 6:
+
+                        break;
                 }
             }
         };

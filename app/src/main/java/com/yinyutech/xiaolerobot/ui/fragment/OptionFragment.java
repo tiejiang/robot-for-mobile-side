@@ -96,7 +96,8 @@ public class OptionFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
 
-                showWhetherUnbindYTXID();
+                showXiaoLeVolumeContorl();
+//                showWhetherUnbindYTXID();
 
             }
         });
@@ -104,6 +105,11 @@ public class OptionFragment extends BaseFragment {
 
     private void initSourceView(){
 //        mOptionUser = (ImageView)mOptionFragmentView.findView
+    }
+
+    private void showXiaoLeVolumeContorl(){
+
+//        View mVolumeControlView = LayoutInflater.from(getActivity()).inflate(R.layout.)
     }
 
     public void showWhetherUnbindYTXID(){

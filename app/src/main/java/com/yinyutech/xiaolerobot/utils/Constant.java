@@ -47,6 +47,11 @@ public class Constant {
     //最大音量和最小~
     public static final String ALREADY_MAX_VOLUME = "already_max_volume";
     public static final String ALREADY_MIN_VOLUME = "already_min_volume";
+
+    //视频通话(异常)结束时通知H3关闭VideoActivity
+    public static final String CLOSE_VIDEO_COMMUNICATION = "close_video_communicate";
+    //小乐"摄像头被占用"
+    public static final String XIAOLE_CAMERA_IS_IN_USE = "xiaole_camera_is_in_use";
     
     public static Vector<String> mNotEncryptionApp;
 
