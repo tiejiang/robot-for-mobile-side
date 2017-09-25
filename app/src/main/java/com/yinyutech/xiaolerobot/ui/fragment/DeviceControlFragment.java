@@ -453,9 +453,7 @@ public class DeviceControlFragment extends BaseFragment {
 //                showAddBoxFullStepActivity(getActivity());
 //                mWifiName.setText(AddBoxStatus.getInstance().uploadWiFiName);
 //                mShowIsXiaoleExist.setVisibility(View.INVISIBLE);
-                Intent mIntent = new Intent(getActivity(), AddBoxActivity.class);
-                startActivity(mIntent);
-
+                showAddBoxFullStepActivity(getActivity());
             }
         });
         mVersionDialog.setNegativeButton("再次搜索", new DialogInterface.OnClickListener() {
@@ -604,10 +602,10 @@ public class DeviceControlFragment extends BaseFragment {
         abs.initialAddBoxStatus();
         abs.uploadWiFiName = SoundBoxManager.getInstance().currentSSIDName();
 
-//        Intent intent = new Intent(context, AddBoxActivity.class);
+        Intent intent = new Intent(context, AddBoxActivity.class);
 //        if (clearTop)
 //            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        context.startActivity(intent);
+        context.startActivity(intent);
     }
 
 

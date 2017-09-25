@@ -238,10 +238,8 @@ public class AddBoxHotspotFragment extends Fragment {
 //            Log.d("TIEJIANG", "DeviceControlFragment---connectToOriginWiFi" + " connectState= "+ connectState);
             // isSuccess 如果返回true只是代表wifiManager去执行连接网络的指令了,并不代表已经连接上网络
             Log.d("TIEJIANG", "DeviceControlFragment---connectToOriginWiFi" + " wifiConfig.networkId= "+ wifiConfig.networkId);
-//            Logger.v("connect to origin Wifi: %s", isSuccess ? "success" : "fail");
             Log.d("TIEJIANG con ori wifi: ", isSuccess ? "success" : "fail");
         } else {
-//            Logger.v("Origin Wifi config missing");
             Log.d("TIEJIANG", "connectToOriginWiFi---" + " Origin Wifi config missing");
         }
 

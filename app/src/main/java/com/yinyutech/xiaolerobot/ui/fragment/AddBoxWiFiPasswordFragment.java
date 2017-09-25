@@ -27,6 +27,8 @@ public class AddBoxWiFiPasswordFragment extends Fragment {
 
         passwordEditText = (EditText)v.findViewById(R.id.wifi_pwd);
 
+        ssidTextView.setText(AddBoxStatus.getInstance().uploadWiFiName);
+
         passwordEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
