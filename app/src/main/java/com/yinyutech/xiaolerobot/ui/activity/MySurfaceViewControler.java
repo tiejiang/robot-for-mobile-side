@@ -210,7 +210,7 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
      * 因此，单独使用此方法供DeviceControlFragment首次启动的时候检测网络状况使用
      * 在应用进入/启动了此surfaceView之后停止此＂握手＂线程，启动正常的＂握手＂线程
      */
-    public void startYTXHandshake(){
+    public void YTXHandshake(){
 
         new Thread(new Runnable() {
             @Override
@@ -228,6 +228,23 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
         }).start();
     }
 
+    /**
+     * stop YTX hand thread when send command to H3
+     *
+     * */
+    public void YTXHandshakeStop(){
+
+        isStartYTXHandshake = false;
+    }
+
+    public void YTXHandshakeStart(){
+
+        isStartYTXHandshake = true;
+    }
+
+    /**
+     * duplicate 20170925
+     * */
     public class YTXHandshakeRunnabel implements Runnable{
 
         @Override

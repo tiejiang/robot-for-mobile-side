@@ -105,7 +105,8 @@
             android:layout_height="wrap_content"
             android:text="下一步"
             android:id="@+id/buttonNext"
-            android:onClick="onNextButtonClicked" />
+            android:onClick="onNextButtonClicked"
+            android:background="@drawable/net_nextstep"/>
     </LinearLayout>
 
 </RelativeLayout>

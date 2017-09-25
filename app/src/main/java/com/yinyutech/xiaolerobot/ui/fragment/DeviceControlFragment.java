@@ -164,7 +164,7 @@ public class DeviceControlFragment extends BaseFragment {
             startActivity(mIntent);
             getActivity().finish();
         }else {
-            mHomeFragment.mMySurfaceViewControler.startYTXHandshake();
+            mHomeFragment.mMySurfaceViewControler.YTXHandshake();
         }
 
         dealYTXIDSendCallback();
@@ -188,6 +188,7 @@ public class DeviceControlFragment extends BaseFragment {
 
         if (!hidden && !isStartConnectNetModel){
             startScanXiaoLe();
+
         }else {
             stopScanXiaole();
         }
