@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,26 @@ public class AddBoxWiFiPasswordFragment extends Fragment {
         super.onResume();
 
         checkStepStatus();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d("TIEJIANG", "AddBoxWiFiPasswordFragment---onDestroyView");
+        ssidTextView.setVisibility(View.INVISIBLE);
+        passwordEditText.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d("TIEJIANG", "AddBoxWiFiPasswordFragment---onDestroy");
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Log.d("TIEJIANG", "AddBoxWiFiPasswordFragment---onDetach");
     }
 
     private void checkStepStatus() {

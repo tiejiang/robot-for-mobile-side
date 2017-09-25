@@ -120,7 +120,7 @@ public class AddBoxHotspotFragment extends Fragment {
         hintSecond = (TextView)mDeviceControlFragmentView.findViewById(R.id.hint_second);
         hintThird = (TextView)mDeviceControlFragmentView.findViewById(R.id.hint_third);
         hintFouth = (TextView)mDeviceControlFragmentView.findViewById(R.id.hint_fouth);
-        mLinearLayoutSecond.setVisibility(View.GONE);
+//        mLinearLayoutSecond.setVisibility(View.GONE);
 
         mNetProgressBar = (ProgressBar)mDeviceControlFragmentView.findViewById(R.id.net_progressBar);
 

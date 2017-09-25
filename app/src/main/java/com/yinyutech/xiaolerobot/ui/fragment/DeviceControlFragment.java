@@ -283,7 +283,7 @@ public class DeviceControlFragment extends BaseFragment {
 //                            mXiaoLeUDP.startXiaoLeUDP();
 ////                            return;  //没有收到id设置成功的反馈则再次发送云通讯ID然后直接退出当前逻辑
 //                        }
-                        if (state.contains("local_handed") && name.equals("XiaoleServer") && hostip != null) {
+                        if (state.contains("local_handed") && name.equals("XiaoleServer") && hostip != "0.0.0.0") {
                             Log.d("TIEJIANG", "DeviceControlFragment---analysis" + " IDset handed");
 
                             isXiaoLeExist = true;
@@ -346,12 +346,20 @@ public class DeviceControlFragment extends BaseFragment {
                 String tempString = (String) msg.obj;
                 Log.d("TIEJIANG", "DeviceControlFragment---dealYTXIDSendCallback"
                         + " tempString= " + tempString+" isLocalNetOK= "+isLocalNetOK);
-                if (tempString.contains("IDSetted")){
-                    startScanXiaoLe();
-                }else {
-                    //继续发送云通讯ＩＤ到Ｈ３
-                    mXiaoLeUDP.startXiaoLeUDP();
+                switch (msg.what){
+                    case 0:
+                        if (tempString.contains("IDSetted")){
+                            isStartConnectNetModel = false; //联网完成　退出联网模式flag
+                            startScanXiaoLe();
+                            Log.d("TIEJIANG", "DeviceControlFragment---dealYTXIDSendCallback"+" startScanXiaoLe");
+                        }else {
+                            //继续发送云通讯ＩＤ到Ｈ３
+                            mXiaoLeUDP.startXiaoLeUDP();
+                            Log.d("TIEJIANG", "DeviceControlFragment---dealYTXIDSendCallback"+" reStartXiaoLeUDP");
+                        }
+                        break;
                 }
+
             }
         };
 
@@ -404,7 +412,7 @@ public class DeviceControlFragment extends BaseFragment {
         hintFouth = (TextView)mDeviceControlFragmentView.findViewById(R.id.hint_fouth);
         mLinearLayoutSecond.setVisibility(View.GONE);
 
-        settingOver = (TextView)mDeviceControlFragmentView.findViewById(R.id.setting_over);
+//        settingOver = (TextView)mDeviceControlFragmentView.findViewById(R.id.setting_over);
         settingOver.setVisibility(View.GONE);
 
         mLinearLayoutFinalStep = (LinearLayout)mDeviceControlFragmentView.findViewById(R.id.linearLayout_final_step);

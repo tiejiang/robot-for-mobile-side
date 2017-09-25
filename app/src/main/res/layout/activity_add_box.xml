@@ -3,9 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.yinyutech.xiaolerobot.ui.activity.AddBoxActivity">
-
-
-
+    <!--
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -69,6 +67,7 @@
 
         </LinearLayout>
 
+
         <ImageView
             android:id="@+id/progress_img_fist"
             android:layout_width="300dp"
@@ -78,29 +77,7 @@
             />
 
     </LinearLayout>
-
-    <EditText
-        android:id="@+id/wifi_user"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/input_box"
-        android:hint="WIFI名称:"
-        android:layout_marginBottom="24dp"
-        android:gravity="center"
-        android:layout_above="@+id/wifi_pwd"
-        android:layout_alignLeft="@+id/wifi_pwd"
-        android:layout_alignStart="@+id/wifi_pwd" />
-
-    <EditText
-        android:id="@+id/wifi_pwd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/input_box"
-        android:hint="WIFI密码:"
-        android:text="lele924**--1688"
-        android:gravity="center"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+  -->
 
     <LinearLayout
         android:orientation="horizontal"

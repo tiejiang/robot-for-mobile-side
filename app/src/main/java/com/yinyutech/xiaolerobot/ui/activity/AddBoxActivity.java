@@ -21,13 +21,15 @@ import com.yinyutech.xiaolerobot.utils.soundbox.XiaoLeUDP;
 
 import java.util.List;
 
+import static com.yinyutech.xiaolerobot.ui.fragment.DeviceControlFragment.mYTXIDSendCallbackHandler;
+
 public class AddBoxActivity extends FragmentActivity {
 //    private StepsView mStepsView;
     private String[] steps = {"WiFi密码", "音箱热点", "音箱配对", "完成"};
     private int step = 0;
     private XiaoLeUDP mXiaoLeUDP;
     private Button buttonNext;
-    public static Handler mYTXIDSendCallbackHandler;    //监听云通讯ID是否发送成功的handler
+//    public static Handler mYTXIDSendCallbackHandler;    //监听云通讯ID是否发送成功的handler
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -114,27 +116,31 @@ public class AddBoxActivity extends FragmentActivity {
     private void updateFragmentWithPosition(int position) {
         String nextButtonTitle = "下一步";
         switch (position) {
+//            case 0:
+//                switchFragment(new AddBoxWiFiPasswordFragment());
+//                step = 1;
+//                Log.d("TIEJIANG", "AddBoxActivity---updateFragmentWithPosition" + " case 0: step= " + step);
+//                break;
             case 0:
-                switchFragment(new AddBoxWiFiPasswordFragment());
-                step = 1;
-                break;
-            case 1:
                 switchFragment(new AddBoxHotspotFragment());
-                step = 2;
+                step = 1;
+                Log.d("TIEJIANG", "AddBoxActivity---updateFragmentWithPosition" + " case 0: step= " + step);
                 break;
-            case 2:
-//                switchFragment(new AddBoxPairFragment());
-                step = 3;
-                Log.d("TIEJIANG", "AddBoxActivity---updateFragmentWithPosition" + " case 2: step= " + step);
-                break;
-            case 3:
+//            case 2:
+////                switchFragment(new AddBoxPairFragment());
+//                step = 3;
+//                Log.d("TIEJIANG", "AddBoxActivity---updateFragmentWithPosition" + " case 2: step= " + step);
+//                break;
+            case 1:
 //                switchFragment(new AddBoxFinishFragment());
 //                dealYTXIDSendCallback();
                 //开始发送云通讯ＩＤ到Ｈ３
                 mXiaoLeUDP.startXiaoLeUDP();
+                mYTXIDSendCallbackHandler.obtainMessage(0, "sendYTXID").sendToTarget();
                 nextButtonTitle = "完成";
+                finish();
                 step = 0;
-                Log.d("TIEJIANG", "AddBoxActivity---updateFragmentWithPosition" + " step= " + step);
+                Log.d("TIEJIANG", "AddBoxActivity---updateFragmentWithPosition" + " case 1: step= " + step);
                 break;
         }
 

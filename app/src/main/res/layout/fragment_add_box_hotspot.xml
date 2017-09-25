@@ -143,7 +143,7 @@
             android:layout_gravity="center"
             android:layout_below="@+id/linearLayout_second_step"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="58dp" />
+            android:layout_marginTop="83dp" />
 
 
     </RelativeLayout>
