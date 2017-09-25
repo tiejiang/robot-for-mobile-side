@@ -1,63 +1,143 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="com.lezhi.soundbox.AddBoxHotspotFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yinyutech.xiaolerobot.ui.fragment.AddBoxHotspotFragment">
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical">
+        android:layout_height="match_parent"
+        android:background="@drawable/fragment_bg">
 
-        <TextView
-            android:layout_width="260dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="1"
-            android:id="@+id/tip1TextView"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="14dp" />
-
-        <TextView
-            android:layout_width="260dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="2"
-            android:id="@+id/tip2TextView"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="14dp" />
-
-        <TextView
-            android:layout_width="260dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="3"
-            android:id="@+id/tip3TextView"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="14dp" />
-
-        <TextView
-            android:layout_width="260dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="4"
-            android:id="@+id/tip4TextView"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="14dp" />
-
-        <ProgressBar
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/hotspotProgressBar"
-            android:layout_gravity="center"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginTop="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/linearLayout_img_progress"
+            android:orientation="vertical">
 
-        <TextView
+            <LinearLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="wifi"
+                    android:textColor="@color/black"
+                    />
+                <View
+                    android:layout_width="45dp"
+                    android:layout_height="14dp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="热点"
+                    android:textColor="@color/black"
+                    />
+                <View
+                    android:layout_width="45dp"
+                    android:layout_height="14dp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="配对"
+                    android:textColor="@color/black"
+                    />
+                <View
+                    android:layout_width="45dp"
+                    android:layout_height="14dp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="绑定"
+                    android:textColor="@color/black"
+                    />
+                <View
+                    android:layout_width="30dp"
+                    android:layout_height="14dp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="完成"
+                    android:textColor="@color/black"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/progress_img_fist"
+            android:layout_width="300dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:background="@drawable/net_progress_bar_first"
+            android:layout_below="@+id/linearLayout_img_progress"
+            android:layout_alignStart="@+id/linearLayout_img_progress"
+            android:layout_marginTop="17dp" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout_second_step"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/statusTextView"
-            android:layout_gravity="center"
-            android:textColor="@color/Black_60" />
+            android:orientation="vertical"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="200dp">
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/hint_first"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1. 正在连接到小乐机器人热点"
+                android:textSize="18sp"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="14dp"
+                />
+            <TextView
+                android:id="@+id/hint_second"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2. 向机器发送WIFI信息"
+                android:textSize="18sp"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="14dp"
+                />
+            <TextView
+                android:id="@+id/hint_third"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3. 重新连接到您的WIFI网络"
+                android:textSize="18sp"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="14dp"
+                />
+            <TextView
+                android:id="@+id/hint_fouth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4. 机器语音提示网络连接成功\n    之后点击下一步"
+                android:textSize="18sp"
+                />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
 </FrameLayout>

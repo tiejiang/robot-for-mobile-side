@@ -10,10 +10,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.lezhi.soundbox.model.AddBoxButtonEnableEvent;
-import com.lezhi.soundbox.model.AddBoxStatus;
-
-import de.greenrobot.event.EventBus;
+import com.yinyutech.xiaolerobot.R;
+import com.yinyutech.xiaolerobot.model.AddBoxStatus;
 
 public class AddBoxWiFiPasswordFragment extends Fragment {
     private TextView ssidTextView;
@@ -58,7 +56,7 @@ public class AddBoxWiFiPasswordFragment extends Fragment {
 
     private void checkStepStatus() {
         // 允许WIFI空密码
-        EventBus.getDefault().post(new AddBoxButtonEnableEvent(true, false));
+//        EventBus.getDefault().post(new AddBoxButtonEnableEvent(true, false));
 
         AddBoxStatus abs = AddBoxStatus.getInstance();
         abs.uploadWiFiPassword = passwordEditText.getText().toString();

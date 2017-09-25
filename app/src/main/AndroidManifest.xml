@@ -81,6 +81,11 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="com.yinyutech.xiaolerobot.ui.activity.AddBoxActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+
         // SDK核心服务配置
         <service android:name="com.yuntongxun.ecsdk.ECClientService"
             android:enabled="true" android:process=":push" />
