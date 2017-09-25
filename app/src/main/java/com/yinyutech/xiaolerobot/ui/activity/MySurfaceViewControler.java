@@ -331,13 +331,13 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
         }
         if (!sendCommand.equals("")){
             //组装指令－－＞发送
-            if (isLocalNetControl){
-                mXiaoLeLocalSendingCommand.startLocalSending(sendCommand);
-                Log.d("TIEJIANG", "MySurfaceViewControler---directionControl local sending");
-            }else if (isWLANOK){
+//            if (isLocalNetControl){
+//                mXiaoLeLocalSendingCommand.startLocalSending(sendCommand);
+//                Log.d("TIEJIANG", "MySurfaceViewControler---directionControl local sending");
+//            }else if (isWLANOK){
                 handleSendTextMessage(sendCommand);
                 Log.d("TIEJIANG", "MySurfaceViewControler---directionControl YTX sending");
-            }
+//            }
         }
     }
 

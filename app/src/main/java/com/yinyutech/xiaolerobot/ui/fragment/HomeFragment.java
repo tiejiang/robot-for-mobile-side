@@ -202,13 +202,17 @@ public class HomeFragment extends BaseFragment{
 //        mImageView.setVisibility(View.INVISIBLE);
         mProgressBar.setVisibility(View.INVISIBLE);
         if (hidden){
+            Log.d("TIEJIANG", "HomeFragment---onHiddenChanged" + " hidden= " + hidden);
             mMySurfaceViewControler.setVisibility(View.INVISIBLE);
             mMySurfaceViewHeadControler.setVisibility(View.INVISIBLE);
-            Log.d("TIEJIANG", "HomeFragment---onHiddenChanged" + " hidden= " + hidden);
+            mMySurfaceViewControler.YTXHandshakeStart();
+
         }else if (isDeviceFind){
             mMySurfaceViewControler.setVisibility(View.VISIBLE);
             mMySurfaceViewHeadControler.setVisibility(View.VISIBLE);
             mTakePhoto.setVisibility(View.VISIBLE);
+        }else {
+            mMySurfaceViewControler.YTXHandshakeStop();
         }
 
 //        isHomeFragmentHidden = hidden;
