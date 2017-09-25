@@ -279,6 +279,7 @@ public class HomeFragment extends BaseFragment{
                         break;
                     case 3:  //clear image after 3s
                         mImageView.setVisibility(View.INVISIBLE);
+                        Toast.makeText(getActivity(), "已存入相册, 请在选项-相册中查看", Toast.LENGTH_SHORT).show();
                         break;
 
                 }
