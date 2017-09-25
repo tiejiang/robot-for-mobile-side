@@ -26,6 +26,7 @@ import com.yinyutech.xiaolerobot.R;
 import com.yinyutech.xiaolerobot.fractory.ActivityInstance;
 import com.yinyutech.xiaolerobot.logger.Logger;
 import com.yinyutech.xiaolerobot.model.AddBoxStatus;
+import com.yinyutech.xiaolerobot.ui.activity.AddBoxActivity;
 import com.yinyutech.xiaolerobot.ui.activity.MainActivity;
 import com.yinyutech.xiaolerobot.ui.activity.SplashActivity;
 import com.yinyutech.xiaolerobot.utils.Constant;
@@ -425,10 +426,12 @@ public class DeviceControlFragment extends BaseFragment {
             public void onClick(DialogInterface dialog, int which) {
                 //停止"握手"信号请求
                 isStartConnectNetModel = true;
-                initDeviceView();
-                showAddBoxFullStepActivity(getActivity());
-                mWifiName.setText(AddBoxStatus.getInstance().uploadWiFiName);
-                mShowIsXiaoleExist.setVisibility(View.INVISIBLE);
+//                initDeviceView();
+//                showAddBoxFullStepActivity(getActivity());
+//                mWifiName.setText(AddBoxStatus.getInstance().uploadWiFiName);
+//                mShowIsXiaoleExist.setVisibility(View.INVISIBLE);
+                Intent mIntent = new Intent(getActivity(), AddBoxActivity.class);
+                startActivity(mIntent);
 
             }
         });
