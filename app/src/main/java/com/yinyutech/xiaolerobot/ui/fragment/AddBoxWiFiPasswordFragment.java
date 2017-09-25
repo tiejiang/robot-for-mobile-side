@@ -22,10 +22,10 @@ public class AddBoxWiFiPasswordFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_add_box_wi_fi_password, container, false);
 
-        ssidTextView = (TextView)v.findViewById(R.id.ssidTextView);
+        ssidTextView = (TextView)v.findViewById(R.id.wifi_user);
         ssidTextView.setText(AddBoxStatus.getInstance().uploadWiFiName);
 
-        passwordEditText = (EditText)v.findViewById(R.id.passwordEditText);
+        passwordEditText = (EditText)v.findViewById(R.id.wifi_pwd);
 
         passwordEditText.addTextChangedListener(new TextWatcher() {
             @Override

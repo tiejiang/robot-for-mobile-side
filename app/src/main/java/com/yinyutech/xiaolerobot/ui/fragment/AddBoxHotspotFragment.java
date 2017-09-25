@@ -7,26 +7,29 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.lezhi.soundbox.model.AddBoxButtonEnableEvent;
-import com.lezhi.soundbox.model.AddBoxStatus;
-import com.lezhi.soundbox.util.SoundBoxManager;
-import com.orhanobut.logger.Logger;
+import com.yinyutech.xiaolerobot.R;
+import com.yinyutech.xiaolerobot.model.AddBoxStatus;
+import com.yinyutech.xiaolerobot.utils.soundbox.SoundBoxManager;
 
 import java.util.List;
 
-import de.greenrobot.event.EventBus;
+import static com.yinyutech.xiaolerobot.R.id.linearLayout_second_step;
 
 public class AddBoxHotspotFragment extends Fragment {
-    private TextView tip1TextView;
-    private TextView tip2TextView;
-    private TextView tip3TextView;
-    private TextView tip4TextView;
+
+    private TextView hintFirst, hintSecond, hintThird, hintFouth;
+    private ProgressBar mNetProgressBar;
+    private ImageView mImageView;
+    private LinearLayout mLinearLayoutSecond;
     private TextView statusTextView;
     private ProgressBar progressBar;
 
@@ -43,11 +46,14 @@ public class AddBoxHotspotFragment extends Fragment {
 
             SoundBoxManager manager = SoundBoxManager.getInstance();
             String ssid = manager.currentSSIDName();
-            Logger.v("detectHotspot SSID: %s", ssid);
+//            Logger.v("detectHotspot SSID: %s", ssid);
+            Log.d("TIEJIANG", "detectHotspot SSID: "  + ssid);
+            Log.d("TIEJIANG", "detectHotspot--manager.isWiFiConnected()= " + manager.isWiFiConnected());
 
             if (SoundBoxManager.kBoxWiFiHotspotName.equals(ssid) && manager.isWiFiConnected()) {
-                statusTextView.setText("正在向音箱发送Wi-Fi连接信息...");
+//                statusTextView.setText("正在向音箱发送Wi-Fi连接信息...");
                 setCurrentStep(2);
+                mImageView.setBackgroundResource(R.drawable.net_progress_bar_third);
 
                 manager.sendWifiInfoToBoxHotspot(new SoundBoxManager.SendWifiCompletion() {
                     @Override
@@ -74,18 +80,31 @@ public class AddBoxHotspotFragment extends Fragment {
 
             SoundBoxManager manager = SoundBoxManager.getInstance();
             String ssid = manager.currentSSIDName();
-            Logger.v("detectWiFi SSID: %s", ssid);
+            String[] ytxID = new String[2];
+//            Logger.v("detectWiFi SSID: %s", ssid);
+            Log.d("TIEJIANG", "detectWiFi SSID: "  + ssid);
+            Log.d("TIEJIANG", "AddBoxStatus.getInstance().uploadWiFiName= " + AddBoxStatus.getInstance().uploadWiFiName);
+            Log.d("TIEJIANG", "detectWiFi--manager.isWiFiConnected()= " + manager.isWiFiConnected());
 
-            statusTextView.setText("正在连接Wi-Fi网络...");
+//            statusTextView.setText("正在连接Wi-Fi网络...");
             setCurrentStep(3);
+            mImageView.setBackgroundResource(R.drawable.net_progress_bar_fourth);
 
             if (AddBoxStatus.getInstance().uploadWiFiName.equals(ssid) && manager.isWiFiConnected()) {
+                //（基于Ｈ３上面广佳的部分配置完毕）云通讯尚未配置ＯＫ
                 setCurrentStep(4);
-                EventBus.getDefault().post(new AddBoxButtonEnableEvent(true, false));
+                mImageView.setBackgroundResource(R.drawable.net_progress_bar_fifth);
 
-                statusTextView.setText("请点击下一步继续");
+                //设置按键可用
+//                nextStep.setEnabled(true);
+                //Progress 可见
+                mNetProgressBar.setVisibility(View.INVISIBLE);
+//                EventBus.getDefault().post(new AddBoxButtonEnableEvent(true, false));
+
+//                statusTextView.setText("请点击下一步继续");
             } else {
                 timerHandler.postDelayed(detectWiFi, longTime);
+
             }
         }
     };
@@ -93,28 +112,27 @@ public class AddBoxHotspotFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_add_box_hotspot, container, false);
+        View mDeviceControlFragmentView = inflater.inflate(R.layout.fragment_add_box_hotspot, container, false);
 
-        tip1TextView = (TextView)v.findViewById(R.id.tip1TextView);
-        tip2TextView = (TextView)v.findViewById(R.id.tip2TextView);
-        tip3TextView = (TextView)v.findViewById(R.id.tip3TextView);
-        tip4TextView = (TextView)v.findViewById(R.id.tip4TextView);
-        statusTextView = (TextView)v.findViewById(R.id.statusTextView);
-        progressBar = (ProgressBar)v.findViewById(R.id.hotspotProgressBar);
+        mImageView = (ImageView)mDeviceControlFragmentView.findViewById(R.id.progress_img_fist);
+        mLinearLayoutSecond = (LinearLayout)mDeviceControlFragmentView.findViewById(linearLayout_second_step);
+        hintFirst = (TextView)mDeviceControlFragmentView.findViewById(R.id.hint_first);
+        hintSecond = (TextView)mDeviceControlFragmentView.findViewById(R.id.hint_second);
+        hintThird = (TextView)mDeviceControlFragmentView.findViewById(R.id.hint_third);
+        hintFouth = (TextView)mDeviceControlFragmentView.findViewById(R.id.hint_fouth);
+        mLinearLayoutSecond.setVisibility(View.GONE);
 
-        tip1TextView.setText("1. 连接到音箱热点: " + SoundBoxManager.kBoxWiFiHotspotName);
-        tip2TextView.setText("2. 向音箱发送Wi-Fi信息");
-        tip3TextView.setText("3. 重新连接到您的Wi-Fi网络: " + AddBoxStatus.getInstance().uploadWiFiName);
-        tip4TextView.setText("4. 音箱语音提示网络连接成功之后，点击下一步");
+        mNetProgressBar = (ProgressBar)mDeviceControlFragmentView.findViewById(R.id.net_progressBar);
 
-        return v;
+
+        return mDeviceControlFragmentView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        EventBus.getDefault().post(new AddBoxButtonEnableEvent(false, false));
+//        EventBus.getDefault().post(new AddBoxButtonEnableEvent(false, false));
         startStepWork();
     }
 
@@ -126,8 +144,8 @@ public class AddBoxHotspotFragment extends Fragment {
     }
 
     private void startStepWork() {
-        progressBar.setVisibility(View.VISIBLE);
-        statusTextView.setText("正在连接音箱热点...");
+//        progressBar.setVisibility(View.VISIBLE);
+//        statusTextView.setText("正在连接音箱热点...");
         setCurrentStep(1);
 
         // 先停止
@@ -142,27 +160,25 @@ public class AddBoxHotspotFragment extends Fragment {
 
     private void setCurrentStep(int step) {
         if (step == 1) {
-            tip1TextView.setTextColor(getResources().getColor(R.color.Black_60));
-            tip2TextView.setTextColor(getResources().getColor(R.color.black75PercentColor));
-            tip3TextView.setTextColor(getResources().getColor(R.color.black75PercentColor));
-            tip4TextView.setTextColor(getResources().getColor(R.color.black75PercentColor));
+            hintFirst.setTextColor(getResources().getColor(R.color.Black_60));
+            hintSecond.setTextColor(getResources().getColor(R.color.blue));
+            hintThird.setTextColor(getResources().getColor(R.color.blue));
+            hintFouth.setTextColor(getResources().getColor(R.color.blue));
         } else if (step == 2) {
-            tip1TextView.setTextColor(getResources().getColor(R.color.Black_60));
-            tip2TextView.setTextColor(getResources().getColor(R.color.Black_60));
-            tip3TextView.setTextColor(getResources().getColor(R.color.black75PercentColor));
-            tip4TextView.setTextColor(getResources().getColor(R.color.black75PercentColor));
+            hintFirst.setTextColor(getResources().getColor(R.color.Black_60));
+            hintSecond.setTextColor(getResources().getColor(R.color.Black_60));
+            hintThird.setTextColor(getResources().getColor(R.color.blue));
+            hintFouth.setTextColor(getResources().getColor(R.color.blue));
         } else if (step == 3) {
-            tip1TextView.setTextColor(getResources().getColor(R.color.Black_60));
-            tip2TextView.setTextColor(getResources().getColor(R.color.Black_60));
-            tip3TextView.setTextColor(getResources().getColor(R.color.Black_60));
-            tip4TextView.setTextColor(getResources().getColor(R.color.black75PercentColor));
+            hintFirst.setTextColor(getResources().getColor(R.color.Black_60));
+            hintSecond.setTextColor(getResources().getColor(R.color.Black_60));
+            hintThird.setTextColor(getResources().getColor(R.color.Black_60));
+            hintFouth.setTextColor(getResources().getColor(R.color.blue));
         } else {
-            tip1TextView.setTextColor(getResources().getColor(R.color.Black_60));
-            tip2TextView.setTextColor(getResources().getColor(R.color.Black_60));
-            tip3TextView.setTextColor(getResources().getColor(R.color.Black_60));
-            tip4TextView.setTextColor(getResources().getColor(R.color.Black_60));
-
-            progressBar.setVisibility(View.INVISIBLE);
+            hintFirst.setTextColor(getResources().getColor(R.color.Black_60));
+            hintSecond.setTextColor(getResources().getColor(R.color.Black_60));
+            hintThird.setTextColor(getResources().getColor(R.color.Black_60));
+            hintFouth.setTextColor(getResources().getColor(R.color.Black_60));
         }
     }
 
@@ -192,7 +208,7 @@ public class AddBoxHotspotFragment extends Fragment {
         int hotspotNetworkID = wifiManager.addNetwork(wifiConfig);
 
         boolean enableSuccess = wifiManager.enableNetwork(hotspotNetworkID, true);
-        Logger.v("connect to smartbox: %d %s", hotspotNetworkID, (enableSuccess) ? "success" : "fail");
+//        Logger.v("connect to smartbox: %d %s", hotspotNetworkID, (enableSuccess) ? "success" : "fail");
 
         return true;
     }
@@ -207,18 +223,26 @@ public class AddBoxHotspotFragment extends Fragment {
 
         WifiConfiguration wifiConfig = null;
         for( WifiConfiguration i : list ) {
+            Log.d("TIEJIANG", "DeviceControlFragement---connectToOriginWiFi" + "wifi list= " + i.SSID);
             if(i.SSID != null && i.SSID.equals("\"" + AddBoxStatus.getInstance().uploadWiFiName + "\"")) {
                 wifiConfig = i;
+                Log.d("TIEJIANG", "DeviceControlFragement---connectToOriginWiFi" + " matched ssid= " + wifiConfig.SSID);
+                Log.d("TIEJIANG", "DeviceControlFragment---connectToOriginWiFi" + " wifiConfig.networkId= "+ wifiConfig.networkId);
                 break;
             }
         }
 
         if (wifiConfig != null) {
             boolean isSuccess = wifiManager.enableNetwork(wifiConfig.networkId, true);
-
-            Logger.v("connect to origin Wifi: %s", isSuccess ? "success" : "fail");
+//            int connectState = wifiManager.getConfiguredNetworks().get(wifiConfig.networkId).status;
+//            Log.d("TIEJIANG", "DeviceControlFragment---connectToOriginWiFi" + " connectState= "+ connectState);
+            // isSuccess 如果返回true只是代表wifiManager去执行连接网络的指令了,并不代表已经连接上网络
+            Log.d("TIEJIANG", "DeviceControlFragment---connectToOriginWiFi" + " wifiConfig.networkId= "+ wifiConfig.networkId);
+//            Logger.v("connect to origin Wifi: %s", isSuccess ? "success" : "fail");
+            Log.d("TIEJIANG con ori wifi: ", isSuccess ? "success" : "fail");
         } else {
-            Logger.v("Origin Wifi config missing");
+//            Logger.v("Origin Wifi config missing");
+            Log.d("TIEJIANG", "connectToOriginWiFi---" + " Origin Wifi config missing");
         }
 
         return true;

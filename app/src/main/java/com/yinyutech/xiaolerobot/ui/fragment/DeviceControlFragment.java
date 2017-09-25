@@ -39,9 +39,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-import static android.R.attr.name;
 import static com.yinyutech.xiaolerobot.R.id.linearLayout_second_step;
-import static com.yinyutech.xiaolerobot.R.id.next_step;
 import static com.yinyutech.xiaolerobot.R.id.pairTipTextView;
 import static com.yinyutech.xiaolerobot.ui.fragment.HomeFragment.mStateChangeHandler;
 
@@ -169,7 +167,10 @@ public class DeviceControlFragment extends BaseFragment {
             mHomeFragment.mMySurfaceViewControler.startYTXHandshake();
         }
 
-        initScanView();
+        dealYTXIDSendCallback();
+
+//        initScanView();
+        initView();
         wlanNetHandle();
         startScanXiaoLe();
         analysis();
@@ -246,14 +247,12 @@ public class DeviceControlFragment extends BaseFragment {
                 String scanMessage = ((String)msg.obj).trim();
                 Log.d("TIEJIANG", "DeviceControlFragment---mScanXiaoLeHandler" + " scanMessage= " + scanMessage);
 
-
-
                 mShowIsXiaoleExist.setVisibility(View.VISIBLE);
                 mPairTipTextView.setVisibility(View.INVISIBLE);
                 mScanProgressBar.setVisibility(View.INVISIBLE);
                 //重新切换到DeviceControlFragment的时候会重新搜索设备，如果搜索到则要隐藏联网ＵＩ
                 //未搜索到的情况则会通过按键进入到联网部分
-                invisibleNetUI();
+//                invisibleNetUI();
                 // 处于联网模式则不进入
                 if (!isStartConnectNetModel){
 
@@ -302,7 +301,7 @@ public class DeviceControlFragment extends BaseFragment {
                         mShowIsXiaoleExist.setText("未发现设备,请进入联网模式");
                         isXiaoLeExist = false;
                         isLocalNetOK = false;
-                        mLinearLayoutFinalStep.setVisibility(View.INVISIBLE);
+//                        mLinearLayoutFinalStep.setVisibility(View.INVISIBLE);
                         mStateChangeHandler.sendEmptyMessage(2);  //关闭局域网控制模式
                         Log.d("TIEJIANG", "DeviceControlFragment---analysis"
                                 +" isStartConnectNetModel= "+isStartConnectNetModel);
@@ -358,18 +357,42 @@ public class DeviceControlFragment extends BaseFragment {
 
     }
 
+    public void initView(){
+
+        mScanProgressBar = (ProgressBar)mDeviceControlFragmentView.findViewById(R.id.pairProgressBar);
+        mPairTipTextView = (TextView)mDeviceControlFragmentView.findViewById(pairTipTextView);
+        mShowIsXiaoleExist = (Button)mDeviceControlFragmentView.findViewById(R.id.show_is_xiaole_exist);
+        mShowIsXiaoleExist.setVisibility(View.INVISIBLE);
+
+        mShowIsXiaoleExist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mScanProgressBar.setVisibility(View.INVISIBLE);
+                if(isXiaoLeExist){
+                    settingOK();
+                }else{
+                    //没有扫描到设备，进入连接和配对模式(这个步骤需要一定时间停止，在此处停止后，通过dialog缓冲获得时间)
+                    udpBroadcaster.stopBroadcastSearchBox(); //开始联网步骤之后就停止Ｈ３设备的扫描
+
+                    //点击"确认"前，先触摸/语音"告诉"小乐进入联网模式
+                    showEnterNetConnectModel();
+                }
+            }
+        });
+    }
+
     public void initScanView(){
 
         mLinearLayoutImgProgress = (LinearLayout)mDeviceControlFragmentView.findViewById(R.id.linearLayout_img_progress);
         mLinearLayoutImgProgress.setVisibility(View.INVISIBLE);
         mImageView = (ImageView)mDeviceControlFragmentView.findViewById(R.id.progress_img_fist);
         mImageView.setVisibility(View.INVISIBLE);
-        nextStep = (Button)mDeviceControlFragmentView.findViewById(next_step);
+//        nextStep = (Button)mDeviceControlFragmentView.findViewById(next_step);
         nextStep.setVisibility(View.INVISIBLE);
 
         mWifiName = (EditText)mDeviceControlFragmentView.findViewById(R.id.wifi_user);
         mWifiPwd = (EditText)mDeviceControlFragmentView.findViewById(R.id.wifi_pwd);
-        wifiInputHint = (TextView)mDeviceControlFragmentView.findViewById(R.id.wifi_input_hint);
+//        wifiInputHint = (TextView)mDeviceControlFragmentView.findViewById(R.id.wifi_input_hint);
         mWifiName.setVisibility(View.INVISIBLE);
         mWifiPwd.setVisibility(View.INVISIBLE);
         wifiInputHint.setVisibility(View.INVISIBLE);
@@ -386,7 +409,7 @@ public class DeviceControlFragment extends BaseFragment {
 
         mLinearLayoutFinalStep = (LinearLayout)mDeviceControlFragmentView.findViewById(R.id.linearLayout_final_step);
         mButtonEnter = (Button)mDeviceControlFragmentView.findViewById(R.id.button_enter);
-        mButtonShare = (Button)mDeviceControlFragmentView.findViewById(R.id.button_share);
+//        mButtonShare = (Button)mDeviceControlFragmentView.findViewById(R.id.button_share);
         mLinearLayoutFinalStep.setVisibility(View.GONE);
         mNetProgressBar = (ProgressBar)mDeviceControlFragmentView.findViewById(R.id.net_progressBar);
         mNetProgressBar.setVisibility(View.INVISIBLE);

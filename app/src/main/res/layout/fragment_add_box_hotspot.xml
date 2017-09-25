@@ -136,6 +136,15 @@
 
         </LinearLayout>
 
+        <ProgressBar
+            android:id="@+id/net_progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_below="@+id/linearLayout_second_step"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="58dp" />
+
 
     </RelativeLayout>
 

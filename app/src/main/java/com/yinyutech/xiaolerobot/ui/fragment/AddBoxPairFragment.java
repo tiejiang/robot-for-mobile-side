@@ -11,10 +11,10 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.lezhi.soundbox.model.AddBoxButtonEnableEvent;
-import com.lezhi.soundbox.model.AddBoxDeviceReadyEvent;
-import com.lezhi.soundbox.util.BoxUDPBroadcaster;
-import com.lezhi.soundbox.util.SoundBoxManager;
+import com.yinyutech.xiaolerobot.R;
+import com.yinyutech.xiaolerobot.model.AddBoxDeviceReadyEvent;
+import com.yinyutech.xiaolerobot.utils.soundbox.BoxUDPBroadcaster;
+import com.yinyutech.xiaolerobot.utils.soundbox.SoundBoxManager;
 
 import de.greenrobot.event.EventBus;
 import de.greenrobot.event.Subscribe;
@@ -44,7 +44,7 @@ public class AddBoxPairFragment extends Fragment {
         progressBar.setVisibility(View.VISIBLE);
         pairTipTextView.setText("正在扫描音箱，请稍候...");
         // 通过eventBus发送消息
-        EventBus.getDefault().post(new AddBoxButtonEnableEvent(false, false));
+//        EventBus.getDefault().post(new AddBoxButtonEnableEvent(false, false));
 
         EventBus.getDefault().register(this);
         udpBroadcaster.startBroadcastSearchBox();
@@ -80,7 +80,7 @@ public class AddBoxPairFragment extends Fragment {
         public void onFinish(boolean success) {
             Log.d("Pair Box Device", success ? "connectToBoxHost success" : "connectToBoxHost failed");
 
-            EventBus.getDefault().post(new AddBoxButtonEnableEvent(success, success));
+//            EventBus.getDefault().post(new AddBoxButtonEnableEvent(success, success));
 
             // 如果连接音箱失败，则再次广播查找音箱
             if (!success) {
