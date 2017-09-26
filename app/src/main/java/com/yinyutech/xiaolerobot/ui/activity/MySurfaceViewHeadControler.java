@@ -222,14 +222,14 @@ public class MySurfaceViewHeadControler extends SurfaceView implements SurfaceHo
         }
         if (!sendCommand.equals("")){
             //组装指令－－＞发送
-            if (mySurfaceViewControler.isLocalNetControl){
-                mXiaoLeLocalSendingCommand.startLocalSending(sendCommand);
-                Log.d("TIEJIANG", "MySurfaceViewHeadControler---directionControl local sending");
-            }else if (mySurfaceViewControler.isWLANOK){
+//            if (mySurfaceViewControler.isLocalNetControl){
+//                mXiaoLeLocalSendingCommand.startLocalSending(sendCommand);
+//                Log.d("TIEJIANG", "MySurfaceViewHeadControler---directionControl local sending");
+//            }else if (mySurfaceViewControler.isWLANOK){
                 //先通过HomeFragment得到MySurfaceViewControler的实例，在调用其方法
                 mySurfaceViewControler.handleSendTextMessage(sendCommand);
                 Log.d("TIEJIANG", "MySurfaceViewHeadControler---directionControl YTX sending");
-            }
+//            }
         }
     }
 
