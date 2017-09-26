@@ -29,6 +29,7 @@ public class AddBoxActivity extends FragmentActivity {
     private int step = 0;
     private XiaoLeUDP mXiaoLeUDP;
     private Button buttonNext;
+    private AddBoxHotspotFragment mAddBoxHotspotFragment = null;
 //    public static Handler mYTXIDSendCallbackHandler;    //监听云通讯ID是否发送成功的handler
 
     @Override
@@ -103,7 +104,7 @@ public class AddBoxActivity extends FragmentActivity {
             finish();
         } else {
 //            updateStepsViewWithPosition(position);
-            updateFragmentWithPosition(position);
+            updateFragmentWithPosition(position, view);
         }
     }
 
@@ -113,7 +114,7 @@ public class AddBoxActivity extends FragmentActivity {
         }
     }
 
-    private void updateFragmentWithPosition(int position) {
+    private void updateFragmentWithPosition(int position, View view_button) {
         String nextButtonTitle = "下一步";
         switch (position) {
 //            case 0:
@@ -122,12 +123,15 @@ public class AddBoxActivity extends FragmentActivity {
 //                Log.d("TIEJIANG", "AddBoxActivity---updateFragmentWithPosition" + " case 0: step= " + step);
 //                break;
             case 0:
-                switchFragment(new AddBoxHotspotFragment());
+                view_button.setEnabled(false);
+                mAddBoxHotspotFragment = new AddBoxHotspotFragment();
+                switchFragment(mAddBoxHotspotFragment);
+                enableButton(view_button);
                 step = 1;
                 Log.d("TIEJIANG", "AddBoxActivity---updateFragmentWithPosition" + " case 0: step= " + step);
                 break;
 //            case 2:
-////                switchFragment(new AddBoxPairFragment());
+//                switchFragment(new AddBoxPairFragment());
 //                step = 3;
 //                Log.d("TIEJIANG", "AddBoxActivity---updateFragmentWithPosition" + " case 2: step= " + step);
 //                break;
@@ -148,11 +152,31 @@ public class AddBoxActivity extends FragmentActivity {
     }
 
     private void switchFragment(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager()
-                .beginTransaction();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentContainer, fragment);
         // don't add to BackStack
         // transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    private void enableButton(final View view_button){
+
+//        Fragment mFragmentInstance = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+        Log.d("TIEJIANG", "AddBoxActivity---enableButton" + " mFragmentInstance= " + mAddBoxHotspotFragment);
+//        if (mFragmentInstance instanceof AddBoxHotspotFragment){
+        mAddBoxHotspotFragment.setOnNetConnectedListener(new AddBoxHotspotFragment.OnNetConnectedListener() {
+            @Override
+            public void onNetConnected(boolean connected) {
+                Log.d("TIEJIANG", "AddBoxActivity---enableButton" + " connected= " + connected);
+                if (connected){
+                    view_button.setEnabled(true);
+                }else {
+                    view_button.setEnabled(false);
+                }
+
+            }
+        });
+
+//        }
     }
 }

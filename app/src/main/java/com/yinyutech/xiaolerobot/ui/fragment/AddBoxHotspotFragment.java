@@ -35,6 +35,19 @@ public class AddBoxHotspotFragment extends Fragment {
 
     private final long shortTime = 1000;
     private final long longTime = 5000;
+    private AddBoxHotspotFragment mAddBoxHotspotFragment;
+    public OnNetConnectedListener mOnNetConnectedListener;
+
+    public interface OnNetConnectedListener{
+
+        void onNetConnected(boolean connected);
+    }
+
+    public void setOnNetConnectedListener(OnNetConnectedListener onNetConnectedListener){
+
+        this.mOnNetConnectedListener = onNetConnectedListener;
+    }
+
 
     private Handler timerHandler = new Handler();
 
@@ -94,6 +107,7 @@ public class AddBoxHotspotFragment extends Fragment {
                 //（基于Ｈ３上面广佳的部分配置完毕）云通讯尚未配置ＯＫ
                 setCurrentStep(4);
                 mImageView.setBackgroundResource(R.drawable.net_progress_bar_fifth);
+                mOnNetConnectedListener.onNetConnected(true);
 
                 //设置按键可用
 //                nextStep.setEnabled(true);
@@ -141,6 +155,23 @@ public class AddBoxHotspotFragment extends Fragment {
         super.onPause();
 
         stopStepWork();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d("TIEJIANG", "AddBoxHotspotFragment---onDestroy");
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
     }
 
     private void startStepWork() {
