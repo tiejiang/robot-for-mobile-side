@@ -78,9 +78,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="进入设备"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/net_nextstep"/>
+            android:background="@drawable/net_nextstep"
+            android:text="进入设备" />
     </LinearLayout>
 
 

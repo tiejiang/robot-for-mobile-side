@@ -372,7 +372,7 @@ public class DeviceControlFragment extends BaseFragment {
         mPairTipTextView = (TextView)mDeviceControlFragmentView.findViewById(pairTipTextView);
         mShowIsXiaoleExist = (Button)mDeviceControlFragmentView.findViewById(R.id.show_is_xiaole_exist);
         mShowIsXiaoleExist.setVisibility(View.INVISIBLE);
-
+        mButtonEnter = (Button)mDeviceControlFragmentView.findViewById(R.id.button_enter);
         mShowIsXiaoleExist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -386,6 +386,14 @@ public class DeviceControlFragment extends BaseFragment {
                     //点击"确认"前，先触摸/语音"告诉"小乐进入联网模式
                     showEnterNetConnectModel();
                 }
+            }
+        });
+        mButtonEnter.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                //完成设置跳转到视频界面
+                settingOK();
             }
         });
     }
@@ -417,7 +425,7 @@ public class DeviceControlFragment extends BaseFragment {
         settingOver.setVisibility(View.GONE);
 
         mLinearLayoutFinalStep = (LinearLayout)mDeviceControlFragmentView.findViewById(R.id.linearLayout_final_step);
-        mButtonEnter = (Button)mDeviceControlFragmentView.findViewById(R.id.button_enter);
+//        mButtonEnter = (Button)mDeviceControlFragmentView.findViewById(R.id.button_enter);
 //        mButtonShare = (Button)mDeviceControlFragmentView.findViewById(R.id.button_share);
         mLinearLayoutFinalStep.setVisibility(View.GONE);
         mNetProgressBar = (ProgressBar)mDeviceControlFragmentView.findViewById(R.id.net_progressBar);
@@ -577,14 +585,14 @@ public class DeviceControlFragment extends BaseFragment {
             }
         });
 
-        mButtonEnter.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                //完成设置跳转到视频界面
-                settingOK();
-            }
-        });
+//        mButtonEnter.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                //完成设置跳转到视频界面
+//                settingOK();
+//            }
+//        });
         mButtonShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
