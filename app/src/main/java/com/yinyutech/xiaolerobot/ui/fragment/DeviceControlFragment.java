@@ -68,6 +68,7 @@ public class DeviceControlFragment extends BaseFragment {
     //获得DeviceControlFragment 实例　（程序开始时候，此处还不能够获得ＤeviceControlFragment实例）
     private HomeFragment mHomeFragment = null;
     private YTXCommunicate mYTXCommunicateInstance = null;
+    private String xiaoleIP = "";
 //    private DeviceControlFragment mDeviceControlFragment = ActivityInstance.mMainActivityInstance.getDeviceControlFragmentInstance();
 
 
@@ -168,7 +169,7 @@ public class DeviceControlFragment extends BaseFragment {
 //        initScanView();
         initView();
         wlanNetHandle();
-//        startScanXiaoLe();
+        startScanXiaoLe();
         analysis();
 
         return mDeviceControlFragmentView;
@@ -183,10 +184,10 @@ public class DeviceControlFragment extends BaseFragment {
         //isStartConnectNetModel---不在联网模式的时候才搜索设备
 
         if (!hidden && !isStartConnectNetModel){
-//            startScanXiaoLe();
+            startScanXiaoLe();
 
         }else {
-//            stopScanXiaole();
+            stopScanXiaole();
         }
     }
 
@@ -219,7 +220,12 @@ public class DeviceControlFragment extends BaseFragment {
                         //手机在远程情况下启动ＡＰＰ，并且首次进入到ＡＰＰ的时候搜索小乐
                         isXiaoLeExist = true;
                         String batteryValue = tempString.split(",")[1];
-                        mShowIsXiaoleExist.setText("xiaole robot" + "\n电量:" + batteryValue + "%");
+                        if (xiaoleIP.equals("")){
+                            mShowIsXiaoleExist.setText("xiaole robot" + "\n energy: " + batteryValue + "%");
+                        }else {
+                            mShowIsXiaoleExist.setText("xiaole robot: " + xiaoleIP + "\n energy: " + batteryValue + "%");
+                        }
+
                         mStateChangeHandler.sendEmptyMessage(2);  //关闭局域网控制模式
                     } else if(tempString.equals("ytx_offline")){
 
@@ -291,7 +297,8 @@ public class DeviceControlFragment extends BaseFragment {
                             isXiaoLeExist = true;
                             isLocalNetOK = true;
                             String batteryValue = state.split(",")[1];
-                            mShowIsXiaoleExist.setText("xiaole robot: " + hostip + "\n电量: " + batteryValue + "%");
+//                            mShowIsXiaoleExist.setText("xiaole robot: " + hostip + "\n电量: " + batteryValue + "%");
+                            xiaoleIP = hostip;
 
                             //开启局域网控制模式
                             mStateChangeHandler.sendEmptyMessage(1);
@@ -331,7 +338,7 @@ public class DeviceControlFragment extends BaseFragment {
                     case 0:
                         if (tempString.contains("IDSetted")){
                             isStartConnectNetModel = false; //联网完成　退出联网模式flag
-//                            startScanXiaoLe();
+                            startScanXiaoLe();
 
                             Log.d("TIEJIANG", "DeviceControlFragment---dealYTXIDSendCallback"+" startScanXiaoLe");
                         }else {

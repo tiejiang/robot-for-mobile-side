@@ -78,7 +78,7 @@ public class YTXCommunicate implements IMChattingHelper.OnMessageReportCallback 
                     Log.d("TIEJIANG", "YTXCommunicate---YTXHandshakeRunnabel");
                     try {
                         Log.d("TIEJIANG", "YTXCommunicate---StartYTXHandshake");
-                        Thread.sleep(10000);
+                        Thread.sleep(7000);
                         mWLANHandler.obtainMessage(0, "ytx_offline").sendToTarget();
                     }catch (InterruptedException e){
                         e.printStackTrace();
