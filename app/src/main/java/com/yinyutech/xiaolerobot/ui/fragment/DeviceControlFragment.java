@@ -230,7 +230,7 @@ public class DeviceControlFragment extends BaseFragment {
                     } else if(tempString.equals("ytx_offline")){
 
                         //同时外网也不通，则判断设备掉线
-                        mShowIsXiaoleExist.setText("未发现设备,请进入联网模式-w");
+                        mShowIsXiaoleExist.setText("未发现设备,请进入联网模式");
                         isXiaoLeExist = false;
                         mLinearLayoutFinalStep.setVisibility(View.INVISIBLE);
                         mStateChangeHandler.sendEmptyMessage(2);  //关闭局域网控制模式
