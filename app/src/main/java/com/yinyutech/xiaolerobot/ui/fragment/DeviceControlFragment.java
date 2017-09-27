@@ -307,7 +307,7 @@ public class DeviceControlFragment extends BaseFragment {
                         }
                     }
                     else {
-                        mShowIsXiaoleExist.setText("未发现设备,请进入联网模式");
+//                        mShowIsXiaoleExist.setText("未发现设备,请进入联网模式");
                         isXiaoLeExist = false;
                         isLocalNetOK = false;
 //                        mLinearLayoutFinalStep.setVisibility(View.INVISIBLE);
