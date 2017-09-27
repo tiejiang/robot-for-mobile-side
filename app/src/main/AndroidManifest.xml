@@ -50,14 +50,6 @@
         </activity>
 
         <activity
-            android:name="com.yinyutech.xiaolerobot.ui.activity.MenuActivity">
-        </activity>
-
-        <activity
-            android:name="com.yinyutech.xiaolerobot.ui.activity.RemoteControlCommandActivity">
-        </activity>
-
-        <activity
             android:name="com.yinyutech.xiaolerobot.ui.activity.VoIPCallActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
