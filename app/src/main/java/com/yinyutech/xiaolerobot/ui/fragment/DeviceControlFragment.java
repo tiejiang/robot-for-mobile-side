@@ -209,9 +209,10 @@ public class DeviceControlFragment extends BaseFragment {
                 super.handleMessage(msg);
                 String tempString = (String) msg.obj;
 
+                mLinearLayoutScanXiaole.setVisibility(View.INVISIBLE);
                 mShowIsXiaoleExist.setVisibility(View.VISIBLE);
-                mPairTipTextView.setVisibility(View.INVISIBLE);
-                mScanProgressBar.setVisibility(View.INVISIBLE);
+//                mPairTipTextView.setVisibility(View.INVISIBLE);
+//                mScanProgressBar.setVisibility(View.INVISIBLE);
                 Log.d("TIEJIANG", "DeviceControlFragment---wlanNetHandle"
                         + " tempString= " + tempString+" isLocalNetOK= "+isLocalNetOK);
 //                if (!isStartConnectNetModel && !isLocalNetOK){
@@ -255,9 +256,9 @@ public class DeviceControlFragment extends BaseFragment {
                 String scanMessage = ((String)msg.obj).trim();
                 Log.d("TIEJIANG", "DeviceControlFragment---mScanXiaoLeHandler" + " scanMessage= " + scanMessage);
 
-                mShowIsXiaoleExist.setVisibility(View.VISIBLE);
-                mPairTipTextView.setVisibility(View.INVISIBLE);
-                mScanProgressBar.setVisibility(View.INVISIBLE);
+//                mShowIsXiaoleExist.setVisibility(View.VISIBLE);
+//                mPairTipTextView.setVisibility(View.INVISIBLE);
+//                mScanProgressBar.setVisibility(View.INVISIBLE);
                 //重新切换到DeviceControlFragment的时候会重新搜索设备，如果搜索到则要隐藏联网ＵＩ
                 //未搜索到的情况则会通过按键进入到联网部分
 //                invisibleNetUI();
@@ -360,6 +361,7 @@ public class DeviceControlFragment extends BaseFragment {
         mPairTipTextView = (TextView)mDeviceControlFragmentView.findViewById(pairTipTextView);
         mShowIsXiaoleExist = (Button)mDeviceControlFragmentView.findViewById(R.id.show_is_xiaole_exist);
         mShowIsXiaoleExist.setVisibility(View.INVISIBLE);
+        mLinearLayoutScanXiaole = (LinearLayout)mDeviceControlFragmentView.findViewById(R.id.linearLayout_scan_xiaole);
         mButtonEnter = (Button)mDeviceControlFragmentView.findViewById(R.id.button_enter);
         mLinearLayoutFinalStep = (LinearLayout)mDeviceControlFragmentView.findViewById(R.id.linearLayout_final_step);
         mLinearLayoutFinalStep.setVisibility(View.GONE);

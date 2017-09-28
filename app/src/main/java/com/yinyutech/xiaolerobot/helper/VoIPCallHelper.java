@@ -2,8 +2,8 @@ package com.yinyutech.xiaolerobot.helper;
 
 import android.util.Log;
 
-import com.yinyutech.xiaolerobot.common.CCPAppManager;
 import com.yinyutech.xiaolerobot.bean.ClientUser;
+import com.yinyutech.xiaolerobot.common.CCPAppManager;
 import com.yinyutech.xiaolerobot.utils.ECNotificationManager;
 import com.yuntongxun.ecsdk.ECError;
 import com.yuntongxun.ecsdk.ECVoIPCallManager;
@@ -308,6 +308,10 @@ public class VoIPCallHelper implements OnMakeCallBackListener {
                     break;
                 case ECCALL_ANSWERED:      //接受了呼叫应答
                     mHandlerVideoCall = false;
+//                    //不显示远程图像
+//                    ECVoIPSetupManager setUpMgr = ECDevice.getECVoIPSetupManager();
+//                    setUpMgr.setShowRemoteView(false);
+//                    setUpMgr.setVideoBitRates(150); //默认值
                     Log.d("TIEJIANG", "对方接受···");
                     notifyListener.onCallAnswered(callId);
                     break;
