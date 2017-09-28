@@ -339,8 +339,8 @@ public class DeviceControlFragment extends BaseFragment {
                     case 0:
                         if (tempString.contains("IDSetted")){
                             isStartConnectNetModel = false; //联网完成　退出联网模式flag
+                            mYTXCommunicateInstance.YTXHandshakeStart();  //开始云通讯握手
                             startScanXiaoLe();
-
                             Log.d("TIEJIANG", "DeviceControlFragment---dealYTXIDSendCallback"+" startScanXiaoLe");
                         }else {
                             //继续发送云通讯ＩＤ到Ｈ３
@@ -374,7 +374,6 @@ public class DeviceControlFragment extends BaseFragment {
                 }else{
                     //没有扫描到设备，进入连接和配对模式(这个步骤需要一定时间停止，在此处停止后，通过dialog缓冲获得时间)
                     udpBroadcaster.stopBroadcastSearchBox(); //开始联网步骤之后就停止Ｈ３设备的扫描
-
                     //点击"确认"前，先触摸/语音"告诉"小乐进入联网模式
                     showEnterNetConnectModel();
                 }
@@ -458,6 +457,7 @@ public class DeviceControlFragment extends BaseFragment {
             public void onClick(DialogInterface dialog, int which) {
                 //停止"握手"信号请求
                 isStartConnectNetModel = true;
+                mYTXCommunicateInstance.YTXHandshakeStop();  //停止云通讯握手
 //                initDeviceView();
 //                showAddBoxFullStepActivity(getActivity());
 //                mWifiName.setText(AddBoxStatus.getInstance().uploadWiFiName);
