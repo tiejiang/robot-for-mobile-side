@@ -99,7 +99,10 @@ public class YTXCommunicate implements IMChattingHelper.OnMessageReportCallback 
 
     public void YTXHandshakeStart(){
 
-        isStartYTXHandshake = true;
+        if (isStartYTXHandshake == false){
+            isStartYTXHandshake = true;
+            YTXHandshake();
+        }
     }
 
     @Override
