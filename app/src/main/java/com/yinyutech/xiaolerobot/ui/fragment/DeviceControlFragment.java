@@ -295,7 +295,7 @@ public class DeviceControlFragment extends BaseFragment {
                         if (state.contains("local_handed") && name.equals("XiaoleServer") && hostip != "0.0.0.0") {
                             Log.d("TIEJIANG", "DeviceControlFragment---analysis" + " IDset handed");
 
-                            isXiaoLeExist = true;
+//                            isXiaoLeExist = true;
                             isLocalNetOK = true;
                             String batteryValue = state.split(",")[1];
 //                            mShowIsXiaoleExist.setText("xiaole robot: " + hostip + "\n电量: " + batteryValue + "%");
@@ -309,7 +309,7 @@ public class DeviceControlFragment extends BaseFragment {
                     }
                     else {
 //                        mShowIsXiaoleExist.setText("未发现设备,请进入联网模式");
-                        isXiaoLeExist = false;
+//                        isXiaoLeExist = false;
                         isLocalNetOK = false;
 //                        mLinearLayoutFinalStep.setVisibility(View.INVISIBLE);
                         mStateChangeHandler.sendEmptyMessage(2);  //关闭局域网控制模式
