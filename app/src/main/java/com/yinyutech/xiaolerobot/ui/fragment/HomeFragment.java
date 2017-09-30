@@ -216,7 +216,7 @@ public class HomeFragment extends BaseFragment{
             Log.d("TIEJIANG", "HomeFragment---onHiddenChanged" + " hidden= " + hidden);
             mMySurfaceViewControler.setVisibility(View.INVISIBLE);
             mMySurfaceViewHeadControler.setVisibility(View.INVISIBLE);
-            mYTXCommunicateInstance.YTXHandshakeStart();
+
 
         }else if (isDeviceFind){
             mMySurfaceViewControler.setVisibility(View.VISIBLE);

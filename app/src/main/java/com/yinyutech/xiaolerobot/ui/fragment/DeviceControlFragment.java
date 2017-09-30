@@ -183,11 +183,14 @@ public class DeviceControlFragment extends BaseFragment {
 //        if (!hidden && isXiaoLeExist){
         //isStartConnectNetModel---不在联网模式的时候才搜索设备
 
+
         if (!hidden && !isStartConnectNetModel){
             startScanXiaoLe();
+            mYTXCommunicateInstance.YTXHandshakeStart();
 
         }else {
             stopScanXiaole();
+            mYTXCommunicateInstance.YTXHandshakeStop();
         }
     }
 
