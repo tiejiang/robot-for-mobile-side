@@ -234,7 +234,7 @@ public class DeviceControlFragment extends BaseFragment {
                     } else if(tempString.equals("ytx_offline")){
 
                         //同时外网也不通，则判断设备掉线
-                        mShowIsXiaoleExist.setText("未发现设备,请进入联网模式");
+                        mShowIsXiaoleExist.setText("未发现小乐,请进入配网模式");
                         isXiaoLeExist = false;
                         mLinearLayoutFinalStep.setVisibility(View.INVISIBLE);
                         mStateChangeHandler.sendEmptyMessage(2);  //关闭局域网控制模式
@@ -343,6 +343,7 @@ public class DeviceControlFragment extends BaseFragment {
                         if (tempString.contains("IDSetted")){
                             isStartConnectNetModel = false; //联网完成　退出联网模式flag
                             mYTXCommunicateInstance.YTXHandshakeStart();  //开始云通讯握手
+                            Log.d("TIEJIANG", "DeviceControlFragment---dealYTXIDSendCallback"+" mYTXCommunicateInstance= "+mYTXCommunicateInstance);
                             startScanXiaoLe();
                             Log.d("TIEJIANG", "DeviceControlFragment---dealYTXIDSendCallback"+" startScanXiaoLe");
                         }else {

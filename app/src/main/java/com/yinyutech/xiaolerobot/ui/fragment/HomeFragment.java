@@ -94,6 +94,7 @@ public class HomeFragment extends BaseFragment{
         });
         mVideoOpen.setVisibility(View.GONE);
         mYTXCommunicateInstance = YTXCommunicate.getYTXCommunicateInstance();
+        Log.d("TIEJIANG", "HomeFragment---createView"+" mYTXCommunicateInstance= "+mYTXCommunicateInstance);
         mTakePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

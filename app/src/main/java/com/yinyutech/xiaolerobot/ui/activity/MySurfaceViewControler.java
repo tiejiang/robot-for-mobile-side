@@ -86,6 +86,7 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
         sfh = getHolder();
         sfh.addCallback(this);
         mYTXCommunicate = YTXCommunicate.getYTXCommunicateInstance();
+        Log.d("TIEJIANG", "MySurfaceViewControler---MySurfaceViewControler"+" mYTXCommunicate= "+mYTXCommunicate);
 
 //        IMChattingHelper.setOnMessageReportCallback(this);
     }
