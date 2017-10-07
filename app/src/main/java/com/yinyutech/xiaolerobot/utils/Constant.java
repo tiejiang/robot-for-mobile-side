@@ -9,8 +9,8 @@ public class Constant {
 //    public static final String token = "ca8bdec6e6ed3cc369b8122a1c19306d";
 
     //云通讯专有云测试账号
-    public static final String appKey = "8aaf07085ea24877015eb6abad910563";
-    public static final String token = "1b0910c9aa19e03fa715458063a3e9e8";
+//    public static final String appKey = "8aaf07085ea24877015eb6abad910563";
+//    public static final String token = "1b0910c9aa19e03fa715458063a3e9e8";
 
 
     public static final String PREF_PASSWORD_VALUE = "input_password_value";
