@@ -275,13 +275,13 @@ public class VoIPCallActivity extends ECVoIPBaseActivity implements VoIPCallHelp
             return ;
         }
 //        LogUtil.d(TAG , "onUICallReleased:: call id " + callId);
-        mCallHeaderView.setCalling(false);
-        isConnect = false;
-        mCallHeaderView.setCallTextMsg(R.string.ec_voip_calling_finish);
-        mCallControlUIView.setControlEnable(false);
-        Intent mIntent = new Intent(VoIPCallActivity.this, MenuActivity.class);
-        startActivity(mIntent);
-        finish();
+//        mCallHeaderView.setCalling(false);
+//        isConnect = false;
+//        mCallHeaderView.setCallTextMsg(R.string.ec_voip_calling_finish);
+//        mCallControlUIView.setControlEnable(false);
+//        Intent mIntent = new Intent(VoIPCallActivity.this, MenuActivity.class);
+//        startActivity(mIntent);
+//        finish();
     }
 
 	@Override

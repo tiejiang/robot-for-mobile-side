@@ -10,8 +10,10 @@ public class Constant {
     public static final String appKey_personage = "8a216da85e0e48b2015e1c039ba4056e";
     public static final String token_personage = "4b07cb81f3a95ba0c183181ff04cb394";
 
-    public static final String appKey = "8aaf07085ea24877015eb6abad910563";
-    public static final String token = "1b0910c9aa19e03fa715458063a3e9e8";
+
+    //云通讯专有云测试账号
+//    public static final String appKey = "8aaf07085ea24877015eb6abad910563";
+//    public static final String token = "1b0910c9aa19e03fa715458063a3e9e8";
 
 
     public static final String PREF_PASSWORD_VALUE = "input_password_value";

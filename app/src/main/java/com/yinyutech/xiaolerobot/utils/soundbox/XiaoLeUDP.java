@@ -26,8 +26,8 @@ import static com.yinyutech.xiaolerobot.ui.fragment.DeviceControlFragment.mYTXID
 
 public class XiaoLeUDP {
 
-    private static final int TIMEOUT = 5000;  //设置接收数据的超时时间
-    private static final int MAXNUM = 1;      //设置重发数据的最多次数
+    private static final int TIMEOUT = 500;  //设置接收数据的超时时间
+    private static final int MAXNUM = 3;      //设置重发数据的最多次数
     private SharedPreferences mGetYTXIDsp;
     private Context activityContextForXiaoLeUDP;
 

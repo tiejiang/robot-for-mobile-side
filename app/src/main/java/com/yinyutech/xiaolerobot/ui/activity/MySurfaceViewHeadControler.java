@@ -17,6 +17,7 @@ import android.view.SurfaceView;
 
 import com.yinyutech.xiaolerobot.R;
 import com.yinyutech.xiaolerobot.fractory.ActivityInstance;
+import com.yinyutech.xiaolerobot.net.YTXCommunicate;
 import com.yinyutech.xiaolerobot.ui.fragment.HomeFragment;
 import com.yinyutech.xiaolerobot.utils.Constant;
 import com.yinyutech.xiaolerobot.utils.soundbox.XiaoLeLocalSendingCommand;
@@ -48,6 +49,7 @@ public class MySurfaceViewHeadControler extends SurfaceView implements SurfaceHo
     private XiaoLeLocalSendingCommand mXiaoLeLocalSendingCommand;
     private HomeFragment mHomeFragment;
     private MySurfaceViewControler mySurfaceViewControler;
+    private YTXCommunicate mYTXCommunicate;
 
 
     public MySurfaceViewHeadControler(Context context){
@@ -74,6 +76,7 @@ public class MySurfaceViewHeadControler extends SurfaceView implements SurfaceHo
         initPaint();
         sfh = getHolder();
         sfh.addCallback(this);
+        mYTXCommunicate = YTXCommunicate.getYTXCommunicateInstance();
     }
 
     private void initPaint(){
@@ -222,14 +225,14 @@ public class MySurfaceViewHeadControler extends SurfaceView implements SurfaceHo
         }
         if (!sendCommand.equals("")){
             //组装指令－－＞发送
-            if (mySurfaceViewControler.isLocalNetControl){
-                mXiaoLeLocalSendingCommand.startLocalSending(sendCommand);
-                Log.d("TIEJIANG", "MySurfaceViewHeadControler---directionControl local sending");
-            }else if (mySurfaceViewControler.isWLANOK){
+//            if (mySurfaceViewControler.isLocalNetControl){
+//                mXiaoLeLocalSendingCommand.startLocalSending(sendCommand);
+//                Log.d("TIEJIANG", "MySurfaceViewHeadControler---directionControl local sending");
+//            }else if (mySurfaceViewControler.isWLANOK){
                 //先通过HomeFragment得到MySurfaceViewControler的实例，在调用其方法
-                mySurfaceViewControler.handleSendTextMessage(sendCommand);
+                mYTXCommunicate.handleSendTextMessage(sendCommand);
                 Log.d("TIEJIANG", "MySurfaceViewHeadControler---directionControl YTX sending");
-            }
+//            }
         }
     }
 

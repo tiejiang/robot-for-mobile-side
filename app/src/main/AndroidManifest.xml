@@ -50,14 +50,6 @@
         </activity>
 
         <activity
-            android:name="com.yinyutech.xiaolerobot.ui.activity.MenuActivity">
-        </activity>
-
-        <activity
-            android:name="com.yinyutech.xiaolerobot.ui.activity.RemoteControlCommandActivity">
-        </activity>
-
-        <activity
             android:name="com.yinyutech.xiaolerobot.ui.activity.VoIPCallActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
@@ -79,6 +71,11 @@
                 <action android:name="con.yuntongxun.ecdemo.intent.ACTION_VIDEO_CALL" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.yinyutech.xiaolerobot.ui.activity.AddBoxActivity"
+            android:screenOrientation="portrait" >
         </activity>
 
         // SDK核心服务配置

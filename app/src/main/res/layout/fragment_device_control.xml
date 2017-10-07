@@ -8,84 +8,12 @@
     >
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/linearLayout_img_progress"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="wifi"
-                android:textColor="@color/black"
-                />
-            <View
-                android:layout_width="45dp"
-                android:layout_height="14dp"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="热点"
-                android:textColor="@color/black"
-                />
-            <View
-                android:layout_width="45dp"
-                android:layout_height="14dp"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="配对"
-                android:textColor="@color/black"
-                />
-            <View
-                android:layout_width="45dp"
-                android:layout_height="14dp"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="绑定"
-                android:textColor="@color/black"
-                />
-            <View
-                android:layout_width="30dp"
-                android:layout_height="14dp"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="完成"
-                android:textColor="@color/black"
-                />
-
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/progress_img_fist"
-            android:layout_width="300dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:background="@drawable/net_progress_bar_first"
-            />
-
-    </LinearLayout>
-    <LinearLayout
         android:id="@+id/linearLayout_show_is_xiaole_exist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/wifi_user"
-        android:layout_alignStart="@+id/wifi_user"
-        android:layout_marginBottom="18dp">
+        android:layout_marginTop="120dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
 
         <Button
             android:id="@+id/show_is_xiaole_exist"
@@ -123,121 +51,17 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/linearLayout_second_step"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="200dp">
-
-        <TextView
-            android:id="@+id/hint_first"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1. 正在连接到小乐机器人热点"
-            android:textSize="18sp"
-            />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="14dp"
-            />
-        <TextView
-            android:id="@+id/hint_second"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="2. 向机器发送WIFI信息"
-            android:textSize="18sp"
-            />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="14dp"
-            />
-        <TextView
-            android:id="@+id/hint_third"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="3. 重新连接到您的WIFI网络"
-            android:textSize="18sp"
-            />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="14dp"
-            />
-        <TextView
-            android:id="@+id/hint_fouth"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="4. 机器语音提示网络连接成功\n    之后点击下一步"
-            android:textSize="18sp"
-            />
-
-    </LinearLayout>
-
-    <EditText
-        android:id="@+id/wifi_user"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/input_box"
-        android:hint="WIFI名称:"
-        android:layout_marginBottom="24dp"
-        android:gravity="center"
-        android:layout_above="@+id/wifi_pwd"
-        android:layout_alignLeft="@+id/wifi_pwd"
-        android:layout_alignStart="@+id/wifi_pwd" />
-
-    <EditText
-        android:id="@+id/wifi_pwd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/input_box"
-        android:hint="WIFI密码:"
-        android:text="lele924**--1688"
-        android:gravity="center"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
-
+<!--
     <ProgressBar
         android:id="@+id/net_progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_above="@+id/next_step"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="74dp" />
-
-    <TextView
-        android:id="@+id/wifi_input_hint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="请输入您的WIFI密码"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:layout_above="@+id/wifi_user"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="36dp" />
-
-    <TextView
-        android:id="@+id/setting_over"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="设置完成，快来与小乐一起嗨皮吧！"
-        android:textSize="15sp"
-        android:textColor="@color/black"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        />
-
-
-    <Button
-        android:id="@+id/next_step"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="下一步"
-        android:background="@drawable/net_nextstep"
-        android:layout_marginBottom="20dp"
-        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="32dp"
+        android:layout_above="@+id/linearLayout_final_step"
         android:layout_centerHorizontal="true" />
+-->
+
 
     <LinearLayout
         android:id="@+id/linearLayout_final_step"
@@ -248,29 +72,14 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true">
 
-        <Button
-            android:id="@+id/button_share"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="授权给好友"
-            android:layout_marginLeft="20dp"
-            android:background="@drawable/net_nextstep"
-            />
-
-        <View
-            android:layout_width="5dp"
-            android:layout_height="45dp"
-            />
 
         <Button
             android:id="@+id/button_enter"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="进入设备"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/net_nextstep"/>
+            android:background="@drawable/net_nextstep"
+            android:text="进入设备" />
     </LinearLayout>
 
 

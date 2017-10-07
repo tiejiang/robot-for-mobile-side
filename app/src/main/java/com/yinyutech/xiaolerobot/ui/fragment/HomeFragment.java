@@ -1,5 +1,7 @@
 package com.yinyutech.xiaolerobot.ui.fragment;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -22,6 +24,7 @@ import com.yinyutech.xiaolerobot.entrance.ControlModelChanged;
 import com.yinyutech.xiaolerobot.entrance.ImageDownloadInterface;
 import com.yinyutech.xiaolerobot.fractory.ActivityInstance;
 import com.yinyutech.xiaolerobot.net.HttpConnect;
+import com.yinyutech.xiaolerobot.net.YTXCommunicate;
 import com.yinyutech.xiaolerobot.ui.activity.MySurfaceViewControler;
 import com.yinyutech.xiaolerobot.ui.activity.MySurfaceViewHeadControler;
 import com.yinyutech.xiaolerobot.ui.activity.SplashActivity;
@@ -49,6 +52,8 @@ public class HomeFragment extends BaseFragment{
     private boolean isDeviceFind = false;  //通过DeviceControlFragment发现了设备
     private ControlModelChanged mControlModelChanged;
     public static Handler mImageDisplayHandler;
+    private YTXCommunicate mYTXCommunicateInstance = null;
+    private Context mContext;
 //    private boolean isStartYTXHandshake = false;
 
     @Override
@@ -88,11 +93,12 @@ public class HomeFragment extends BaseFragment{
             }
         });
         mVideoOpen.setVisibility(View.GONE);
-
+        mYTXCommunicateInstance = YTXCommunicate.getYTXCommunicateInstance();
+        Log.d("TIEJIANG", "HomeFragment---createView"+" mYTXCommunicateInstance= "+mYTXCommunicateInstance);
         mTakePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mMySurfaceViewControler.handleSendTextMessage(Constant.TAKE_PHOTO);
+                mYTXCommunicateInstance.handleSendTextMessage(Constant.TAKE_PHOTO);
                 receiveImageUrlAndDownload();
                 mProgressBar.setVisibility(View.VISIBLE);
                 displayImage();
@@ -102,13 +108,13 @@ public class HomeFragment extends BaseFragment{
         mVolumeRise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mMySurfaceViewControler.handleSendTextMessage(Constant.VOLUME_RISE);
+                mYTXCommunicateInstance.handleSendTextMessage(Constant.VOLUME_RISE);
             }
         });
         mVolumeDown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mMySurfaceViewControler.handleSendTextMessage(Constant.VOLUME_DOWN);
+                mYTXCommunicateInstance.handleSendTextMessage(Constant.VOLUME_DOWN);
             }
         });
         mTakePhoto.setVisibility(View.INVISIBLE);
@@ -152,7 +158,7 @@ public class HomeFragment extends BaseFragment{
                         Toast.makeText(getActivity(), "当前为最小音量", Toast.LENGTH_SHORT).show();
                         break;
                     case 5:   //send message to tell H3 shut up videoActivity
-                        mMySurfaceViewControler.handleSendTextMessage(Constant.CLOSE_VIDEO_COMMUNICATION);
+                        mYTXCommunicateInstance.handleSendTextMessage(Constant.CLOSE_VIDEO_COMMUNICATION);
                         break;
                     case 6:
 
@@ -175,6 +181,12 @@ public class HomeFragment extends BaseFragment{
 
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        this.mContext = activity;
+    }
 
     @Override
     public void onStop() {
@@ -202,13 +214,17 @@ public class HomeFragment extends BaseFragment{
 //        mImageView.setVisibility(View.INVISIBLE);
         mProgressBar.setVisibility(View.INVISIBLE);
         if (hidden){
+            Log.d("TIEJIANG", "HomeFragment---onHiddenChanged" + " hidden= " + hidden);
             mMySurfaceViewControler.setVisibility(View.INVISIBLE);
             mMySurfaceViewHeadControler.setVisibility(View.INVISIBLE);
-            Log.d("TIEJIANG", "HomeFragment---onHiddenChanged" + " hidden= " + hidden);
+
+
         }else if (isDeviceFind){
             mMySurfaceViewControler.setVisibility(View.VISIBLE);
             mMySurfaceViewHeadControler.setVisibility(View.VISIBLE);
             mTakePhoto.setVisibility(View.VISIBLE);
+        }else {
+            mYTXCommunicateInstance.YTXHandshakeStop();
         }
 
 //        isHomeFragmentHidden = hidden;
@@ -315,7 +331,7 @@ public class HomeFragment extends BaseFragment{
     public void receiveImageUrlAndDownload(){
 
         //启动拍照监听回调
-        mMySurfaceViewControler.getImageDowndURL(new ImageDownloadInterface() {
+        mYTXCommunicateInstance.getImageDowndURL(new ImageDownloadInterface() {
             @Override
             public void onImageDownload(final String image_url) {
 

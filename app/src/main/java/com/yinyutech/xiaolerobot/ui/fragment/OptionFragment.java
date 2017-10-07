@@ -13,9 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 
 import com.yinyutech.xiaolerobot.R;
 import com.yinyutech.xiaolerobot.fractory.ActivityInstance;
+import com.yinyutech.xiaolerobot.net.YTXCommunicate;
 import com.yinyutech.xiaolerobot.ui.activity.OPtionAlbumActivity;
 import com.yinyutech.xiaolerobot.ui.activity.SplashActivity;
 import com.yinyutech.xiaolerobot.utils.Constant;
@@ -44,6 +46,7 @@ public class OptionFragment extends BaseFragment {
     private SplashActivity mSplashActivity = ActivityInstance.mSplashActivityInstance;
     private String userID = mSplashActivity.getUserID();
     private SharedPreferences mYTXIDSharedPreference;
+    private YTXCommunicate mYTXCommunicateInstance = null;
 
     @Override
     public View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,6 +54,7 @@ public class OptionFragment extends BaseFragment {
         mOptionFragmentView = inflater.inflate(R.layout.fragment_option,container,false);
         initSourceView();
         Log.d("TIEJIANG", "OptionFragment---createView"+" userID= "+userID);
+        mYTXCommunicateInstance = YTXCommunicate.getYTXCommunicateInstance();
         return mOptionFragmentView;
 
     }
@@ -109,7 +113,68 @@ public class OptionFragment extends BaseFragment {
 
     private void showXiaoLeVolumeContorl(){
 
-//        View mVolumeControlView = LayoutInflater.from(getActivity()).inflate(R.layout.)
+        View mVolumeControlView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_volume_control, null);
+        SeekBar mVolumeSeekBar = (SeekBar)mVolumeControlView.findViewById(R.id.xiaole_volume_control);
+        mVolumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                Log.d("TIEJIANG", "OptionFragment---showXiaoLeVolumeContorl+onProgressChanged"+" progress= "+progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+                Log.d("TIEJIANG", "OptionFragment---showXiaoLeVolumeContorl+onStartTrackingTouch"+" seekBar progress= "+seekBar.getProgress());
+                dealVolume(seekBar.getProgress(), 16);
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+                Log.d("TIEJIANG", "OptionFragment---showXiaoLeVolumeContorl+onStopTrackingTouch"+" seekBar progress= "+seekBar.getProgress());
+                dealVolume(16, seekBar.getProgress());
+
+
+            }
+        });
+
+        AlertDialog.Builder mVolumeBuilder = new AlertDialog.Builder(getActivity());
+        mVolumeBuilder.setTitle("音量调节");
+        mVolumeBuilder.setView(mVolumeControlView);
+        mVolumeBuilder.create().show();
+    }
+
+    int initVolumeValue = 0;
+    private void dealVolume(int start_volume_value, int stop_volume_value){
+
+        if (stop_volume_value == 16){
+            initVolumeValue = start_volume_value;  //onStartTrackingTouch传递的值(和随后onStopTrackingTouch传递的值进行比较)
+            return;
+        }else {
+
+        }
+
+//        int changedVolumeValue = 0;
+//        if (stop_volume_value == 0){
+//            return;
+//        }
+
+        if (initVolumeValue < stop_volume_value){
+
+            int volume = stop_volume_value - initVolumeValue;
+            Log.d("TIEJIANG", "OptionFragment---dealVolume"+" rise volume= "+volume);
+            for (int i=0; i<volume; i++){
+                mYTXCommunicateInstance.handleSendTextMessage(Constant.VOLUME_RISE);
+            }
+        }else if (initVolumeValue > stop_volume_value){
+
+            int volume = initVolumeValue - stop_volume_value;
+            Log.d("TIEJIANG", "OptionFragment---dealVolume"+" down volume= "+volume);
+            for (int i=0; i<volume; i++){
+                mYTXCommunicateInstance.handleSendTextMessage(Constant.VOLUME_DOWN);
+            }
+        }
+
     }
 
     public void showWhetherUnbindYTXID(){

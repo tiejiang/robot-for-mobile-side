@@ -127,6 +127,7 @@ public class VideoActivity extends ECVoIPBaseActivity
 
     public void setCaptureView(ECCaptureView captureView) {
         ECVoIPSetupManager setUpMgr = ECDevice.getECVoIPSetupManager();
+//        setUpMgr.controlRemoteVideoEnable(false); //add by tiejiang 20170927
         if (setUpMgr != null) {
             setUpMgr.setVideoBitRates(50);
 
@@ -205,6 +206,7 @@ public class VideoActivity extends ECVoIPBaseActivity
 
 
         mCaptureView = new ECCaptureView(this);
+//        mCaptureView.setResolution(320*240); // 设置最低分辨率
 
         //test code beging
 //        mCaptureView.setCaptureParams();

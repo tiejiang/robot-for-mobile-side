@@ -72,6 +72,10 @@ public abstract class ECVoIPBaseActivity extends Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAudioManager = ((AudioManager) getSystemService(Context.AUDIO_SERVICE));
+
+//            ECVoIPSetupManager setUpMgr = ECDevice.getECVoIPSetupManager();
+//            setUpMgr.setShowRemoteView(false);
+
         if(init()) {
             return ;
         }
@@ -131,6 +135,12 @@ public abstract class ECVoIPBaseActivity extends Activity
 //        }
 
         if(!VoIPCallHelper.mHandlerVideoCall && mCallType == ECVoIPCallManager.CallType.VIDEO) {
+
+//            ECVoIPSetupManager setUpMgr = ECDevice.getECVoIPSetupManager();
+//            setUpMgr.setShowRemoteView(false);
+//            setUpMgr.setNeedCapture(false);
+//            setUpMgr.controlRemoteVideoEnable(false); //add by tiejiang 20170927
+
             VoIPCallHelper.mHandlerVideoCall = true;
             Intent mVideoIntent = new Intent(this , VideoActivity.class);
             mVideoIntent.putExtras(getIntent().getExtras());

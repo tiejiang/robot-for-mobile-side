@@ -23,7 +23,7 @@ import java.net.UnknownHostException;
 public class XiaoLeLocalSendingCommand {
 
     private static final int TIMEOUT = 5000;  //设置接收数据的超时时间
-    private static final int MAXNUM = 2;      //设置重发数据的最多次数
+    private static final int MAXNUM = 1;      //设置重发数据的最多次数
     private SharedPreferences mGetYTXIDsp;
     private Context activityContextForLocalSendingUDP;
     public static XiaoLeLocalSendingCommand xiaoLeLocalSendingCommandInstance = null;
@@ -49,7 +49,7 @@ public class XiaoLeLocalSendingCommand {
 
         //计数，连续收到５次指令后才启动线程发送消息(根据实际情况调整此参数)
         count += 1;
-        if (count >= 1){
+        if (count >= 2){
             Log.d("TIEJIANG", "XiaoLeLocalSendingCommand---startLocalSending " + "count= " + count);
             new Thread(new CommandSendingRunnable(command)).start();
             count = 0;
