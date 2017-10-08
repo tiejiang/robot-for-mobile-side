@@ -185,11 +185,11 @@ public class DeviceControlFragment extends BaseFragment {
 
 
         if (!hidden && !isStartConnectNetModel){
-            startScanXiaoLe();
+//            startScanXiaoLe();
             mYTXCommunicateInstance.YTXHandshakeStart();
 
         }else {
-            stopScanXiaole();
+//            stopScanXiaole();
             mYTXCommunicateInstance.YTXHandshakeStop();
         }
     }

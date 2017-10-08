@@ -136,7 +136,7 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
         mHomeFragment.changeControleModel(new ControlModelChanged() {
             @Override
             public void isLocalNetControl(boolean is_local_net_control) {
-//                Log.d("TIEJIANG", "MySurfaceViewControler---surfaceCreated" + " is_local_net_control= "+is_local_net_control);
+                Log.d("TIEJIANG", "MySurfaceViewControler---surfaceCreated" + " is_local_net_control= "+is_local_net_control);
 
                 if (is_local_net_control){
                     isLocalNetControl = true;
@@ -324,13 +324,13 @@ public class MySurfaceViewControler extends SurfaceView implements SurfaceHolder
         }
         if (!sendCommand.equals("")){
             //组装指令－－＞发送
-//            if (isLocalNetControl){
-//                mXiaoLeLocalSendingCommand.startLocalSending(sendCommand);
-//                Log.d("TIEJIANG", "MySurfaceViewControler---directionControl local sending");
-//            }else if (isWLANOK){
-            mYTXCommunicate.handleSendTextMessage(sendCommand);
+            if (isLocalNetControl){
+                mXiaoLeLocalSendingCommand.startLocalSending(sendCommand);
+                Log.d("TIEJIANG", "MySurfaceViewControler---directionControl local sending");
+            }else {
+                mYTXCommunicate.handleSendTextMessage(sendCommand);
                 Log.d("TIEJIANG", "MySurfaceViewControler---directionControl YTX sending");
-//            }
+            }
         }
     }
 
