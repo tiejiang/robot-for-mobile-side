@@ -77,7 +77,7 @@ public class YTXCommunicate implements IMChattingHelper.OnMessageReportCallback 
                     isWLANOK = false;
                     Log.d("TIEJIANG", "YTXCommunicate---YTXHandshakeRunnabel");
                     try {
-                        Thread.sleep(7000);
+                        Thread.sleep(10000);
                         mWLANHandler.obtainMessage(0, "ytx_offline").sendToTarget();
                     }catch (InterruptedException e){
                         e.printStackTrace();
